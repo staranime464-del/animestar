@@ -1,0 +1,73 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Animastar - Download Anime Online</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+  <!-- Preconnect for Faster API + Ads -->
+  <link rel="preconnect" href="https://animastar.onrender.com">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+  <link rel="preconnect" href="https://www.googletagservices.com">
+
+  <!-- Preload Main JS Bundle -->
+  <link rel="preload" href="/assets/index-ElsLAoiF.js" as="script">
+
+  <!-- Google Font Optimized -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Removed Tailwind CDN (now compiled by Vite) -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+  <meta name="theme-color" content="#8B5CF6">
+  <meta property="og:image" content="/logo.png">
+
+  <style>
+    /* Root min height */
+    #root {
+      min-height: 100vh;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0c1c; }
+    ::-webkit-scrollbar-thumb {
+      background: #4c1d95;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #5b21b6;
+    }
+
+    /* Smooth fade animations for React components */
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fade-in { animation: fade-in 0.3s ease-in-out; }
+  </style>
+</head>
+
+<body style="
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+  color: #fff;
+  overflow-x: hidden;
+">
+
+  <div id="root"></div>
+
+  <!-- Load App -->
+  <script type="module" src="/index.tsx"></script>
+
+</body>
+</html>
