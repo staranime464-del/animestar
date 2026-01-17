@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>AnimeStar - Download Anime Online</title>
 
-    <!-- Meta tags for SEO -->
+    <!-- SEO Meta Tags -->
     <meta
       name="description"
       content="Watch latest anime series and movies in Hindi Dub, Hindi Sub and English Sub for free. Stream and download your favorite anime on Animestar."
@@ -16,6 +17,7 @@
     />
     <meta name="author" content="Animestar" />
 
+    <!-- Basic Styling (safe for production) -->
     <style>
       body {
         background-color: #0a0c1c;
@@ -23,6 +25,10 @@
         margin: 0;
         padding: 0;
         font-family: system-ui, -apple-system, sans-serif;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       ::-webkit-scrollbar {
@@ -38,106 +44,13 @@
       ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(180deg, #7c3aed, #5b21b6);
       }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      @keyframes fade-in {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      .animate-fade-in {
-        animation: fade-in 0.3s ease-in-out;
-      }
-
-      @keyframes fade-in-down {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      .animate-fade-in-down {
-        animation: fade-in-down 0.3s ease-in-out;
-      }
-
-      @keyframes card-load {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      .card-load-animate {
-        animation: card-load 0.5s ease-out forwards;
-      }
-
-      @keyframes scale-in {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
-      }
-      .animate-scale-in {
-        animation: scale-in 0.3s ease-out;
-      }
-
-      @keyframes bounce-soft {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
-      }
-      .animate-bounce-soft {
-        animation: bounce-soft 2s infinite;
-      }
-
-      @keyframes pulse-soft {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-      }
-      .animate-pulse-soft {
-        animation: pulse-soft 2s infinite;
-      }
-
-      .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-      }
-
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .line-clamp-3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      @keyframes shimmer {
-        0% { background-position: -468px 0; }
-        100% { background-position: 468px 0; }
-      }
-      .animate-shimmer {
-        animation: shimmer 2s infinite linear;
-        background: linear-gradient(to right, #1e293b 8%, #334155 18%, #1e293b 33%);
-        background-size: 800px 104px;
-      }
     </style>
-
-    <!-- React CDN imports -->
-    <script type="importmap">
-      {
-        "imports": {
-          "react": "https://aistudiocdn.com/react@^19.2.0",
-          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-          "react/": "https://aistudiocdn.com/react@^19.2.0/"
-        }
-      }
-    </script>
   </head>
 
-  <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+  <body>
     <div id="root"></div>
+
+    <!-- ✅ Vite ENTRY (will be replaced by built JS in dist) -->
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>
