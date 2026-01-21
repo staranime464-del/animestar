@@ -1,9 +1,9 @@
- // src/components/admin/AdminLogin.tsx - UPDATED: NO DEFAULT CREDENTIALS
+ // src/components/admin/AdminLogin.tsx  
 import React, { useState } from 'react';
 import axios from 'axios';
 
-// ✅ FIX: Use environment variable or direct URL
-const API_URL = import.meta.env.VITE_API_BASE?.replace('/api', '') || 'http://localhost:3000';
+// Use environment variable or direct URL
+const API_URL = import.meta.env.VITE_API_BASE?.replace('/api', '') || 'https://animestar.onrender.com';
 
 interface AdminLoginProps {
   onLogin: (token: string, username: string) => void;
@@ -19,7 +19,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
     setLoading(true);
     setError('');
 
-    // ✅ VALIDATION: Ensure both fields are filled
+    // VALIDATION:  
     if (!form.username.trim() || !form.password.trim()) {
       setError('Please enter both username and password');
       setLoading(false);
@@ -35,7 +35,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
       });
       
       if (data.success) {
-        // ✅ SIMPLIFIED: Just call onLogin, App.tsx will handle the rest
+        // SIMPLIFIED: Just call onLogin, App.tsx will handle the rest
         onLogin(data.token, data.username);
         
         // Show success notification

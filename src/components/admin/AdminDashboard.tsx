@@ -1,4 +1,4 @@
- // src/components/admin/AdminDashboard.tsx - DATE TEXT DARKER
+ // src/components/admin/AdminDashboard.tsx  
 import React, { useState, useEffect } from 'react';
 import AnimeListTable from './AnimeListTable';
 import AddAnimeForm from './AddAnimeForm';
@@ -9,8 +9,8 @@ import SocialMediaManager from './SocialMediaManager';
 import Spinner from '../Spinner';
 import axios from 'axios';
 
-// ✅ FIX: Use correct local API base
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api';
+// Use correct local API base
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://animestar.onrender.com/api';
 
 interface AdminDashboardProps {
   onLogout?: () => void;
@@ -49,9 +49,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
     try {
       console.log('🔍 Loading dashboard data...', { API_BASE, tokenExists: !!token });
       
-      // ✅ FIX: Check API endpoints - pehle server se pata karo sahi endpoints
-      // Temporary solution: Direct backend URL use karo
-      const SERVER_URL = API_BASE.replace('/api', '') || 'http://localhost:3000';
+      // FIX: Check API endpoints  
+      // Temporary solution: Direct backend URL use  
+      const SERVER_URL = API_BASE.replace('/api', '') || 'https://animestar.onrender.com';
       
       // Try different endpoints
       try {

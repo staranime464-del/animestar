@@ -1,4 +1,4 @@
- // src/components/admin/AnimeListTable.tsx - UPDATED FOR DARK GRAY + GREEN THEME
+ // src/components/admin/AnimeListTable.tsx  
 import React, { useState, useEffect } from 'react';
 import type { Anime } from '../../types';
 import axios from 'axios';
@@ -26,7 +26,7 @@ const AnimeListTable: React.FC = () => {
     status: 'Ongoing',
     contentType: 'Anime' as 'Anime' | 'Movie' | 'Manga',
     
-    // ✅ SEO FIELDS
+    // SEO FIELDS
     seoTitle: '',
     seoDescription: '',
     seoKeywords: '',
@@ -71,7 +71,7 @@ const AnimeListTable: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      // ✅ Transform data with SEO fields
+      // Transform data with SEO fields
       const animeData = data.map((a: any) => ({ 
         ...a, 
         id: a._id,
@@ -100,7 +100,7 @@ const AnimeListTable: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
         data: { id }
       });
-      setEditingAnimeId(null); // Close edit form if open
+      setEditingAnimeId(null);  
       fetchAnimes();
       alert('✅ Anime deleted successfully!');
     } catch (err: any) {
@@ -123,7 +123,7 @@ const AnimeListTable: React.FC = () => {
         genreList: anime.genreList || [''],
         status: anime.status || 'Ongoing',
         contentType: anime.contentType || 'Anime',
-        // ✅ SEO FIELDS
+        // SEO FIELDS
         seoTitle: anime.seoTitle || '',
         seoDescription: anime.seoDescription || '',
         seoKeywords: anime.seoKeywords || '',
@@ -164,7 +164,7 @@ const AnimeListTable: React.FC = () => {
     setSearchQuery('');
   };
 
-  // ✅ Auto-generate SEO data when title changes
+  // Auto-generate SEO data when title changes
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setEditForm({ ...editForm, title: newTitle });
@@ -180,7 +180,7 @@ const AnimeListTable: React.FC = () => {
     }
   };
 
-  // ✅ Function to generate SEO-friendly slug
+  // Function to generate SEO-friendly slug
   const generateSlug = (title: string): string => {
     if (!title.trim()) return '';
     
@@ -192,7 +192,7 @@ const AnimeListTable: React.FC = () => {
       .trim();
   };
 
-  // ✅ Auto-generate SEO title when language changes
+  // Auto-generate SEO title when language changes
   const handleSubDubStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatus = e.target.value as Anime['subDubStatus'];
     setEditForm({ ...editForm, subDubStatus: newStatus });
@@ -205,7 +205,7 @@ const AnimeListTable: React.FC = () => {
     }
   };
 
-  // ✅ Generate full SEO data
+  // Generate full SEO data
   const generateFullSEO = (): string => {
     if (!editForm.title.trim()) {
       return 'Please enter a title first';
@@ -305,7 +305,7 @@ const AnimeListTable: React.FC = () => {
     return [...new Set(keywords)].join(', ');
   };
 
-  // ✅ Auto-generate SEO fields button
+  // Auto-generate SEO fields button
   const handleAutoGenerateSEO = () => {
     if (!editForm.title.trim()) {
       alert('Please enter a title first');
@@ -329,7 +329,7 @@ const AnimeListTable: React.FC = () => {
     alert('✅ SEO data auto-generated successfully!');
   };
 
-  // ✅ Function to get SEO status badge
+  // Function to get SEO status badge
   const getSEOStatus = (anime: Anime): { text: string, color: string, bgColor: string } => {
     if (!anime.seoTitle && !anime.seoDescription && !anime.slug) {
       return { text: 'No SEO', color: 'text-anime-red-400', bgColor: 'bg-anime-red-600/20' };
@@ -758,7 +758,7 @@ const AnimeListTable: React.FC = () => {
                                 />
                               </div>
 
-                              {/* ✅ SEO SECTION */}
+                              {/* SEO SECTION */}
                               <div className="mt-6 pt-4 border-t border-gray-600">
                                 <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                                   <svg className="w-5 h-5 text-anime-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

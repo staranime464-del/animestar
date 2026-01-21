@@ -1,4 +1,4 @@
- // src/types.ts - UPDATED WITH SEO FIELDS
+ // src/types.ts  
 export interface DownloadLink {
   name: string;
   url: string;
@@ -11,7 +11,6 @@ export interface Episode {
   _id?: string;
   episodeNumber: number;
   title: string;
-  // ✅ Changed from cutyLink to downloadLinks
   downloadLinks: DownloadLink[];
   secureFileReference?: string;
   session?: number;
@@ -22,13 +21,12 @@ export interface Chapter {
   _id?: string;
   chapterNumber: number;
   title: string;
-  // ✅ Changed from cutyLink to downloadLinks
   downloadLinks: DownloadLink[];
   secureFileReference?: string;
   session?: number;
 }
 
-// ✅ UPDATED: Added 'English Sub' to SubDubStatus
+// Added 'English Sub' to SubDubStatus
 export type SubDubStatus = 'Hindi Dub' | 'Hindi Sub' | 'English Sub' | 'Both' | 'Subbed' | 'Dubbed' | 'Sub & Dub' | 'Dual Audio';
 export type FilterType = 'All' | SubDubStatus;
 
@@ -43,7 +41,7 @@ export interface Anime {
   posterImage?: string;
   coverImage?: string;
   releaseYear?: number;
-  subDubStatus: SubDubStatus; // ✅ NOW INCLUDES ENGLISH SUB
+  subDubStatus: SubDubStatus;  
   contentType: ContentType;
   genreList?: string[];
   genres?: string[];
@@ -59,7 +57,7 @@ export interface Anime {
   createdAt?: string;
   updatedAt?: string;
   
-  // ✅ SEO FIELDS ADDED HERE
+  // SEO FIELDS  
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;
@@ -97,7 +95,7 @@ export interface Report {
   anime?: Anime;
 }
 
-// ✅ NEW: Admin types for edit forms
+// Admin types for edit forms
 export interface EditEpisodeData {
   title?: string;
   downloadLinks?: DownloadLink[];
@@ -112,7 +110,7 @@ export interface EditChapterData {
   session?: number;
 }
 
-// ✅ NEW: SEO Data interface
+// SEO Data interface
 export interface SEODetails {
   seoTitle: string;
   seoDescription: string;

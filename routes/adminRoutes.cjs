@@ -1,4 +1,4 @@
- // routes/adminRoutes.cjs - AD FREE VERSION WITH CLEAN SLUG SUPPORT
+ // routes/adminRoutes.cjs 
 const express = require('express');
 const router = express.Router();
 const Anime = require('../models/Anime.cjs');
@@ -6,9 +6,9 @@ const Episode = require('../models/Episode.cjs');
 const Chapter = require('../models/Chapter.cjs');
 const Report = require('../models/Report.cjs');
 const SocialMedia = require('../models/SocialMedia.cjs');
-const slugify = require('slugify'); // ✅ ADD SLUGIFY FOR CLEAN SLUGS
+const slugify = require('slugify');  
 
-// ✅ GET filtered anime list with content type
+// filtered anime list with content type
 router.get('/anime-list', async (req, res) => {
   try {
     const { status, contentType } = req.query;
@@ -23,12 +23,12 @@ router.get('/anime-list', async (req, res) => {
   }
 });
 
-// ✅ ADD anime/movie WITH CLEAN SLUG GENERATION
+// anime/movie WITH CLEAN SLUG GENERATION
 router.post('/add-anime', async (req, res) => {
   try {
     const { title, description, thumbnail, status, subDubStatus, genreList, releaseYear, contentType } = req.body;
     
-    // ✅ Input validation
+    // Input validation
     if (!title || !title.trim()) {
       return res.status(400).json({ error: 'Title is required' });
     }
@@ -48,14 +48,14 @@ router.post('/add-anime', async (req, res) => {
       });
     }
 
-    // ✅ STEP 1: Generate clean base slug from title
+    // Generate clean base slug from title
     let baseSlug = slugify(title, {
       lower: true,
       strict: true, // Remove special characters
       trim: true
     });
 
-    // ✅ STEP 2: Check if slug already exists
+    // Check if slug already exists
     let slug = baseSlug;
     let counter = 1;
 
@@ -66,7 +66,7 @@ router.post('/add-anime', async (req, res) => {
 
     console.log('🔗 Generated clean slug:', slug);
 
-    // ✅ STEP 3: Create new anime with auto-generated clean slug
+    // Create new anime with auto-generated clean slug
     const anime = new Anime({ 
       title: title.trim(),
       description: description || '', 
@@ -76,7 +76,7 @@ router.post('/add-anime', async (req, res) => {
       genreList: genreList || [], 
       releaseYear: releaseYear || new Date().getFullYear(),
       contentType: contentType || 'Anime',
-      slug: slug, // ✅ CLEAN SLUG ADDED
+      slug: slug, // CLEAN SLUG 
       seoTitle: `Watch ${title.trim()} Online in ${subDubStatus || 'Hindi Sub'} | AnimeStar`,
       seoDescription: `Watch ${title.trim()} online in ${subDubStatus || 'Hindi Sub'}. HD quality streaming and downloads on AnimeStar.`
     });
@@ -105,7 +105,7 @@ router.post('/add-anime', async (req, res) => {
   }
 });
 
-// ✅ EDIT anime/movie WITH SLUG UPDATE
+// EDIT anime/movie WITH SLUG 
 router.put('/edit-anime/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -117,7 +117,7 @@ router.put('/edit-anime/:id', async (req, res) => {
       return res.status(404).json({ error: 'Anime/Movie not found' });
     }
 
-    // ✅ If title is being updated, update slug too
+    // If title is being updated, update slug too
     if (updateData.title && updateData.title !== existingAnime.title) {
       // Generate clean base slug from new title
       let baseSlug = slugify(updateData.title, {
@@ -141,7 +141,7 @@ router.put('/edit-anime/:id', async (req, res) => {
       updateData.slug = newSlug;
       console.log('🔄 Updated slug:', newSlug);
       
-      // Also update SEO fields if title changed
+      // SEO fields if title changed
       if (!updateData.seoTitle || updateData.seoTitle.trim() === '') {
         updateData.seoTitle = `Watch ${updateData.title} Online in ${updateData.subDubStatus || existingAnime.subDubStatus} | AnimeStar`;
       }
@@ -175,7 +175,7 @@ router.put('/edit-anime/:id', async (req, res) => {
   }
 });
 
-// ✅ DELETE anime/movie
+// DELETE anime/movie
 router.delete('/delete-anime', async (req, res) => {
   try {
     const { id } = req.body;
@@ -189,7 +189,7 @@ router.delete('/delete-anime', async (req, res) => {
   }
 });
 
-// ✅ BULK UPDATE SLUGS FOR EXISTING ANIME
+// BULK UPDATE SLUGS FOR EXISTING ANIME
 router.post('/bulk-update-slugs', async (req, res) => {
   try {
     console.log('🔄 Starting bulk slug update for existing anime...');
@@ -254,9 +254,9 @@ router.post('/bulk-update-slugs', async (req, res) => {
   }
 });
 
-// ✅ EPISODE MANAGEMENT ROUTES (UPDATED FOR MULTIPLE DOWNLOAD LINKS)
+// EPISODE MANAGEMENT ROUTES  
 
-// Edit episode (UPDATED FOR MULTIPLE DOWNLOAD LINKS)
+// Edit episode  
 router.put('/edit-episode/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -268,7 +268,7 @@ router.put('/edit-episode/:id', async (req, res) => {
       downloadLinksCount: downloadLinks ? downloadLinks.length : 0
     });
 
-    // ✅ Validate downloadLinks if provided
+    // Validate downloadLinks if provided
     if (downloadLinks !== undefined) {
       if (!Array.isArray(downloadLinks) || downloadLinks.length === 0) {
         return res.status(400).json({ error: 'At least one download link is required' });
@@ -294,7 +294,7 @@ router.put('/edit-episode/:id', async (req, res) => {
     if (typeof secureFileReference !== 'undefined') updateData.secureFileReference = secureFileReference;
     if (typeof session !== 'undefined') updateData.session = session;
     
-    // ✅ Handle downloadLinks update
+    // Handle downloadLinks update
     if (downloadLinks !== undefined) {
       updateData.downloadLinks = downloadLinks.map((link, index) => ({
         name: link.name || `Download Link ${index + 1}`,
@@ -312,7 +312,7 @@ router.put('/edit-episode/:id', async (req, res) => {
 
     if (!episode) return res.status(404).json({ error: 'Episode not found' });
 
-    // ✅ Update anime's lastContentAdded for homepage priority
+    // anime's lastContentAdded for homepage priority
     await Anime.updateLastContent(episode.animeId);
 
     res.json({ 
@@ -329,7 +329,7 @@ router.put('/edit-episode/:id', async (req, res) => {
   }
 });
 
-// ✅ NEW ROUTE: Edit chapter (FOR MULTIPLE DOWNLOAD LINKS)
+// Edit chapter  
 router.put('/edit-chapter/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -341,7 +341,7 @@ router.put('/edit-chapter/:id', async (req, res) => {
       downloadLinksCount: downloadLinks ? downloadLinks.length : 0
     });
 
-    // ✅ Validate downloadLinks if provided
+    // Validate downloadLinks if provided
     if (downloadLinks !== undefined) {
       if (!Array.isArray(downloadLinks) || downloadLinks.length === 0) {
         return res.status(400).json({ error: 'At least one download link is required' });
@@ -367,7 +367,7 @@ router.put('/edit-chapter/:id', async (req, res) => {
     if (typeof secureFileReference !== 'undefined') updateData.secureFileReference = secureFileReference;
     if (typeof session !== 'undefined') updateData.session = session;
     
-    // ✅ Handle downloadLinks update
+    // Handle downloadLinks  
     if (downloadLinks !== undefined) {
       updateData.downloadLinks = downloadLinks.map((link, index) => ({
         name: link.name || `Download Link ${index + 1}`,
@@ -385,7 +385,7 @@ router.put('/edit-chapter/:id', async (req, res) => {
 
     if (!chapter) return res.status(404).json({ error: 'Chapter not found' });
 
-    // ✅ Update manga's lastContentAdded for homepage priority
+    // manga's lastContentAdded for homepage priority
     await Anime.updateLastContent(chapter.mangaId);
 
     res.json({ 
@@ -402,7 +402,7 @@ router.put('/edit-chapter/:id', async (req, res) => {
   }
 });
 
-// ✅ REPORT MANAGEMENT ROUTES
+// REPORT MANAGEMENT ROUTES
 
 // Get all reports
 router.get('/reports', async (req, res) => {
@@ -423,7 +423,7 @@ router.get('/reports', async (req, res) => {
   }
 });
 
-// Update report status with response - FIXED VERSION
+// report status with response  
 router.put('/reports/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -437,7 +437,7 @@ router.put('/reports/:id', async (req, res) => {
       })
     };
 
-    // ✅ FIXED: Server automatically sets resolvedBy from admin token
+    // Server automatically sets resolvedBy from admin token
     if (status === 'Fixed') {
       updateData.resolvedAt = new Date();
       updateData.resolvedBy = req.admin.id;
@@ -460,7 +460,7 @@ router.put('/reports/:id', async (req, res) => {
   }
 });
 
-// ✅ DELETE single report
+// DELETE single report
 router.delete('/reports/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -484,7 +484,7 @@ router.delete('/reports/:id', async (req, res) => {
   }
 });
 
-// ✅ BULK DELETE reports
+// BULK DELETE reports
 router.post('/reports/bulk-delete', async (req, res) => {
   try {
     const { reportIds } = req.body;
@@ -498,7 +498,7 @@ router.post('/reports/bulk-delete', async (req, res) => {
   }
 });
 
-// ✅ SOCIAL MEDIA MANAGEMENT ROUTES
+// SOCIAL MEDIA MANAGEMENT ROUTES
 
 // Get social media links
 router.get('/social-media', async (req, res) => {
@@ -528,7 +528,7 @@ router.put('/social-media/:platform', async (req, res) => {
   }
 });
 
-// ✅ ANALYTICS ROUTE (SIMPLIFIED VERSION WITHOUT AD DATA)
+// ANALYTICS ROUTE  
 router.get('/analytics', async (req, res) => {
   try {
     const totalAnimes = await Anime.countDocuments({ contentType: 'Anime' });
@@ -547,7 +547,7 @@ router.get('/analytics', async (req, res) => {
       totalChapters,
       totalReports,
       pendingReports,
-      // Basic stats without ad data
+      // Basic stats 
       todayUsers: 0,
       totalUsers: 0,
       todayEarnings: 0,
@@ -564,7 +564,7 @@ router.get('/analytics', async (req, res) => {
   }
 });
 
-// ✅ GET user info
+// GET user info
 router.get('/user-info', async (req, res) => {
   try {
     const Admin = require('../models/Admin.cjs');
@@ -578,7 +578,7 @@ router.get('/user-info', async (req, res) => {
   }
 });
 
-// ✅ NEW ROUTE: Get episode details for editing (including download links)
+// Get episode details for editing  
 router.get('/episode/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -607,7 +607,7 @@ router.get('/episode/:id', async (req, res) => {
   }
 });
 
-// ✅ NEW ROUTE: Get chapter details for editing (including download links)
+// Get chapter details for editing  
 router.get('/chapter/:id', async (req, res) => {
   try {
     const { id } = req.params;

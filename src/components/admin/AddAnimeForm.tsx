@@ -1,11 +1,11 @@
- // src/components/admin/AddAnimeForm.tsx - UPDATED WITH DARK GRAY + GREEN THEME
-// ✅ FRONTEND SLUG: ❌ SEND NAHI KAREGA, ✅ SIRF PREVIEW KE LIYE
+ // src/components/admin/AddAnimeForm.tsx 
+// FRONTEND SLUG 
 import React, { useState } from 'react';
 import axios from 'axios';
 import type { SubDubStatus } from '../../types';
 import Spinner from '../Spinner';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://animestar.onrender.com/api';
 const token = localStorage.getItem('adminToken') || '';
 
 const AddAnimeForm: React.FC = () => {
@@ -19,11 +19,11 @@ const AddAnimeForm: React.FC = () => {
     status: 'Ongoing',
     contentType: 'Anime' as 'Anime' | 'Movie' | 'Manga',
     
-    // ✅ SEO FIELDS ADDED
+    // SEO FIELDS 
     seoTitle: '',
     seoDescription: '',
     seoKeywords: '',
-    // ✅ REMOVED: slug field from form state (backend will auto-generate)
+    // slug field from form state  
   });
   
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ const AddAnimeForm: React.FC = () => {
   const [error, setError] = useState('');
   const [autoGenerateSEO, setAutoGenerateSEO] = useState(true);
   
-  // ✅ ADDED: Preview slug (not sent to backend, only for display)
+  // Preview slug  
   const [previewSlug, setPreviewSlug] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,7 +41,7 @@ const AddAnimeForm: React.FC = () => {
     setError('');
     
     try {
-      // Prepare form data - DO NOT INCLUDE SLUG
+      // Prepare form data  
       const formData = { 
         title: form.title,
         description: form.description,
@@ -54,7 +54,7 @@ const AddAnimeForm: React.FC = () => {
         seoTitle: form.seoTitle,
         seoDescription: form.seoDescription,
         seoKeywords: form.seoKeywords
-        // ✅ SLUG NOT INCLUDED - Backend will auto-generate
+        // SLUG NOT INCLUDED - Backend will auto-generate
       };
       
       // If auto-generate SEO is enabled, generate SEO data from title
@@ -107,19 +107,19 @@ const AddAnimeForm: React.FC = () => {
     }
   };
 
-  // ✅ Function to generate SEO-friendly slug (FOR PREVIEW ONLY)
+  // Function to generate SEO-friendly slug 
   const generatePreviewSlug = (title: string): string => {
     if (!title.trim()) return '';
     
     return title
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-      .replace(/\s+/g, '-')         // Replace spaces with hyphens
-      .replace(/-+/g, '-')          // Remove multiple hyphens
+      .replace(/[^a-z0-9\s-]/g, '')  
+      .replace(/\s+/g, '-')          
+      .replace(/-+/g, '-')           
       .trim();
   };
 
-  // ✅ Function to generate SEO Description
+  // Function to generate SEO Description
   const generateSEODescription = (title: string, subDubStatus: string, contentType: string): string => {
     const contentText = contentType === 'Movie' 
       ? 'Full movie available' 
@@ -130,7 +130,7 @@ const AddAnimeForm: React.FC = () => {
     return `Watch ${title} online in ${subDubStatus}. ${contentText} in HD quality. Free streaming and downloads on AnimeStar.`;
   };
 
-  // ✅ Function to generate SEO Keywords
+  // Function to generate SEO Keywords
   const generateSEOKeywords = (
     title: string, 
     genres: string[], 
@@ -240,7 +240,7 @@ const AddAnimeForm: React.FC = () => {
     const newTitle = e.target.value;
     setForm({ ...form, title: newTitle });
     
-    // ✅ UPDATED: Generate preview slug (not stored in form, only for display)
+    // Generate preview slug  
     if (newTitle.trim()) {
       const generatedPreviewSlug = generatePreviewSlug(newTitle);
       setPreviewSlug(generatedPreviewSlug);
@@ -504,7 +504,7 @@ const AddAnimeForm: React.FC = () => {
               </p>
             </div>
             
-            {/* ✅ UPDATED: URL Slug Preview Section (NOT editable, only for preview) */}
+            {/*URL Slug Preview Section*/}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 URL Slug Preview

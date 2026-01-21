@@ -1,4 +1,4 @@
- // src/components/ErrorBoundary.tsx - UPDATED WITH ANIMESTAR THEME (DARK GRAY WITH GREEN)
+ // src/components/ErrorBoundary.tsx  
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {

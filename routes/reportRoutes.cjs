@@ -1,9 +1,9 @@
- // routes/reportRoutes.cjs - FINAL VERSION
+ // routes/reportRoutes.cjs  
 const express = require('express');
 const router = express.Router();
 const Report = require('../models/Report.cjs');
 
-// POST /api/reports - Create new episode report
+// POST /api/reports  
 router.post('/', async (req, res) => {
   try {
     console.log('📝 EPISODE REPORT SUBMISSION RECEIVED');
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
       episodeNumber: episodeNumber || null,
       issueType,
       description: description.trim(),
-      message: description.trim(), // ✅ ADD THIS LINE - Same as description
+      message: description.trim(),  
       
       // Common fields
       email: email || 'Not provided',

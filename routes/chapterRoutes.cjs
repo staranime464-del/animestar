@@ -1,4 +1,4 @@
-  // routes/chapterRoutes.cjs - FIXED VERSION
+  // routes/chapterRoutes.cjs  
 const express = require('express');
 const router = express.Router();
 const Chapter = require('../models/Chapter.cjs');
@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/chapters -> ADD NEW CHAPTER (WITH MULTIPLE DOWNLOAD LINKS)
+// POST /api/chapters  
 router.post('/', async (req, res) => {
   try {
     const { mangaId, title, chapterNumber, secureFileReference, downloadLinks, session } = req.body;
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'mangaId and chapterNumber required' });
     }
 
-    // ✅ Validate downloadLinks array
+    // Validate downloadLinks array
     if (!downloadLinks || !Array.isArray(downloadLinks) || downloadLinks.length === 0) {
       return res.status(400).json({ error: 'At least one download link is required' });
     }
@@ -105,7 +105,6 @@ router.post('/', async (req, res) => {
     console.log('💾 Saving chapter to database...');
     await newChapter.save();
     
-    // ✅ YEH IMPORTANT LINE ADD KARO: Manga ko update karo for homepage sorting
     await Anime.updateLastContent(mangaId);
     
     console.log('✅ Chapter saved with ID:', newChapter._id);
@@ -126,7 +125,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/chapters/:mangaId -> all chapters for manga
+// GET /api/chapters/:mangaId  
 router.get('/:mangaId', async (req, res) => {
   try {
     console.log('📥 Fetching chapters for manga:', req.params.mangaId);
@@ -149,7 +148,6 @@ router.get('/:mangaId', async (req, res) => {
   }
 });
 
-// PATCH /api/chapters -> UPDATE CHAPTER (WITH MULTIPLE DOWNLOAD LINKS)
 router.patch('/', async (req, res) => {
   try {
     const { mangaId, chapterNumber, title, secureFileReference, downloadLinks, session } = req.body;
@@ -175,7 +173,6 @@ router.patch('/', async (req, res) => {
     if (typeof secureFileReference !== 'undefined') update.secureFileReference = secureFileReference;
     if (typeof session !== 'undefined') update.session = session;
     
-    // ✅ Handle downloadLinks update if provided
     if (downloadLinks) {
       if (!Array.isArray(downloadLinks) || downloadLinks.length === 0) {
         return res.status(400).json({ error: 'At least one download link is required' });
@@ -207,7 +204,6 @@ router.patch('/', async (req, res) => {
     
     if (!updated) return res.status(404).json({ error: 'Chapter not found' });
     
-    // ✅ YEH BHI ADD KARO: Manga update karo jab chapter modify ho
     await Anime.updateLastContent(mangaId);
     
     res.json({ 
@@ -223,7 +219,7 @@ router.patch('/', async (req, res) => {
   }
 });
 
-// DELETE /api/chapters -> delete chapter by mangaId + chapterNumber + session
+// DELETE /api/chapters  
 router.delete('/', async (req, res) => {
   try {
     const { mangaId, chapterNumber, session } = req.body;
@@ -245,7 +241,6 @@ router.delete('/', async (req, res) => {
       return res.status(404).json({ error: 'Chapter not found' });
     }
     
-    // ✅ DELETE KE BAAD BHI MANGA UPDATE KARO
     await Anime.updateLastContent(mangaId);
     
     console.log('✅ Chapter deleted successfully');
@@ -256,11 +251,10 @@ router.delete('/', async (req, res) => {
   }
 });
 
-// ✅ FIXED ROUTE: Get download links for a specific chapter
 router.get('/download/:mangaId/:chapterNumber', async (req, res) => {
   try {
     const { mangaId, chapterNumber } = req.params;
-    const { session = 1 } = req.query; // ✅ Session को query parameter से लो
+    const { session = 1 } = req.query; // Session query parameter 
     
     const chapter = await Chapter.findOne({
       mangaId,

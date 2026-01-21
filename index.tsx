@@ -1,8 +1,8 @@
-  // index.tsx — Optimized for Best Performance
-import "./src/index.css"; // ✅ Tailwind CSS import
+  // index.tsx  
+import "./src/index.css";  
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async"; // ✅ IMPORT ADD
+import { HelmetProvider } from "react-helmet-async"; 
 import App from "./App";
 import ErrorBoundary from "./src/components/ErrorBoundary";
 import Spinner from "./src/components/Spinner";
@@ -13,11 +13,11 @@ if (!rootElement) throw new Error("Root element not found");
 
 const root = ReactDOM.createRoot(rootElement);
 
-// 🚀 Non-blocking React render
+// Non-blocking React render
 const startApp = () => {
   root.render(
     <ErrorBoundary>
-      <HelmetProvider> {/* ✅ WRAP WITH HelmetProvider */}
+      <HelmetProvider> {/* WRAP WITH HelmetProvider */}
         <Suspense fallback={<Spinner />}>
           <App />
         </Suspense>

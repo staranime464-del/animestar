@@ -1,8 +1,8 @@
- @tailwind base;
+ /* src/index.css */
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* src/index.css */
 
 /* ============================================
    CUSTOM THEME STYLES - DARK GRAY + GREEN THEME
@@ -289,7 +289,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Input Field Styling */
+/* Input Field Styling - FIXED */
 .input-dark {
   background-color: #636363;
   border: 1px solid #6b7280;
@@ -301,9 +301,9 @@
 
 .input-dark:focus {
   outline: none;
-  ring: 2px;
-  ring-color: #60CC3F;
   border-color: #60CC3F;
+  /* Using box-shadow instead of invalid ring properties */
+  box-shadow: 0 0 0 2px rgba(96, 204, 63, 0.2);
 }
 
 .input-dark::placeholder {
@@ -604,8 +604,10 @@ input, textarea, select {
   transition: all 0.2s ease;
 }
 
+/* Focus styles for form elements */
 input:focus, textarea:focus, select:focus {
-  box-shadow: 0 0 0 3px rgba(96, 204, 63, 0.1);
+  border-color: #60CC3F;
+  box-shadow: 0 0 0 2px rgba(96, 204, 63, 0.2);
 }
 
 /* ============================================
@@ -817,8 +819,11 @@ input:focus, textarea:focus, select:focus {
   border-color: #60CC3F;
 }
 
-.focus\:ring-anime-green-400:focus {
-  --tw-ring-color: #60CC3F;
+/* Focus ring helper class */
+.focus-ring-green:focus {
+  outline: none;
+  border-color: #60CC3F;
+  box-shadow: 0 0 0 3px rgba(96, 204, 63, 0.3);
 }
 
 .hover\:bg-dark-gray-600:hover {

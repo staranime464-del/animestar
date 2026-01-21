@@ -1,11 +1,11 @@
- // src/components/admin/EpisodesManager.tsx - UPDATED WITH DARK GRAY + GREEN THEME
+ // src/components/admin/EpisodesManager.tsx  
 import React, { useState, useEffect } from 'react';
 import type { Anime, Episode, Chapter } from '../../types';
 import axios from 'axios';
 import Spinner from '../Spinner';
 import SearchableDropdown from './SearchableDropdown';
 
-// ✅ Define DownloadLink interface locally
+// Define DownloadLink interface locally
 interface DownloadLink {
   name: string;
   url: string;
@@ -13,7 +13,7 @@ interface DownloadLink {
   type?: string;
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://animestar.onrender.com/api';
 const token = localStorage.getItem('adminToken') || '';
 
 const EpisodesManager: React.FC = () => {
@@ -56,7 +56,7 @@ const EpisodesManager: React.FC = () => {
     fetchAnimes();
   }, []);
 
-  // ✅ REFRESH FUNCTION
+  // REFRESH FUNCTION
   const handleRefresh = async () => {
     setAnimesLoading(true);
     try {
@@ -165,7 +165,7 @@ const EpisodesManager: React.FC = () => {
     } else {
       setEditingItemId((item as any)._id);
       
-      // ✅ Get downloadLinks from item
+      // Get downloadLinks from item
       const itemData = item as any;
       const downloadLinks: DownloadLink[] = itemData.downloadLinks || [];
       
@@ -195,7 +195,7 @@ const EpisodesManager: React.FC = () => {
     return Math.max(...numbers) + 1;
   };
 
-  // ✅ Add a new download link (for add form)
+  // Add a new download link  
   const handleAddDownloadLink = () => {
     if (newItem.downloadLinks.length >= 5) {
       alert('Maximum 5 download links allowed');
@@ -216,7 +216,7 @@ const EpisodesManager: React.FC = () => {
     }));
   };
 
-  // ✅ Add a new download link (for edit form)
+  // Add a new download link  
   const handleEditAddDownloadLink = () => {
     if (editForm.downloadLinks.length >= 5) {
       alert('Maximum 5 download links allowed');
@@ -237,7 +237,7 @@ const EpisodesManager: React.FC = () => {
     }));
   };
 
-  // ✅ Remove a download link (for add form)
+  // Remove a download link  
   const handleRemoveDownloadLink = (index: number) => {
     if (newItem.downloadLinks.length <= 1) {
       alert('At least one download link is required');
@@ -250,7 +250,7 @@ const EpisodesManager: React.FC = () => {
     }));
   };
 
-  // ✅ Remove a download link (for edit form)
+  // Remove a download link  
   const handleEditRemoveDownloadLink = (index: number) => {
     if (editForm.downloadLinks.length <= 1) {
       alert('At least one download link is required');
@@ -263,7 +263,7 @@ const EpisodesManager: React.FC = () => {
     }));
   };
 
-  // ✅ Update download link (for add form)
+  // Update download link  
   const handleUpdateDownloadLink = (index: number, field: keyof DownloadLink, value: string) => {
     setNewItem(prev => ({
       ...prev,
@@ -273,7 +273,7 @@ const EpisodesManager: React.FC = () => {
     }));
   };
 
-  // ✅ Update download link (for edit form)
+  // download link (for edit form)
   const handleEditUpdateDownloadLink = (index: number, field: keyof DownloadLink, value: string) => {
     setEditForm(prev => ({
       ...prev,
@@ -283,7 +283,7 @@ const EpisodesManager: React.FC = () => {
     }));
   };
 
-  // ✅ Validate download links (for add form)
+  // Validate download links (for add form)
   const validateDownloadLinks = (links: DownloadLink[]): boolean => {
     if (links.length === 0) {
       alert('At least one download link is required');
@@ -322,7 +322,7 @@ const EpisodesManager: React.FC = () => {
       return;
     }
 
-    // ✅ Validate download links
+    // Validate download links
     if (!validateDownloadLinks(newItem.downloadLinks)) {
       return;
     }
@@ -373,11 +373,11 @@ const EpisodesManager: React.FC = () => {
     }
   };
 
-  // Update Item Function
+  // Item Function
   const handleUpdateItem = async () => {
     if (!editingItemId || !selectedAnime) return;
 
-    // ✅ Validate download links
+    // Validate download links
     if (!validateDownloadLinks(editForm.downloadLinks)) {
       return;
     }

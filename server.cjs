@@ -1,4 +1,4 @@
- // server.cjs - SEO OPTIMIZED FOR ANIMESTAR (Search Query URLs REMOVED)
+ // server.cjs  
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./db.cjs');
@@ -7,7 +7,7 @@ require('dotenv').config();
 const Analytics = require('./models/Analytics.cjs');
 const { generalLimiter, authLimiter, adminLimiter, apiLimiter } = require('./middleware/rateLimit.cjs');
 
-// ✅ IMPORT MIDDLEWARE AND ROUTES
+// IMPORT MIDDLEWARE AND ROUTES
 const adminAuth = require('./middleware/adminAuth.cjs');
 const animeRoutes = require('./routes/animeRoutes.cjs');
 const episodeRoutes = require('./routes/episodeRoutes.cjs');
@@ -27,12 +27,12 @@ app.use(express.static('public'));
 // Database Connection
 connectDB();
 
-// ✅ RATE LIMITING MIDDLEWARE
+// RATE LIMITING MIDDLEWARE
 app.use('/api/', apiLimiter);
 app.use('/api/admin/login', authLimiter);
 app.use('/api/admin/protected', adminLimiter);
 
-// ✅ ANALYTICS TRACKING MIDDLEWARE
+// ANALYTICS TRACKING MIDDLEWARE
 app.use((req, res, next) => {
   if (req.path === '/' || 
       req.path.includes('/anime') || 
@@ -43,7 +43,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ DYNAMIC SITEMAP GENERATOR - SEO OPTIMIZED FOR ANIMESTAR
+// DYNAMIC SITEMAP GENERATOR  
 app.get('/sitemap.xml', async (req, res) => {
   try {
     console.log('🗺️ Generating SEO optimized sitemap.xml for AnimeStar...');
@@ -63,7 +63,7 @@ app.get('/sitemap.xml', async (req, res) => {
     
     const currentDate = new Date().toISOString().split('T')[0];
     
-    // ✅ STATIC PAGES ONLY (SEO SAFE)
+    // STATIC PAGES ONLY (SEO SAFE)
     const staticPages = [
       { url: 'https://animestar.in', priority: '1.0', changefreq: 'daily' },
       { url: 'https://animestar.in/anime', priority: '0.9', changefreq: 'daily' },
@@ -86,10 +86,10 @@ app.get('/sitemap.xml', async (req, res) => {
   </url>\n`;
     });
     
-    // ✅ CATEGORY PAGES (SEO FRIENDLY)
+    // CATEGORY PAGES (SEO FRIENDLY)
     const categoryPages = [
-      { url: 'https://animestar.in/anime?contentType=Movie', priority: '0.7', changefreq: 'weekly' },
-      { url: 'https://animestar.in/anime?contentType=Manga', priority: '0.7', changefreq: 'weekly' }
+      { url: 'https://animestar.in/detail?contentType=Movie', priority: '0.7', changefreq: 'weekly' },
+      { url: 'https://animestar.in/detail?contentType=Manga', priority: '0.7', changefreq: 'weekly' }
     ];
     
     categoryPages.forEach(page => {
@@ -101,7 +101,7 @@ app.get('/sitemap.xml', async (req, res) => {
   </url>\n`;
     });
     
-    // ✅ DYNAMIC ANIME PAGES (MOST IMPORTANT)
+    // DYNAMIC ANIME PAGES  
     console.log(`📺 Adding ${allAnime.length} anime to sitemap...`);
     
     allAnime.forEach(anime => {
@@ -170,7 +170,7 @@ app.get('/sitemap.xml', async (req, res) => {
   }
 });
 
-// ✅ ROBOTS.TXT (For SEO)
+// ROBOTS.TXT (For SEO)
 app.get('/robots.txt', (req, res) => {
   const robotsTxt = `User-agent: *
 Allow: /
@@ -201,7 +201,7 @@ Sitemap: https://animestar.in/rss.xml`;
   res.send(robotsTxt);
 });
 
-// ✅ RSS FEED FOR SEO
+// RSS FEED FOR SEO
 app.get('/rss.xml', async (req, res) => {
   try {
     const Anime = require('./models/Anime.cjs');
@@ -252,14 +252,14 @@ app.get('/rss.xml', async (req, res) => {
   }
 });
 
-// ✅ FIXED ADMIN CREATION FUNCTION - USERNAME CHANGED TO 'admin' FROM 'Hellobrother'
+// FIXED ADMIN CREATION FUNCTION  
 const createAdmin = async () => {
   try {
     const Admin = require('./models/Admin.cjs');
     const bcrypt = require('bcryptjs');
     
-    // ✅ FIX: Username ko 'admin' karo (Frontend se match karega)
-    const username = process.env.ADMIN_USER || 'admin';  // Yahaan change kiya
+    // Username ko 'admin' karo  
+    const username = process.env.ADMIN_USER || 'admin';   
     const password = process.env.ADMIN_PASS || 'Anime2121818144';
     
     console.log('🔄 Checking admin user...');
@@ -273,7 +273,7 @@ const createAdmin = async () => {
       admin = await Admin.create({
         username: username,
         password: hashedPassword,
-        email: 'admin@animestar.com',
+        email: 'admin@animestar.in',
         role: 'admin'
       });
       
@@ -306,7 +306,7 @@ const createAdmin = async () => {
 };
 createAdmin();
 
-// ✅ EMERGENCY ADMIN RESET ROUTE
+// EMERGENCY ADMIN RESET ROUTE
 app.get('/api/admin/emergency-reset', async (req, res) => {
   try {
     const Admin = require('./models/Admin.cjs');
@@ -321,9 +321,9 @@ app.get('/api/admin/emergency-reset', async (req, res) => {
     // Create new admin with hashed password
     const hashedPassword = await bcrypt.hash('Anime2121818144', 12);
     const admin = new Admin({
-      username: 'admin',  // ✅ Yahaan bhi 'admin' karo
+      username: 'admin',  // Yahaan bhi 'admin' karo
       password: hashedPassword,
-      email: 'admin@animestar.com',
+      email: 'admin@animestar.in',
       role: 'superadmin'
     });
     
@@ -350,7 +350,7 @@ app.get('/api/admin/emergency-reset', async (req, res) => {
   }
 });
 
-// ✅ ADMIN DEBUG ROUTE
+// ADMIN DEBUG ROUTE
 app.get('/api/admin/debug', async (req, res) => {
   try {
     const Admin = require('./models/Admin.cjs');
@@ -380,7 +380,7 @@ app.get('/api/admin/debug', async (req, res) => {
   }
 });
 
-// ✅ EMERGENCY ADMIN CREATION ROUTE
+// EMERGENCY ADMIN CREATION ROUTE
 app.get('/api/admin/create-default-admin', async (req, res) => {
   try {
     const Admin = require('./models/Admin.cjs');
@@ -389,12 +389,12 @@ app.get('/api/admin/create-default-admin', async (req, res) => {
     console.log('🆕 EMERGENCY: Creating default admin user...');
     
     // Delete existing admin if any
-    await Admin.deleteMany({ username: 'admin' });  // ✅ Yahaan bhi 'admin'
+    await Admin.deleteMany({ username: 'admin' });  // Yahaan bhi 'admin'
     
     // Create new admin
     const hashedPassword = await bcrypt.hash('Anime2121818144', 12);
     const admin = new Admin({
-      username: 'admin',  // ✅ Yahaan bhi 'admin'
+      username: 'admin',  // Yahaan bhi 'admin'
       password: hashedPassword,
       email: 'admin@animestar.com',
       role: 'admin'
@@ -423,7 +423,7 @@ app.get('/api/admin/create-default-admin', async (req, res) => {
   }
 });
 
-// ✅ FIXED ADMIN LOGIN ROUTE
+// FIXED ADMIN LOGIN ROUTE
 app.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -499,7 +499,7 @@ app.post('/api/admin/login', async (req, res) => {
   }
 });
 
-// ✅ App downloads API
+// App downloads API
 app.get('/api/app-downloads', async (req, res) => {
   try {
     const AppDownload = require('./models/AppDownload.cjs');
@@ -511,7 +511,7 @@ app.get('/api/app-downloads', async (req, res) => {
   }
 });
 
-// ✅ EPISODES BY ANIME ID ROUTE - ADDED
+// EPISODES BY ANIME ID ROUTE  
 app.get('/api/episodes/:animeId', async (req, res) => {
   try {
     const { animeId } = req.params;
@@ -529,14 +529,14 @@ app.get('/api/episodes/:animeId', async (req, res) => {
 });
 
 // ============================================
-// ✅ PROTECTED ADMIN ROUTES
+// PROTECTED ADMIN ROUTES
 // ============================================
 app.use('/api/admin/protected', adminAuth, adminRoutes);
 
 // ============================================
-// ✅ PUBLIC ROUTES - CORRECTED ORDER
+// PUBLIC ROUTES - CORRECTED ORDER
 // ============================================
-// ✅ SOCIAL MEDIA ROUTES MUST COME BEFORE ADMIN ROUTES FOR /admin paths
+// SOCIAL MEDIA ROUTES MUST COME BEFORE ADMIN ROUTES FOR /admin paths
 app.use('/api/social', socialRoutes);
 
 // Other routes
@@ -548,7 +548,7 @@ app.use('/api/app-downloads', appDownloadRoutes);
 app.use('/api', contactRoutes);
 
 // ============================================
-// ✅ DEBUG ROUTES (KEEP FOR TROUBLESHOOTING)
+// DEBUG ROUTES (KEEP FOR TROUBLESHOOTING)
 // ============================================
 app.get('/api/debug/episodes', async (req, res) => {
   try {
@@ -619,7 +619,7 @@ app.get('/api/debug/animes', async (req, res) => {
   }
 });
 
-// ✅ SOCIAL MEDIA DEBUG ROUTE
+// SOCIAL MEDIA DEBUG ROUTE
 app.get('/api/debug/social', async (req, res) => {
   try {
     const SocialMedia = require('./models/SocialMedia.cjs');
@@ -651,7 +651,7 @@ app.get('/api/debug/social', async (req, res) => {
   }
 });
 
-// ✅ HEALTH CHECK WITH SEO INFO
+// HEALTH CHECK WITH SEO INFO
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -669,7 +669,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ✅ EMERGENCY: SET ALL ANIME AS FEATURED ROUTE
+// EMERGENCY: SET ALL ANIME AS FEATURED ROUTE
 app.get('/api/emergency/set-all-featured', async (req, res) => {
   try {
     const Anime = require('./models/Anime.cjs');
@@ -706,7 +706,7 @@ app.get('/api/emergency/set-all-featured', async (req, res) => {
   }
 });
 
-// ✅ EMERGENCY: FIX FEATURED ANIME BY SETTING RANDOM ANIME AS FEATURED
+// EMERGENCY: FIX FEATURED ANIME BY SETTING RANDOM ANIME AS FEATURED
 app.get('/api/emergency/fix-featured-anime', async (req, res) => {
   try {
     const Anime = require('./models/Anime.cjs');
@@ -789,7 +789,7 @@ app.get('/api/emergency/fix-featured-anime', async (req, res) => {
   }
 });
 
-// ✅ EMERGENCY: RESET SOCIAL MEDIA LINKS
+// EMERGENCY: RESET SOCIAL MEDIA LINKS
 app.get('/api/emergency/reset-social', async (req, res) => {
   try {
     const SocialMedia = require('./models/SocialMedia.cjs');
@@ -820,7 +820,7 @@ app.get('/api/emergency/reset-social', async (req, res) => {
   }
 });
 
-// ✅ EMERGENCY: FIX SOCIAL MEDIA LINKS WITH CORRECT URLS (NEW ROUTE)
+// EMERGENCY: FIX SOCIAL MEDIA LINKS WITH CORRECT URLS  
 app.get('/api/emergency/fix-social-urls', async (req, res) => {
   try {
     const SocialMedia = require('./models/SocialMedia.cjs');
@@ -880,7 +880,7 @@ app.get('/api/emergency/fix-social-urls', async (req, res) => {
 });
 
 // ============================================
-// ✅ ROOT ROUTE - SEO OPTIMIZED VERSION FOR ANIMESTAR
+// ROOT ROUTE - SEO OPTIMIZED VERSION FOR ANIMESTAR
 // ============================================
 app.get('/', (req, res) => {
   res.send(`
@@ -1121,11 +1121,11 @@ app.get('/', (req, res) => {
   `);
 });
 
-// ✅ START SERVER
+// START SERVER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 AnimeStar Server running on port ${PORT} - SEO OPTIMIZED`);
-  console.log(`🔧 Admin: admin / Anime2121818144`);  // ✅ Updated to show correct credentials
+  console.log(`🔧 Admin: admin / Anime2121818144`);   
   console.log(`🌐 Frontend: https://animestar.in`);
   console.log(`🗺️ Sitemap: https://animestar.in/sitemap.xml`);
   console.log(`🤖 Robots: https://animestar.in/robots.txt`);

@@ -1,4 +1,4 @@
- // components/Spinner.tsx - UPDATED FOR DARK GRAY + GREEN THEME
+ // components/Spinner.tsx  
 import React from 'react';
 
 interface SpinnerProps {

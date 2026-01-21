@@ -1,10 +1,10 @@
-  // routes/socialRoutes.cjs - CORRECTED VERSION
+  // routes/socialRoutes.cjs  
 const express = require('express');
 const router = express.Router();
 const SocialMedia = require('../models/SocialMedia.cjs');
-const adminAuth = require('../middleware/adminAuth.cjs'); // Add admin auth middleware
+const adminAuth = require('../middleware/adminAuth.cjs'); // admin auth middleware
 
-// ✅ PUBLIC: Get active social links (only for footer)
+// Get active social links  
 router.get('/', async (req, res) => {
   try {
     const socialLinks = await SocialMedia.find({ isActive: true });
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ ADMIN: Get ALL social links (admin protected)
+// Get ALL social links (admin protected)
 router.get('/admin/all', adminAuth, async (req, res) => {
   try {
     const socialLinks = await SocialMedia.find().sort({ platform: 1 });
@@ -25,7 +25,7 @@ router.get('/admin/all', adminAuth, async (req, res) => {
   }
 });
 
-// ✅ ADMIN: Update social link by platform (admin protected)
+// ADMIN: social link by platform (admin protected)
 router.put('/admin/:platform', adminAuth, async (req, res) => {
   try {
     const { platform } = req.params;
@@ -46,7 +46,7 @@ router.put('/admin/:platform', adminAuth, async (req, res) => {
       });
     }
     
-    // Update or create the social media link
+    // create the social media link
     const updatedLink = await SocialMedia.findOneAndUpdate(
       { platform },
       { 
@@ -72,7 +72,7 @@ router.put('/admin/:platform', adminAuth, async (req, res) => {
   }
 });
 
-// ✅ ADMIN: Reset to default links (admin protected)
+// Reset to default links  
 router.post('/admin/reset-defaults', adminAuth, async (req, res) => {
   try {
     await SocialMedia.deleteMany({});

@@ -1,24 +1,21 @@
- // routes/animeRoutes.cjs - UPDATED WITH SLUG-ONLY SUPPORT
+ // routes/animeRoutes.cjs  
 const express = require('express');
 const router = express.Router();
 const Anime = require('../models/Anime.cjs');
 
-/**
- * ✅ ADDED: FEATURED ANIME ROUTE (FIXES THE ERROR)
- * This must be added BEFORE the /:id route
- */
+ 
 router.get('/featured', async (req, res) => {
   try {
-    // ✅ Get featured anime - using featured field from schema
+    // Get featured anime - using featured field from schema
     const featuredAnime = await Anime.find({ 
       featured: true 
     })
     .select('title thumbnail releaseYear subDubStatus contentType updatedAt createdAt bannerImage rating slug seoTitle') // ✅ Added SEO fields
-    .sort({ featuredOrder: -1, createdAt: -1 }) // ✅ Added featuredOrder for manual ordering
+    .sort({ featuredOrder: -1, createdAt: -1 }) // featuredOrder for manual ordering
     .limit(10)
     .lean();
 
-    // ✅ Set cache headers for featured content
+    // Set cache headers for featured content
     res.set({
       'Cache-Control': 'public, max-age=600', // 10 minutes cache for featured
     });
@@ -34,8 +31,8 @@ router.get('/featured', async (req, res) => {
 });
 
 /**
- * ✅ UPDATED: GET ANIME BY SLUG ONLY (SEO-friendly URL)
- * ✅ THIS IS THE ONLY PUBLIC ROUTE FOR ANIME DETAILS
+ * UPDATED: GET ANIME BY SLUG ONLY 
+ * THIS IS THE ONLY PUBLIC ROUTE FOR ANIME DETAILS
  */
 router.get('/slug/:slug', async (req, res) => {
   try {
@@ -59,7 +56,7 @@ router.get('/slug/:slug', async (req, res) => {
       });
     }
 
-    // ✅ SEO cache headers
+    // SEO cache headers
     res.set({
       'Cache-Control': 'public, max-age=3600', // 1 hour cache for SEO pages
       'Content-Type': 'application/json; charset=utf-8'
@@ -81,7 +78,7 @@ router.get('/slug/:slug', async (req, res) => {
  */
 
 /**
- * ✅ OPTIMIZED: GET anime with PAGINATION
+ *  
  * Returns paginated anime from DB sorted by LATEST UPDATE
  */
 router.get('/', async (req, res) => {
@@ -90,7 +87,7 @@ router.get('/', async (req, res) => {
     const limit = parseInt(req.query.limit) || 24;
     const skip = (page - 1) * limit;
 
-    // ✅ OPTIMIZED: Only get necessary fields for listing
+    // Only get necessary fields for listing
     const anime = await Anime.find()
       .select('title thumbnail releaseYear subDubStatus contentType updatedAt createdAt slug') // ✅ Added slug
       .sort({ updatedAt: -1 })
@@ -100,7 +97,7 @@ router.get('/', async (req, res) => {
 
     const total = await Anime.countDocuments();
 
-    // ✅ OPTIMIZED: Set cache headers
+    // Set cache headers
     res.set({
       'Cache-Control': 'public, max-age=300', // 5 minutes cache
       'X-Total-Count': total,
@@ -125,7 +122,7 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * ✅ OPTIMIZED: SEARCH anime with PAGINATION WITH SEO SUPPORT
+ *  SEARCH anime with PAGINATION WITH SEO SUPPORT
  */
 router.get('/search', async (req, res) => {
   try {
@@ -134,7 +131,7 @@ router.get('/search', async (req, res) => {
     const limit = parseInt(req.query.limit) || 24;
     const skip = (page - 1) * limit;
 
-    // ✅ IMPROVED: Search in multiple fields for better SEO
+    // Search in multiple fields for better SEO
     const searchQuery = {
       $or: [
         { title: { $regex: q, $options: 'i' } },
@@ -153,7 +150,7 @@ router.get('/search', async (req, res) => {
 
     const total = await Anime.countDocuments(searchQuery);
 
-    // ✅ SEO headers for search results
+    // SEO headers for search results
     res.set({
       'Cache-Control': 'public, max-age=300',
       'X-Total-Count': total,
@@ -181,7 +178,7 @@ router.get('/search', async (req, res) => {
 });
 
 /**
- * ✅ NEW: GET ANIME LIST WITH SEO FILTERS
+ *  GET ANIME LIST WITH SEO FILTERS
  */
 router.get('/filter/seo', async (req, res) => {
   try {
@@ -220,7 +217,7 @@ router.get('/filter/seo', async (req, res) => {
       .limit(50)
       .lean();
     
-    // ✅ SEO cache for filtered results
+    // SEO cache for filtered results
     res.set({
       'Cache-Control': 'public, max-age=1800', // 30 minutes
     });
@@ -237,7 +234,7 @@ router.get('/filter/seo', async (req, res) => {
 });
 
 /**
- * ✅ NEW: BULK UPDATE SEO DATA
+ *  ULK UPDATE SEO DATA
  */
 router.put('/bulk/seo', async (req, res) => {
   try {
@@ -278,7 +275,7 @@ router.put('/bulk/seo', async (req, res) => {
   }
 });
 
-// ✅ ADDED: FEATURED MANAGEMENT ROUTES
+//  FEATURED MANAGEMENT ROUTES
 
 // Add anime to featured
 router.post('/:id/featured', async (req, res) => {
@@ -341,10 +338,10 @@ router.delete('/:id/featured', async (req, res) => {
   }
 });
 
-// Update featured order (bulk update)
+//  featured order  
 router.put('/featured/order', async (req, res) => {
   try {
-    const { order } = req.body; // array of anime IDs in desired order
+    const { order } = req.body;  
     
     if (!Array.isArray(order)) {
       return res.status(400).json({ success: false, error: 'Order must be an array of anime IDs' });

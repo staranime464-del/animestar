@@ -1,4 +1,4 @@
- // src/components/SEO.tsx - UPDATED FOR ANIMESTAR (DARK GRAY + GREEN THEME)
+ // src/components/SEO.tsx  
 import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {
@@ -25,7 +25,7 @@ const SEO: React.FC<SEOProps> = ({
   canonicalUrl,
   ogTitle,
   ogDescription,
-  ogImage = 'https://animestar.com/Animestar-logo.jpg',
+  ogImage = 'https://animestar.in/Animestar-logo.jpg',
   ogUrl,
   twitterCard = 'summary_large_image',
   structuredData,
@@ -36,7 +36,7 @@ const SEO: React.FC<SEOProps> = ({
 }) => {
   const siteTitle = 'Animestar - Watch Anime in Hindi & English Online Free';
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  const siteUrl = 'https://animestar.com';
+  const siteUrl = 'https://animestar.in';
   
   // Default image if not provided
   const defaultImage = `${siteUrl}/Animestar-logo.jpg`;
@@ -130,7 +130,7 @@ export default SEO;
 
 // Enhanced Structured Data Functions
 export const generateAnimeStructuredData = (anime: any) => {
-  const animeUrl = `https://animestar.com/detail/${anime.slug || anime.id}`;
+  const animeUrl = `https://animestar.in/detail/${anime.slug || anime.id}`;
   
   return {
     "@context": "https://schema.org",
@@ -184,11 +184,11 @@ export const generateWebsiteStructuredData = () => {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Animestar",
-    "url": "https://animestar.com",
+    "url": "https://animestar.in",
     "description": "Watch anime online in Hindi and English. Download anime episodes for free. High quality streaming on Animestar.",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://animestar.com/search?q={search_term_string}",
+      "target": "https://animestar.in/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     },
     "publisher": {
@@ -196,7 +196,7 @@ export const generateWebsiteStructuredData = () => {
       "name": "Animestar",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://animestar.com/Animestar-logo.jpg"
+        "url": "https://animestar.in/Animestar-logo.jpg"
       }
     }
   };
@@ -210,7 +210,7 @@ export const generateBreadcrumbStructuredData = (breadcrumbs: Array<{name: strin
       "@type": "ListItem",
       "position": index + 1,
       "name": item.name,
-      "item": `https://animestar.com${item.url}`
+      "item": `https://animestar.in${item.url}`
     }))
   };
 };

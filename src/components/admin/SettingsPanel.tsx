@@ -1,8 +1,8 @@
- // src/components/admin/SettingsPanel.tsx - COMPLETE UPDATED VERSION
+ // src/components/admin/SettingsPanel.tsx  
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://animestar.onrender.com/api';
 const token = localStorage.getItem('adminToken') || '';
 
 interface Settings {
@@ -70,7 +70,7 @@ const SettingsPanel: React.FC = () => {
       
       setMessage('✅ Settings saved successfully! Auto-shortening is now ENABLED!');
       
-      // ✅ IMPORTANT: Force enable auto-shortening after save
+      // Force enable auto-shortening after save
       setTimeout(() => {
         window.location.reload();
       }, 2000);

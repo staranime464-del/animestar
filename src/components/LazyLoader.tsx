@@ -1,4 +1,4 @@
- // src/components/LazyLoader.tsx - UPDATED FOR ANIMESTAR DARK GRAY + GREEN THEME
+ // src/components/LazyLoader.tsx  
 import React from 'react';
 import Spinner from '../../components/Spinner';
 

@@ -1,4 +1,4 @@
- // src/components/admin/SocialMediaManager.tsx - UPDATED FOR DARK GRAY + GREEN THEME
+ // src/components/admin/SocialMediaManager.tsx  
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from '../Spinner';
@@ -12,7 +12,7 @@ interface SocialMedia {
   displayName: string;
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://animestar.onrender.com/api';
 
 const SocialMediaManager: React.FC = () => {
   const [socialLinks, setSocialLinks] = useState<SocialMedia[]>([
@@ -193,7 +193,7 @@ const SocialMediaManager: React.FC = () => {
     window.open(url, '_blank');
   };
 
-  // ✅ UPDATED SOCIAL ICONS WITH DARK GRAY + GREEN THEME
+  // SOCIAL ICONS  
   const SocialIcon = ({ platform, className = "w-6 h-6" }: { platform: string; className?: string }) => {
     switch (platform) {
       case 'facebook':
@@ -269,7 +269,7 @@ const SocialMediaManager: React.FC = () => {
           <div key={link.platform} className="bg-dark-gray-600 rounded-lg p-6 border border-gray-600">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                {/* ✅ UPDATED ICON CONTAINER - DARK GRAY WITH GREEN BORDER */}
+                {/*ICON CONTAINER*/}
                 <div className="w-12 h-12 rounded-full flex items-center justify-center bg-dark-gray-500 border border-gray-600 group-hover:border-anime-green-400">
                   <SocialIcon platform={link.platform} className="w-6 h-6 text-anime-green-400" />
                 </div>
@@ -397,7 +397,7 @@ const SocialMediaManager: React.FC = () => {
 
             <div className="mt-4 p-3 bg-dark-gray-500 rounded-lg border border-gray-600">
               <div className="flex items-center gap-3 mb-2">
-                {/* ✅ UPDATED EDIT MODAL ICON */}
+                {/* EDIT MODAL ICON */}
                 <div className="w-8 h-8 rounded-full bg-dark-gray-600 border border-gray-600 flex items-center justify-center">
                   <SocialIcon platform={editingLink.platform} className="w-5 h-5 text-anime-green-400" />
                 </div>

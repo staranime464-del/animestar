@@ -1,6 +1,4 @@
- // src/components/FeaturedAnimeCarousel.tsx - CLEANED VERSION
-"use client"
-
+ // src/components/FeaturedAnimeCarousel.tsx  
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import type { Anime } from '../types';
 import type { Swiper as SwiperType } from 'swiper';

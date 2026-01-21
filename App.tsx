@@ -1,8 +1,4 @@
- // App.tsx - WITH 404 ERROR PAGE
-// ✅ SECRET CODE "anime201" -> ADMIN LOGIN -> ADMIN DASHBOARD
-// ✅ NO URL CHANGE, NO SECRET CODE HINT, DIRECT ACCESS BLOCKED
-// ✅ 404 ERROR PAGE FOR UNDEFINED ROUTES
-
+ // App.tsx  
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, useSearchParams, Navigate } from 'react-router-dom';
 import type { Anime, FilterType, ContentType, ContentTypeFilter } from './src/types';
@@ -22,7 +18,6 @@ import Contact from './components/Contact';
 import AnalyticsTracker from './src/components/AnalyticsTracker';
 import AnimeDetailWrapper from './components/AnimeDetailWrapper';
 
-// ✅ ENUMS FOR VIEW MANAGEMENT
 enum AppView {
   HOME = 'home',
   ANIME_LIST = 'list',
@@ -37,7 +32,7 @@ enum AppView {
   NOT_FOUND = 'not_found'
 }
 
-// ✅ 404 NOT FOUND COMPONENT
+// 404 NOT FOUND COMPONENT
 const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -141,18 +136,18 @@ const MainApp: React.FC = () => {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAppLoading, setIsAppLoading] = useState(true);
   
-  // ✅ SECRET CODE STATES (HIDDEN - NO VISUAL HINT)
+  // SECRET CODE STATES (HIDDEN - NO VISUAL HINT)
   const [typedText, setTypedText] = useState('');
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
-  // ✅ SEARCH DEBOUNCE REF
+  // SEARCH DEBOUNCE REF
   const searchDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ✅ DUMMY FUNCTIONS FOR HEADER
+  // DUMMY FUNCTIONS FOR HEADER
   const dummyFilterFunction = (filter: 'Hindi Dub' | 'Hindi Sub' | 'English Sub') => {};
   const dummyContentTypeFunction = (contentType: ContentType) => {};
 
-  // ✅ INITIALIZE APP
+  // INITIALIZE APP
   useEffect(() => {
     const initializeApp = async () => {
       try {
@@ -175,29 +170,29 @@ const MainApp: React.FC = () => {
     initializeApp();
   }, []);
 
-  // ✅ ADMIN LOGIN HANDLER
+  // ADMIN LOGIN HANDLER
   const handleAdminLogin = (token: string, username: string) => {
     localStorage.setItem('adminToken', token);
     localStorage.setItem('adminUsername', username);
     setIsAdminAuthenticated(true);
     
-    // ✅ Change view to ADMIN_DASHBOARD (without URL change)
+    // Change view to ADMIN_DASHBOARD  
     setCurrentView(AppView.ADMIN_DASHBOARD);
   };
 
-  // ✅ ADMIN LOGOUT HANDLER
+  // ADMIN LOGOUT HANDLER
   const handleAdminLogout = () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUsername');
     setIsAdminAuthenticated(false);
     
-    // ✅ Change view back to HOME (without URL change)
+    // Change view back to HOME  
     setCurrentView(AppView.HOME);
     navigate('/');
   };
 
-  // ✅ SECRET CODE KEYBOARD LISTENER (HIDDEN - NO VISUAL HINT)
-  // ✅ CHANGED: "2007harsh" to "anime201"
+  // SECRET CODE KEYBOARD LISTENER  
+  // CHANGED: "2007harsh" to "anime201"
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
@@ -209,11 +204,11 @@ const MainApp: React.FC = () => {
         const newTypedText = (typedText + e.key).toLowerCase();
         setTypedText(newTypedText);
         
-        // ✅ CHANGED: Check for secret code "anime201" instead of "2007harsh"
+        // Check for secret code "anime201" 
         if (newTypedText.includes('anime201')) {
           e.preventDefault();
           
-          // ✅ Set view to ADMIN_LOGIN (without URL change)
+          // Set view to ADMIN_LOGIN  
           setCurrentView(AppView.ADMIN_LOGIN);
           setTypedText('');
         }
@@ -242,7 +237,7 @@ const MainApp: React.FC = () => {
     };
   }, [typedText]);
 
-  // ✅ SYNC URL WITH CURRENT VIEW ON PAGE LOAD/NAVIGATION
+  // SYNC URL WITH CURRENT VIEW ON PAGE LOAD/NAVIGATION
   useEffect(() => {
     // Detect current view from URL
     const path = location.pathname;
@@ -264,29 +259,26 @@ const MainApp: React.FC = () => {
     } else if (path === '/download' || path === '/download-redirect') {
       setCurrentView(AppView.DOWNLOAD);
     } else {
-      // ✅ Set NOT_FOUND for undefined routes (including /admin/*)
+      // Set NOT_FOUND for undefined routes  
       setCurrentView(AppView.NOT_FOUND);
     }
-    // Admin views are handled separately and don't change URL
   }, [location.pathname]);
 
-  // ✅ ANIME SELECT HANDLER - SYNC STATE WITH ROUTER
+  // ANIME SELECT HANDLER  
   const handleAnimeSelect = (anime: Anime) => {
     if (anime.slug) {
       navigate(`/detail/${anime.slug}`);
-      // Don't set currentView here - let useEffect handle it from URL change
       window.scrollTo(0, 0);
     }
   };
 
-  // ✅ NAVIGATION HANDLER
+  // NAVIGATION HANDLER
   const handleNavigate = (destination: 'home' | 'list') => {
     if (destination === 'list') {
       navigate('/anime');
     } else {
       navigate('/');
     }
-    // Don't set currentView here - let useEffect handle it from URL change
   };
 
   const handleSearchChange = useCallback((query: string) => {
@@ -310,9 +302,9 @@ const MainApp: React.FC = () => {
     }, 400);
   }, []);
 
-  // ✅ RENDER CURRENT VIEW
+  // RENDER CURRENT VIEW
   const renderCurrentView = () => {
-    // ✅ ADMIN VIEWS DON'T SHOW HEADER/FOOTER
+    // ADMIN VIEWS  
     if (currentView === AppView.ADMIN_LOGIN) {
       return <AdminLogin onLogin={handleAdminLogin} />;
     }
@@ -326,12 +318,12 @@ const MainApp: React.FC = () => {
       }
     }
     
-    // ✅ NOT FOUND PAGE
+    // NOT FOUND PAGE
     if (currentView === AppView.NOT_FOUND) {
       return <NotFoundPage />;
     }
     
-    // ✅ ALL OTHER VIEWS SHOW HEADER/FOOTER WITH ROUTES
+    // ALL OTHER VIEWS SHOW HEADER/FOOTER  
     return (
       <>
         <Header 
@@ -424,9 +416,9 @@ const MainApp: React.FC = () => {
     <div className="bg-[#636363] text-white min-h-screen font-sans">
       <AnalyticsTracker />
       
-      {/* ✅ NO SECRET CODE HINT - COMPLETELY REMOVED */}
+      {/*NO SECRET CODE HINT*/}
       
-      {/* ✅ RENDER CURRENT VIEW */}
+      {/*RENDER CURRENT VIEW */}
       {renderCurrentView()}
     </div>
   );

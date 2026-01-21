@@ -1,4 +1,4 @@
- // src/components/admin/SearchableDropdown.tsx - UPDATED WITH DARK GRAY + GREEN THEME
+ // src/components/admin/SearchableDropdown.tsx  
 import React, { useState, useRef, useEffect } from 'react';
 import type { Anime } from '../../types';
 

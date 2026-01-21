@@ -1,4 +1,4 @@
- // src/components/admin/ReportsManager.tsx - UPDATED WITH DARK GRAY + GREEN THEME
+ // src/components/admin/ReportsManager.tsx  
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from '../Spinner';

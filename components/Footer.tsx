@@ -1,4 +1,4 @@
- // components/Footer.tsx - UPDATED WITH DARK GRAY + GREEN BORDER THEME
+ // components/Footer.tsx  
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';

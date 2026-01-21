@@ -4,8 +4,7 @@ const router = express.Router();
 const Anime = require('../models/Anime.cjs');
 
 /**
- * ✅ DYNAMIC SITEMAP FOR ANIME PAGES
- * This generates XML with all anime detail pages
+ *  
  */
 router.get('/sitemap/anime', async (req, res) => {
   try {
@@ -50,7 +49,6 @@ router.get('/sitemap/anime', async (req, res) => {
     
     xml += '</urlset>';
     
-    // Set proper headers for XML
     res.set({
       'Content-Type': 'application/xml',
       'Cache-Control': 'public, max-age=3600' // Cache for 1 hour
@@ -66,7 +64,7 @@ router.get('/sitemap/anime', async (req, res) => {
 });
 
 /**
- * ✅ SITEMAP INDEX (Optional)
+ *  
  * If you have multiple sitemaps
  */
 router.get('/sitemap.xml', async (req, res) => {
@@ -80,7 +78,7 @@ router.get('/sitemap.xml', async (req, res) => {
     xml += '    <lastmod>2024-01-15</lastmod>\n';
     xml += '  </sitemap>\n';
     
-    // Anime sitemap (dynamic)
+    // Anime sitemap  
     xml += '  <sitemap>\n';
     xml += '    <loc>https://animestar.in/api/sitemap/anime</loc>\n';
     xml += '    <lastmod>2024-01-15</lastmod>\n';

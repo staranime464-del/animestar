@@ -1,4 +1,4 @@
-  // routes/episodeRoutes.cjs - FIXED VERSION
+  // routes/episodeRoutes.cjs 
 const express = require('express');
 const router = express.Router();
 const Episode = require('../models/Episode.cjs');
@@ -20,7 +20,7 @@ router.delete('/all', async (req, res) => {
   }
 });
 
-// GET /api/episodes -> List all episodes (public)
+// GET /api/episodes  
 router.get('/', async (req, res) => {
   try {
     const episodes = await Episode.find().sort({ session: 1, episodeNumber: 1 });
@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/episodes -> ADD NEW EPISODE (WITH MULTIPLE DOWNLOAD LINKS)
+// POST /api/episodes  
 router.post('/', async (req, res) => {
   try {
     const { animeId, title, episodeNumber, secureFileReference, downloadLinks, session } = req.body;
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'animeId and episodeNumber required' });
     }
 
-    // ✅ Validate downloadLinks array
+    // Validate downloadLinks array
     if (!downloadLinks || !Array.isArray(downloadLinks) || downloadLinks.length === 0) {
       return res.status(400).json({ error: 'At least one download link is required' });
     }
@@ -105,7 +105,7 @@ router.post('/', async (req, res) => {
     console.log('💾 Saving episode to database...');
     await newEpisode.save();
     
-    // ✅ YEH IMPORTANT LINE ADD KARO: Anime ko update karo for homepage sorting
+    // homepage sorting
     await Anime.updateLastContent(animeId);
     
     console.log('✅ Episode saved with ID:', newEpisode._id);
@@ -149,7 +149,7 @@ router.get('/:animeId', async (req, res) => {
   }
 });
 
-// PATCH /api/episodes -> UPDATE EPISODE (WITH MULTIPLE DOWNLOAD LINKS)
+// PATCH /api/episodes -> EPISODE  
 router.patch('/', async (req, res) => {
   try {
     const { animeId, episodeNumber, title, secureFileReference, downloadLinks, session } = req.body;
@@ -175,7 +175,7 @@ router.patch('/', async (req, res) => {
     if (typeof secureFileReference !== 'undefined') update.secureFileReference = secureFileReference;
     if (typeof session !== 'undefined') update.session = session;
     
-    // ✅ Handle downloadLinks update if provided
+    // Handle downloadLinks update if provided
     if (downloadLinks) {
       if (!Array.isArray(downloadLinks) || downloadLinks.length === 0) {
         return res.status(400).json({ error: 'At least one download link is required' });
@@ -207,7 +207,7 @@ router.patch('/', async (req, res) => {
     
     if (!updated) return res.status(404).json({ error: 'Episode not found' });
     
-    // ✅ YEH BHI ADD KARO: Anime update karo jab episode modify ho
+    // episode modify  
     await Anime.updateLastContent(animeId);
     
     res.json({ 
@@ -245,7 +245,6 @@ router.delete('/', async (req, res) => {
       return res.status(404).json({ error: 'Episode not found' });
     }
     
-    // ✅ DELETE KE BAAD BHI ANIME UPDATE KARO
     await Anime.updateLastContent(animeId);
     
     console.log('✅ Episode deleted successfully');
@@ -256,11 +255,11 @@ router.delete('/', async (req, res) => {
   }
 });
 
-// ✅ FIXED ROUTE: Get download links for a specific episode (WITHOUT optional param in middle)
+// FIXED ROUTE: Get download links for a specific episode  
 router.get('/download/:animeId/:episodeNumber', async (req, res) => {
   try {
     const { animeId, episodeNumber } = req.params;
-    const { session = 1 } = req.query; // ✅ Session को query parameter से लो
+    const { session = 1 } = req.query;  
     
     console.log('📥 DOWNLOAD REQUEST:', { animeId, episodeNumber, session });
     

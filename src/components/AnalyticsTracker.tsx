@@ -12,7 +12,7 @@ const AnalyticsTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // GA4 pageview event send karo jab page change ho
+    // GA4 pageview  
     if (typeof window.gtag === 'function') {
       const pagePath = location.pathname + location.search;
       
@@ -21,8 +21,6 @@ const AnalyticsTracker = () => {
         page_title: document.title,
         page_location: window.location.href
       });
-
-      // Sirf development mode me log dikhao
       if (import.meta.env.DEV) {
         console.log('📊 GA4 Page View Tracked:', {
           path: pagePath,
@@ -31,9 +29,9 @@ const AnalyticsTracker = () => {
         });
       }
     }
-  }, [location]); // location change hone par trigger hoga
+  }, [location]);  
 
-  return null; // Yeh component kuch render nahi karega
+  return null; 
 };
 
 export default AnalyticsTracker;

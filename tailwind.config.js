@@ -3,11 +3,10 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}", // ✅ ADDED: components folder
+    "./components/**/*.{js,ts,jsx,tsx}",  
   ],
   theme: {
     extend: {
-      // ✅ Custom colors for dark gray + green theme
       colors: {
         'dark-gray': {
           50: '#f7f7f7',
@@ -88,11 +87,11 @@ export default {
           950: '#431407',
         },
       },
-      // ✅ Custom animations (इन्हें जोड़ें)
+      // Custom animations  
       animation: {
         'fade-in': 'fade-in 0.3s ease-in-out',
         'fade-in-down': 'fade-in-down 0.3s ease-in-out',
-        'card-load': 'card-load 0.5s ease-out forwards', // ✅ AnimeCard के लिए
+        'card-load': 'card-load 0.5s ease-out forwards',  
         'scale-in': 'scale-in 0.3s ease-out',
         'bounce-soft': 'bounce-soft 2s infinite',
         'pulse-soft': 'pulse-soft 2s infinite',
@@ -115,7 +114,7 @@ export default {
           from: { opacity: '0', transform: 'translateY(-10px)' },
           to: { opacity: '1', transform: 'translateY(0)' }
         },
-        'card-load': { // ✅ AnimeCard animation
+        'card-load': { // AnimeCard animation
           from: { opacity: '0', transform: 'translateY(20px)' },
           to: { opacity: '1', transform: 'translateY(0)' }
         },
@@ -176,7 +175,7 @@ export default {
           }
         }
       },
-      // ✅ Custom gradients
+      // Custom gradients
       backgroundImage: {
         'gradient-green': 'linear-gradient(to right, #60CC3F, #4CAF50)',
         'gradient-green-dark': 'linear-gradient(to right, #4CAF50, #3a8a3d)',
@@ -186,7 +185,7 @@ export default {
         'gradient-radial-green': 'radial-gradient(circle at center, #60CC3F 0%, #4CAF50 50%, #3a8a3d 100%)',
         'gradient-shimmer': 'linear-gradient(90deg, transparent 0%, rgba(96, 204, 63, 0.1) 50%, transparent 100%)',
       },
-      // ✅ Custom box shadows
+      // Custom box shadows
       boxShadow: {
         'green-glow': '0 0 15px rgba(96, 204, 63, 0.5)',
         'green-glow-lg': '0 0 30px rgba(96, 204, 63, 0.7)',
@@ -195,14 +194,14 @@ export default {
         'inner-green': 'inset 0 2px 4px 0 rgba(96, 204, 63, 0.3)',
         'neon-green': '0 0 5px #60CC3F, 0 0 10px #60CC3F, 0 0 15px #60CC3F, 0 0 20px #60CC3F',
       },
-      // ✅ Custom border radius
+      // Custom border radius
       borderRadius: {
         'xl': '0.75rem',
         '2xl': '1rem',
         '3xl': '1.5rem',
         '4xl': '2rem',
       },
-      // ✅ Custom spacing
+      // Custom spacing
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
@@ -210,13 +209,13 @@ export default {
         '112': '28rem',
         '128': '32rem',
       },
-      // ✅ Custom font sizes
+      // Custom font sizes
       fontSize: {
         'xxs': '0.625rem',
         '10xl': '10rem',
         '11xl': '12rem',
       },
-      // ✅ Custom transition properties
+      // Custom transition properties
       transitionProperty: {
         'height': 'height',
         'spacing': 'margin, padding',
@@ -229,7 +228,7 @@ export default {
         '800': '800ms',
         '1200': '1200ms',
       },
-      // ✅ Custom opacity
+      // Custom opacity
       opacity: {
         '10': '0.1',
         '15': '0.15',
