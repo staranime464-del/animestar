@@ -1,4 +1,4 @@
- // src/components/admin/AdminDashboard.tsx - FIXED API ENDPOINTS
+ // src/components/admin/AdminDashboard.tsx - DATE TEXT DARKER
 import React, { useState, useEffect } from 'react';
 import AnimeListTable from './AnimeListTable';
 import AddAnimeForm from './AddAnimeForm';
@@ -20,7 +20,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('list');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [analytics, setAnalytics] = useState({ 
     totalAnimes: 0, 
     totalMovies: 0, 
@@ -144,10 +143,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-[#636363] flex items-center justify-center">
         <div className="text-center">
-          <Spinner size="lg" />
-          <p className="mt-4 text-blue-300">Loading Admin Dashboard...</p>
+          <Spinner size="lg" color="green" />
+          <p className="mt-4 text-gray-400">Loading Admin Dashboard...</p>
         </div>
       </div>
     );
@@ -155,25 +154,30 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-white p-6">
+      <div className="min-h-screen bg-[#636363] text-white p-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-blue-600/20 to-blue-700/10 border border-blue-500/50 backdrop-blur rounded-2xl p-8 text-center shadow-2xl shadow-blue-500/10">
-            <h2 className="text-3xl font-bold mb-4 text-blue-300">Dashboard Error</h2>
-            <p className="mb-4 text-blue-200">{error}</p>
-            <p className="text-sm text-blue-300/70 mb-6">
+          <div className="bg-[#4A4A4A] border border-gray-600 rounded-2xl p-8 text-center shadow-2xl">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center border border-[#FF6B6B]/30">
+              <svg className="w-8 h-8 text-[#FF6B6B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold mb-4 text-white">Dashboard Error</h2>
+            <p className="mb-4 text-gray-400">{error}</p>
+            <p className="text-sm text-gray-500 mb-6">
               API URL: {API_BASE}<br/>
               Token: {token ? 'Present' : 'Missing'}
             </p>
             <div className="flex gap-4 justify-center">
               <button
                 onClick={loadInitialData}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-8 py-3 rounded-lg transition transform hover:scale-105 font-semibold shadow-lg"
+                className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white px-8 py-3 rounded-lg transition transform hover:scale-105 font-semibold shadow-lg border border-[#60CC3F]"
               >
                 Retry
               </button>
               <button
                 onClick={() => window.location.href = '/'}
-                className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 text-white px-8 py-3 rounded-lg transition transform hover:scale-105 font-semibold shadow-lg"
+                className="bg-[#4A4A4A] hover:bg-[#5a5a5a] text-white px-8 py-3 rounded-lg transition transform hover:scale-105 font-semibold shadow-lg border border-gray-600"
               >
                 Go Home
               </button>
@@ -185,139 +189,163 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-white flex">
-      {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-gradient-to-b from-blue-900/90 to-slate-950/90 backdrop-blur-xl border-r border-blue-700/50 p-4 sticky top-0 h-screen overflow-y-auto shadow-2xl transition-all duration-300`}>
-        <div className="flex items-center justify-between mb-8">
-          <div className={`flex items-center gap-3 ${!sidebarOpen && 'justify-center w-full'}`}>
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-xl flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-500/50">
-              ⚙️
+    <div className="min-h-screen bg-[#636363] text-white flex flex-col">
+      {/* Top Header */}
+      <header className="bg-[#4A4A4A] border-b-2 border-[#60CC3F] shadow-xl sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo & Brand */}
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#60CC3F] to-[#4CAF50] rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-xl">A</span>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold">
+                  <span className="text-white">Animestar</span>
+                  <span className="text-[#60CC3F] ml-1">Admin</span>
+                </h1>
+                <p className="text-xs text-gray-400">Content Management System</p>
+              </div>
             </div>
-            {sidebarOpen && <span className="font-bold text-lg bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">AdminPanel</span>}
+
+            {/* User Info & Controls */}
+            <div className="flex items-center space-x-4">
+              <div className="hidden md:flex items-center space-x-3 bg-[#636363] px-4 py-2 rounded-xl border border-gray-600">
+                <div className="w-8 h-8 rounded-full bg-[#60CC3F]/20 flex items-center justify-center">
+                  <span className="text-[#60CC3F] font-bold text-sm">
+                    {user.username?.charAt(0).toUpperCase() || '👤'}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-[#60CC3F]">{user.username || 'Admin'}</p>
+                  <p className="text-xs text-[#60CC3F]">Administrator</p>
+                </div>
+              </div>
+
+              <button
+                onClick={loadInitialData}
+                className="bg-[#636363] hover:bg-[#5a5a5a] text-gray-400 hover:text-white px-4 py-2 rounded-lg transition border border-gray-600 flex items-center space-x-2"
+                title="Refresh Data"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span className="hidden sm:inline">Refresh</span>
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="bg-gradient-to-r from-[#FF6B6B] to-[#FF5252] hover:from-[#FF5252] hover:to-[#FF6B6B] text-white px-4 py-2 rounded-lg transition border border-[#FF6B6B] flex items-center space-x-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+            </div>
           </div>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-blue-800/50 rounded-lg transition duration-200 hidden lg:block text-blue-400 hover:text-blue-200"
-          >
-            {sidebarOpen ? '◀' : '▶'}
-          </button>
+
+          {/* Top Navigation Tabs */}
+          <div className="mt-4">
+            <div className="flex space-x-1 overflow-x-auto pb-2">
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap border ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] shadow-lg shadow-[#60CC3F]/20'
+                      : 'bg-[#636363] text-gray-400 hover:bg-[#5a5a5a] hover:text-white border border-gray-600'
+                  }`}
+                >
+                  <span>{tab.icon}</span>
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Analytics Cards */}
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+          <div className="bg-[#4A4A4A] border border-gray-600 rounded-xl p-4 hover:border-[#60CC3F]/50 transition-colors">
+            <p className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Total Content</p>
+            <p className="text-2xl font-bold text-white">{analytics.totalAnimes + analytics.totalMovies + analytics.totalManga}</p>
+            <div className="w-full h-1 bg-gray-600 rounded-full mt-2 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#60CC3F] to-[#4CAF50]" style={{ width: '100%' }}></div>
+            </div>
+          </div>
+          <div className="bg-[#4A4A4A] border border-gray-600 rounded-xl p-4 hover:border-[#60CC3F]/50 transition-colors">
+            <p className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Anime</p>
+            <p className="text-2xl font-bold text-[#60CC3F]">{analytics.totalAnimes}</p>
+            <div className="w-full h-1 bg-gray-600 rounded-full mt-2 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#60CC3F] to-[#4CAF50]" style={{ width: '85%' }}></div>
+            </div>
+          </div>
+          <div className="bg-[#4A4A4A] border border-gray-600 rounded-xl p-4 hover:border-[#60CC3F]/50 transition-colors">
+            <p className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Movies</p>
+            <p className="text-2xl font-bold text-[#9C27B0]">{analytics.totalMovies}</p>
+            <div className="w-full h-1 bg-gray-600 rounded-full mt-2 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#9C27B0] to-[#7B1FA2]" style={{ width: '60%' }}></div>
+            </div>
+          </div>
+          <div className="bg-[#4A4A4A] border border-gray-600 rounded-xl p-4 hover:border-[#60CC3F]/50 transition-colors">
+            <p className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Manga</p>
+            <p className="text-2xl font-bold text-[#FF5722]">{analytics.totalManga}</p>
+            <div className="w-full h-1 bg-gray-600 rounded-full mt-2 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#FF5722] to-[#E64A19]" style={{ width: '40%' }}></div>
+            </div>
+          </div>
+          <div className="bg-[#4A4A4A] border border-gray-600 rounded-xl p-4 hover:border-[#60CC3F]/50 transition-colors">
+            <p className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Episodes</p>
+            <p className="text-2xl font-bold text-[#2196F3]">{analytics.totalEpisodes}</p>
+            <div className="w-full h-1 bg-gray-600 rounded-full mt-2 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#2196F3] to-[#1976D2]" style={{ width: '75%' }}></div>
+            </div>
+          </div>
+          <div className="bg-[#4A4A4A] border border-gray-600 rounded-xl p-4 hover:border-[#60CC3F]/50 transition-colors">
+            <p className="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wider">Users Today</p>
+            <p className="text-2xl font-bold text-[#FF9800]">{analytics.todayUsers}</p>
+            <div className="w-full h-1 bg-gray-600 rounded-full mt-2 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#FF9800] to-[#F57C00]" style={{ width: '30%' }}></div>
+            </div>
+          </div>
         </div>
 
-        {/* User Info */}
-        {sidebarOpen && (
-          <div className="mb-8 p-4 bg-gradient-to-br from-blue-900/30 to-slate-800/50 rounded-xl border border-blue-500/20 shadow-lg hover:shadow-blue-500/30 transition-shadow cursor-pointer">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg">
-                {user.username?.charAt(0).toUpperCase() || '👤'}
+        {/* Active Tab Content */}
+        <div className="bg-[#4A4A4A] rounded-xl border border-gray-600 shadow-lg overflow-hidden">
+          <div className="border-b border-gray-600 px-6 py-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gradient-to-br from-[#60CC3F] to-[#4CAF50] rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold">{tabs.find(t => t.id === activeTab)?.icon}</span>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-blue-300 truncate text-sm">{user.username || 'Admin'}</p>
-                <p className="text-xs text-blue-400/70 truncate">{user.email}</p>
+              <div>
+                <h2 className="text-xl font-bold text-white">{tabs.find(t => t.id === activeTab)?.label}</h2>
+                <p className="text-sm text-gray-400">Manage and control your content</p>
               </div>
             </div>
-            <div className="mt-3 pt-3 border-t border-blue-500/20">
-              <p className="text-xs text-blue-400/70 font-semibold">👑 Admin Access</p>
-            </div>
           </div>
-        )}
-
-        {/* Navigation */}
-        <nav className="space-y-1">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 group ${
-                activeTab === tab.id
-                  ? 'bg-gradient-to-r from-blue-600/80 to-blue-700/80 text-white shadow-lg shadow-blue-500/20 border border-blue-400/30'
-                  : 'text-blue-200 hover:bg-blue-800/40 hover:text-white'
-              }`}
-              title={!sidebarOpen ? tab.label : ''}
-            >
-              <span className="text-xl flex-shrink-0 group-hover:scale-110 transition-transform">{tab.icon}</span>
-              {sidebarOpen && <span className="font-medium text-sm">{tab.label}</span>}
-            </button>
-          ))}
-        </nav>
-
-        {/* Sidebar Footer */}
-        {sidebarOpen && (
-          <div className="mt-8 pt-6 border-t border-blue-700/30">
-            <button
-              onClick={handleLogout}
-              className="w-full bg-gradient-to-r from-red-600/40 to-red-700/40 hover:from-red-600/60 hover:to-red-700/60 text-red-200 px-4 py-2.5 rounded-lg transition font-semibold text-sm border border-red-500/40 shadow-lg"
-            >
-              🚪 Logout
-            </button>
-          </div>
-        )}
-
-        {!sidebarOpen && (
-          <div className="mt-8 pt-6 border-t border-blue-700/30">
-            <button
-              onClick={handleLogout}
-              className="w-full bg-gradient-to-r from-red-600/40 to-red-700/40 hover:from-red-600/60 hover:to-red-700/60 p-2 rounded-lg transition"
-              title="Logout"
-            >
-              🚪
-            </button>
-          </div>
-        )}
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Header */}
-        <header className="bg-gradient-to-r from-blue-900/50 via-blue-900/30 to-blue-800/50 backdrop-blur-xl border-b border-blue-700/50 p-6 shadow-xl">
-          <div className="flex justify-between items-start gap-4">
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-blue-300 to-blue-200 bg-clip-text text-transparent">
-                {tabs.find(t => t.id === activeTab)?.label}
-              </h1>
-              <p className="text-sm text-blue-400/70 mt-2">Manage your content efficiently • Welcome back, <span className="text-blue-300 font-semibold">{user.username || 'Admin'}</span>! 👋</p>
-            </div>
-            <button
-              onClick={loadInitialData}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-2.5 rounded-lg transition transform hover:scale-105 font-semibold shadow-lg shadow-blue-500/30 whitespace-nowrap"
-            >
-              ↻ Refresh
-            </button>
-          </div>
-
-          {/* Analytics Cards */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/40 rounded-xl p-4 backdrop-blur shadow-lg hover:shadow-blue-500/20 transition-shadow">
-              <p className="text-xs text-blue-400/70 mb-2 font-semibold">Total Content</p>
-              <p className="text-2xl font-bold text-blue-300">{analytics.totalAnimes + analytics.totalMovies + analytics.totalManga}</p>
-            </div>
-            <div className="bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border border-cyan-500/40 rounded-xl p-4 backdrop-blur shadow-lg hover:shadow-cyan-500/20 transition-shadow">
-              <p className="text-xs text-cyan-400/70 mb-2 font-semibold">Anime</p>
-              <p className="text-2xl font-bold text-cyan-300">{analytics.totalAnimes}</p>
-            </div>
-            <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/40 rounded-xl p-4 backdrop-blur shadow-lg hover:shadow-emerald-500/20 transition-shadow">
-              <p className="text-xs text-emerald-400/70 mb-2 font-semibold">Movies</p>
-              <p className="text-2xl font-bold text-emerald-300">{analytics.totalMovies}</p>
-            </div>
-            <div className="bg-gradient-to-br from-indigo-500/20 to-indigo-600/10 border border-indigo-500/40 rounded-xl p-4 backdrop-blur shadow-lg hover:shadow-indigo-500/20 transition-shadow">
-              <p className="text-xs text-indigo-400/70 mb-2 font-semibold">Manga</p>
-              <p className="text-2xl font-bold text-indigo-300">{analytics.totalManga}</p>
-            </div>
-            <div className="bg-gradient-to-br from-sky-500/20 to-sky-600/10 border border-sky-500/40 rounded-xl p-4 backdrop-blur shadow-lg hover:shadow-sky-500/20 transition-shadow">
-              <p className="text-xs text-sky-400/70 mb-2 font-semibold">Episodes</p>
-              <p className="text-2xl font-bold text-sky-300">{analytics.totalEpisodes}</p>
-            </div>
-            <div className="bg-gradient-to-br from-teal-500/20 to-teal-600/10 border border-teal-500/40 rounded-xl p-4 backdrop-blur shadow-lg hover:shadow-teal-500/20 transition-shadow">
-              <p className="text-xs text-teal-400/70 mb-2 font-semibold">Users Today</p>
-              <p className="text-2xl font-bold text-teal-300">{analytics.todayUsers}</p>
-            </div>
-          </div>
-        </header>
-
-        {/* Page Content */}
-        <div className="flex-1 overflow-auto p-6">
-          <div className="bg-gradient-to-br from-blue-900/30 to-slate-900/20 rounded-2xl p-8 shadow-2xl border border-blue-700/40 backdrop-blur-sm">
+          
+          <div className="p-6">
             {ActiveComponent}
           </div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-[#60CC3F]">
+            Animestar Admin Panel • Logged in as: <span className="font-medium">{user.username}</span>
+          </p>
+          <p className="text-xs text-gray-700 mt-1">
+            {new Date().toLocaleDateString('en-US', { 
+              weekday: 'long', 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </p>
         </div>
       </div>
     </div>

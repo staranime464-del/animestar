@@ -1,4 +1,4 @@
-// routes/animeRoutes.cjs - UPDATED WITH SEO SUPPORT
+ // routes/animeRoutes.cjs - UPDATED WITH SLUG-ONLY SUPPORT
 const express = require('express');
 const router = express.Router();
 const Anime = require('../models/Anime.cjs');
@@ -34,7 +34,8 @@ router.get('/featured', async (req, res) => {
 });
 
 /**
- * ✅ NEW: GET ANIME BY SLUG (SEO-friendly URL)
+ * ✅ UPDATED: GET ANIME BY SLUG ONLY (SEO-friendly URL)
+ * ✅ THIS IS THE ONLY PUBLIC ROUTE FOR ANIME DETAILS
  */
 router.get('/slug/:slug', async (req, res) => {
   try {
@@ -73,6 +74,11 @@ router.get('/slug/:slug', async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 });
+
+/**
+ * ✅ REMOVED: /:id route completely - ID access is only for admin
+ * ❌ Public cannot access anime by ID, only by slug
+ */
 
 /**
  * ✅ OPTIMIZED: GET anime with PAGINATION
@@ -170,60 +176,6 @@ router.get('/search', async (req, res) => {
     });
   } catch (err) {
     console.error('Error searching anime:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-/**
- * ✅ UPDATED: GET single anime by ID OR SLUG
- */
-router.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    // Check if the ID is a valid MongoDB ObjectId
-    const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
-    
-    let item;
-    
-    if (isObjectId) {
-      // Search by ID
-      item = await Anime.findById(id)
-        .populate('episodes')
-        .lean();
-    } else {
-      // Try searching by slug
-      item = await Anime.findOne({ slug: id })
-        .populate('episodes')
-        .lean();
-    }
-    
-    if (!item) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Anime not found' 
-      });
-    }
-    
-    // ✅ SEO headers
-    res.set({
-      'Cache-Control': 'public, max-age=3600', // 1 hour for anime details
-      'Content-Type': 'application/json; charset=utf-8'
-    });
-    
-    res.json({ 
-      success: true, 
-      data: item
-    });
-  } catch (err) {
-    // ✅ Better error handling for invalid ObjectId
-    if (err.name === 'CastError') {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Invalid anime ID format' 
-      });
-    }
-    console.error('Error fetching anime:', err);
     res.status(500).json({ success: false, error: err.message });
   }
 });

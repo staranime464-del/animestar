@@ -1,7 +1,12 @@
-@tailwind base;
+ @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /* src/index.css */
+
+/* ============================================
+   CUSTOM THEME STYLES - DARK GRAY + GREEN THEME
+   ============================================ */
 
 /* Custom Animations for Animestar */
 
@@ -72,6 +77,109 @@
   }
 }
 
+/* Custom Green Theme Animations */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+@keyframes border-glow {
+  from {
+    box-shadow: 0 0 5px rgba(96, 204, 63, 0.5), 0 0 10px rgba(96, 204, 63, 0.3), 0 0 15px rgba(96, 204, 63, 0.1);
+    border-color: rgba(96, 204, 63, 0.5);
+  }
+  to {
+    box-shadow: 0 0 10px rgba(96, 204, 63, 0.8), 0 0 20px rgba(96, 204, 63, 0.5), 0 0 30px rgba(96, 204, 63, 0.2);
+    border-color: rgba(96, 204, 63, 0.8);
+  }
+}
+
+@keyframes text-glow {
+  from {
+    text-shadow: 0 0 5px rgba(96, 204, 63, 0.5), 0 0 10px rgba(96, 204, 63, 0.3);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(96, 204, 63, 0.8), 0 0 20px rgba(96, 204, 63, 0.5), 0 0 30px rgba(96, 204, 63, 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@keyframes card-load {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-soft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* Utility classes for animations */
 .animate-slideDown {
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -99,4 +207,620 @@
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-gradient-shift {
+  animation: gradient-shift 3s ease infinite alternate;
+}
+
+.animate-border-glow {
+  animation: border-glow 2s ease-in-out infinite alternate;
+}
+
+.animate-text-glow {
+  animation: text-glow 2s ease-in-out infinite alternate;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+}
+
+.animate-card-load {
+  animation: card-load 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 2s infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s infinite;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out;
+}
+
+/* ============================================
+   CUSTOM COMPONENT STYLES (FIXED - NO @apply WITH ARBITRARY VALUES)
+   ============================================ */
+
+/* Instead of using @apply with arbitrary values, we'll define them as regular CSS classes */
+
+/* Green Gradient Button */
+.btn-gradient-green {
+  background: linear-gradient(to right, #60CC3F, #4CAF50);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+  transform: translateY(0);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #60CC3F;
+}
+
+.btn-gradient-green:hover {
+  background: linear-gradient(to right, #4CAF50, #60CC3F);
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(96, 204, 63, 0.7);
+}
+
+/* Dark Gray Card */
+.card-dark {
+  background-color: #4A4A4A;
+  border: 1px solid #6b7280;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Glass Effect */
+.glass-effect {
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Input Field Styling */
+.input-dark {
+  background-color: #636363;
+  border: 1px solid #6b7280;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s;
+}
+
+.input-dark:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #60CC3F;
+  border-color: #60CC3F;
+}
+
+.input-dark::placeholder {
+  color: #9ca3af;
+}
+
+/* Badge Styles */
+.badge-green {
+  background: linear-gradient(to right, rgba(96, 204, 63, 0.2), rgba(76, 175, 80, 0.2));
+  color: #60CC3F;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(96, 204, 63, 0.3);
+}
+
+.badge-red {
+  background: linear-gradient(to right, rgba(255, 82, 82, 0.2), rgba(255, 107, 107, 0.2));
+  color: #FF5252;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 82, 82, 0.3);
+}
+
+.badge-blue {
+  background: linear-gradient(to right, rgba(33, 150, 243, 0.2), rgba(25, 118, 210, 0.2));
+  color: #2196F3;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+/* Progress Bar */
+.progress-bar-green {
+  height: 0.25rem;
+  background-color: #6b7280;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-green-fill {
+  height: 100%;
+  background: linear-gradient(to right, #60CC3F, #4CAF50);
+}
+
+/* Stat Card */
+.stat-card {
+  background-color: #4A4A4A;
+  border: 1px solid #6b7280;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  transition: border-color 0.3s;
+}
+
+.stat-card:hover {
+  border-color: rgba(96, 204, 63, 0.5);
+}
+
+/* Tab Button */
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+  border: 1px solid;
+}
+
+.tab-button-active {
+  background: linear-gradient(to right, #60CC3F, #4CAF50);
+  color: white;
+  border-color: #60CC3F;
+  box-shadow: 0 10px 15px -3px rgba(96, 204, 63, 0.2);
+}
+
+.tab-button-inactive {
+  background-color: #636363;
+  color: #d1d5db;
+  border-color: #6b7280;
+}
+
+.tab-button-inactive:hover {
+  background-color: #5a5a5a;
+  color: white;
+}
+
+/* Loading Spinner */
+.spinner-green {
+  animation: spin 1s linear infinite;
+  border-radius: 9999px;
+  border: 2px solid #6b7280;
+  border-top-color: #60CC3F;
+}
+
+/* Shimmer Loading */
+.shimmer {
+  background: linear-gradient(to right, transparent, rgba(96, 204, 63, 0.1), transparent);
+  background-size: 468px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* ============================================
+   BASE STYLES & RESETS
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #636363;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* ============================================
+   MAIN SCROLLBAR STYLING - GREEN THEME (#60CC3F)
+   ============================================ */
+
+/* Main Website Scrollbar (Global) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #60CC3F #4A4A4A;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #4A4A4A;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #60CC3F, #4CAF50);
+  border-radius: 6px;
+  border: 2px solid #4A4A4A;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #4CAF50, #60CC3F);
+  box-shadow: 0 0 10px rgba(96, 204, 63, 0.6);
+}
+
+::-webkit-scrollbar-corner {
+  background: #4A4A4A;
+}
+
+/* Horizontal Scrollbar */
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+
+::-webkit-scrollbar-track:horizontal {
+  background: #4A4A4A;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: linear-gradient(to right, #60CC3F, #4CAF50);
+  border-radius: 6px;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR CLASSES
+   ============================================ */
+
+/* Custom Scrollbar Class */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #60CC3F #4A4A4A;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #4A4A4A;
+  border-radius: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #60CC3F, #4CAF50);
+  border-radius: 4px;
+  border: 2px solid #4A4A4A;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #4CAF50, #60CC3F);
+  box-shadow: 0 0 8px rgba(96, 204, 63, 0.5);
+}
+
+/* Thin Scrollbar Variant */
+.scrollbar-thin-green {
+  scrollbar-width: thin;
+  scrollbar-color: #60CC3F transparent;
+}
+
+.scrollbar-thin-green::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin-green::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin-green::-webkit-scrollbar-thumb {
+  background: #60CC3F;
+  border-radius: 3px;
+}
+
+.scrollbar-thin-green::-webkit-scrollbar-thumb:hover {
+  background: #4CAF50;
+}
+
+/* Animated Scrollbar */
+.scrollbar-animated {
+  scrollbar-width: thin;
+  scrollbar-color: #60CC3F #4A4A4A;
+}
+
+.scrollbar-animated::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #60CC3F, #4CAF50);
+  animation: scrollbar-pulse 2s infinite;
+}
+
+@keyframes scrollbar-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ============================================
+   SELECTION COLOR
+   ============================================ */
+
+::selection {
+  background-color: rgba(96, 204, 63, 0.3);
+  color: white;
+}
+
+/* ============================================
+   TYPOGRAPHY ENHANCEMENTS
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(to right, #60CC3F, #4CAF50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+/* ============================================
+   FORM ELEMENT ENHANCEMENTS
+   ============================================ */
+
+input, textarea, select {
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 3px rgba(96, 204, 63, 0.1);
+}
+
+/* ============================================
+   ANIMATION DELAYS
+   ============================================ */
+
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+.animation-delay-600 {
+  animation-delay: 600ms;
+}
+
+.animation-delay-700 {
+  animation-delay: 700ms;
+}
+
+.animation-delay-800 {
+  animation-delay: 800ms;
+}
+
+.animation-delay-900 {
+  animation-delay: 900ms;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1000ms;
+}
+
+/* ============================================
+   SPECIAL EFFECTS
+   ============================================ */
+
+/* Gradient Text */
+.gradient-text-green {
+  background: linear-gradient(to right, #60CC3F, #4CAF50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-white {
+  background: linear-gradient(to right, #ffffff, #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient Border */
+.gradient-border {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(#4A4A4A, #4A4A4A) padding-box,
+              linear-gradient(to right, #60CC3F, #4CAF50) border-box;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(96, 204, 63, 0.3);
+}
+
+/* Ripple Effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(96, 204, 63, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.ripple:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@media (max-width: 640px) {
+  .mobile-hidden {
+    display: none;
+  }
+  
+  .mobile-center {
+    text-align: center;
+  }
+  
+  .mobile-full {
+    width: 100% !important;
+  }
+  
+  /* Mobile scrollbar thinner */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tablet-hidden {
+    display: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* ============================================
+   THEME TRANSITION
+   ============================================ */
+
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ============================================
+   ADDITIONAL HELPER CLASSES
+   ============================================ */
+
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-md {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.bg-dark-gray-500 {
+  background-color: #636363;
+}
+
+.bg-dark-gray-600 {
+  background-color: #4A4A4A;
+}
+
+.bg-anime-green-400 {
+  background-color: #60CC3F;
+}
+
+.bg-anime-green-500 {
+  background-color: #4CAF50;
+}
+
+.text-anime-green-400 {
+  color: #60CC3F;
+}
+
+.text-anime-green-500 {
+  color: #4CAF50;
+}
+
+.border-anime-green-400 {
+  border-color: #60CC3F;
+}
+
+.focus\:ring-anime-green-400:focus {
+  --tw-ring-color: #60CC3F;
+}
+
+.hover\:bg-dark-gray-600:hover {
+  background-color: #5a5a5a;
 }

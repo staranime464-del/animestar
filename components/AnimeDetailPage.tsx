@@ -1,11 +1,11 @@
- // components/AnimeDetailPage.tsx - UPDATED FOR ANIMESTAR BLUE THEME
+ // components/AnimeDetailPage.tsx - UPDATED FOR DARK GRAY + GREEN THEME + SLUG-ONLY FIX
 import React, { useState, useEffect } from 'react';
 import type { Anime, Episode, Chapter } from '../src/types';
 import { DownloadIcon } from './icons/DownloadIcon';
 import ReportButton from './ReportButton';
 import Spinner from './Spinner';
 import { AnimeDetailSkeleton } from './SkeletonLoader';
-import { getAnimeByIdOrSlug, getEpisodesByAnimeId, getChaptersByMangaId } from '../services/animeService';
+import { getAnimeBySlug, getEpisodesByAnimeId, getChaptersByMangaId } from '../services/animeService'; // ✅ UPDATED: getAnimeByIdOrSlug to getAnimeBySlug
 import SEO from '../src/components/SEO';
 
 interface DownloadLink {
@@ -178,16 +178,18 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
 
       setAnimeLoading(true);
       try {
-        const animeIdentifier = anime.slug || anime._id || anime.id;
+        // ✅ UPDATED: Use anime.slug only (not id)
+        const animeSlug = anime.slug;
         
-        if (!animeIdentifier) {
-          console.warn('No identifier found for anime:', anime);
+        if (!animeSlug) {
+          console.warn('No slug found for anime:', anime);
           setFullAnime(anime);
           return;
         }
 
         const fields = 'title,thumbnail,releaseYear,status,contentType,subDubStatus,description,genreList,seoTitle,seoDescription,seoKeywords,slug';
-        const fullAnimeData = await getAnimeByIdOrSlug(animeIdentifier, fields);
+        // ✅ UPDATED: Call getAnimeBySlug instead of getAnimeByIdOrSlug
+        const fullAnimeData = await getAnimeBySlug(animeSlug, fields);
         
         if (fullAnimeData) {
           setFullAnime(fullAnimeData);
@@ -258,7 +260,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
   
   const mobileThumbnail = displayAnime?.thumbnail 
     ? optimizeImageUrl(displayAnime.thumbnail, 80, 112)
-    : 'https://via.placeholder.com/80x112/0f172a/475569?text=No+Image';
+    : 'https://via.placeholder.com/80x112/636363/4A4A4A?text=No+Image';
   
   const mobileThumbnailSrcSet = displayAnime?.thumbnail 
     ? generateSrcSet(displayAnime.thumbnail, 80, 112)
@@ -266,7 +268,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
   
   const desktopThumbnail = displayAnime?.thumbnail 
     ? optimizeImageUrl(displayAnime.thumbnail, 320, 448)
-    : 'https://via.placeholder.com/320x448/0f172a/475569?text=No+Image';
+    : 'https://via.placeholder.com/320x448/636363/4A4A4A?text=No+Image';
   
   const desktopThumbnailSrcSet = displayAnime?.thumbnail 
     ? generateSrcSet(displayAnime.thumbnail, 320, 448)
@@ -407,13 +409,13 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
         ogUrl={seoData.ogUrl}
       />
       
-      {/* ✅ UPDATED BACKGROUND TO BLUE THEME */}
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
+      {/* ✅ UPDATED BACKGROUND TO DARK GRAY THEME */}
+      <div className="min-h-screen bg-[#636363]">
         <div className="container mx-auto px-3 py-4">
-          {/* Back Button - UPDATED BLUE THEME */}
+          {/* Back Button - UPDATED DARK GRAY + GREEN THEME */}
           <button
             onClick={onBack}
-            className="group bg-blue-900/30 hover:bg-blue-800/50 text-blue-100 px-4 py-2 rounded-lg mb-4 flex items-center gap-2 transition-all duration-300 font-medium backdrop-blur-sm border border-blue-700/50 hover:border-blue-500/70 text-sm"
+            className="group bg-[#4A4A4A] hover:bg-[#636363] text-white px-4 py-2 rounded-lg mb-4 flex items-center gap-2 transition-all duration-300 font-medium border border-gray-600 hover:border-[#60CC3F]/50 text-sm"
             aria-label="Go back to home page"
           >
             <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
@@ -422,8 +424,8 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
 
           {/* MOBILE VIEW */}
           <div className="lg:hidden">
-            {/* Mobile Anime Card - UPDATED BLUE THEME */}
-            <div className="bg-blue-900/20 backdrop-blur-sm rounded-xl p-4 border border-blue-800/30 shadow-xl mb-0">
+            {/* Mobile Anime Card - UPDATED DARK GRAY + GREEN THEME */}
+            <div className="bg-[#4A4A4A] rounded-xl p-4 border border-gray-600 mb-0">
               <div className="flex flex-col">
                 <div className="flex gap-3 mb-3">
                   <div className="flex-shrink-0">
@@ -438,7 +440,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                         height="112"
                         sizes="80px"
                         onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/80x112/0f172a/475569?text=No+Image';
+                          e.currentTarget.src = 'https://via.placeholder.com/80x112/636363/4A4A4A?text=No+Image';
                         }}
                       />
                     </div>
@@ -446,7 +448,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                   <div className="flex-1 min-w-0">
                     <h1 className="text-lg font-bold text-white mb-2 break-words">{displayAnime?.title}</h1>
                     <div className="flex flex-wrap gap-1">
-                      <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
+                      <span className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
                         {displayAnime?.releaseYear}
                       </span>
                       <span
@@ -458,7 +460,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                       >
                         {displayAnime?.status}
                       </span>
-                      <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
+                      <span className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
                         {displayAnime?.contentType}
                       </span>
                       {!isManga && displayAnime?.subDubStatus && (
@@ -467,7 +469,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                             .split(',')
                             .map(s => s.trim().toLowerCase())
                             .includes('hindi dub'.toLowerCase()) && (
-                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2 py-1 rounded text-xs font-bold">
+                            <span className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-2 py-1 rounded text-xs font-bold">
                               Hindi Dub
                             </span>
                           )}
@@ -476,7 +478,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                             .split(',')
                             .map(s => s.trim().toLowerCase())
                             .includes('hindi sub'.toLowerCase()) && (
-                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2 py-1 rounded text-xs font-bold">
+                            <span className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-2 py-1 rounded text-xs font-bold">
                               Hindi Sub
                             </span>
                           )}
@@ -488,13 +490,13 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                 
                 <div className="space-y-2 mt-2">
                   <div className="flex flex-wrap gap-2">
-                    <div className="text-xs text-blue-200">
+                    <div className="text-xs text-gray-300">
                       <span className="font-semibold">Year:</span> {displayAnime?.releaseYear || 'N/A'}
                     </div>
-                    <div className="text-xs text-blue-200">
+                    <div className="text-xs text-gray-300">
                       <span className="font-semibold">Status:</span> {displayAnime?.status || 'N/A'}
                     </div>
-                    <div className="text-xs text-blue-200">
+                    <div className="text-xs text-gray-300">
                       <span className="font-semibold">Type:</span> {displayAnime?.contentType || 'N/A'}
                     </div>
                   </div>
@@ -504,7 +506,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                       {displayAnime?.genreList?.map((genre, index) => (
                         <span
                           key={index}
-                          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-2 py-1 rounded text-xs font-medium transition-all duration-300 whitespace-nowrap"
+                          className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white px-2 py-1 rounded text-xs font-medium transition-all duration-300 whitespace-nowrap"
                         >
                           {genre}
                         </span>
@@ -514,8 +516,8 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                 </div>
 
                 <div className="mt-3">
-                  <h3 className="text-sm font-semibold text-blue-200 mb-1">Description</h3>
-                  <p className="text-blue-300 text-xs leading-relaxed">
+                  <h3 className="text-sm font-semibold text-gray-300 mb-1">Description</h3>
+                  <p className="text-gray-300 text-xs leading-relaxed">
                     {displayAnime?.description || 'No description available for this content.'}
                   </p>
                 </div>
@@ -523,7 +525,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
             </div>
 
             {availableSessions.length > 1 && (
-              <div className="bg-blue-900/20 backdrop-blur-sm rounded-xl p-3 mt-0 border border-blue-800/30 shadow-xl">
+              <div className="bg-[#4A4A4A] rounded-xl p-3 mt-0 border border-gray-600">
                 <div className="flex gap-2 overflow-x-auto pb-1">
                   {availableSessions.map(session => (
                     <button
@@ -531,8 +533,8 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                       onClick={() => setSelectedSession(session)}
                       className={`flex-shrink-0 px-3 py-1 rounded-lg font-medium transition-all duration-300 text-xs ${
                         selectedSession === session
-                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25'
-                          : 'bg-blue-800/30 text-blue-200 hover:bg-blue-700/40 border border-blue-700/50'
+                          ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white shadow-md'
+                          : 'bg-[#636363] text-gray-300 hover:bg-[#4A4A4A] border border-gray-600'
                       }`}
                       aria-label={`Select session ${session}`}
                     >
@@ -543,7 +545,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
               </div>
             )}
 
-            <div className="bg-blue-900/20 backdrop-blur-sm rounded-xl p-3 mt-0 border border-blue-800/30 shadow-xl">
+            <div className="bg-[#4A4A4A] rounded-xl p-3 mt-0 border border-gray-600">
               <div className="flex justify-between items-center mb-3">
                 <h2 className="text-base font-bold text-white">
                   {getContentLabel()}{' '}
@@ -557,7 +559,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                   </div>
                 </div>
               ) : error && !(isManga ? chaptersLoading : episodesLoading) ? (
-                <div className="bg-red-600/20 border border-red-500/30 rounded-lg p-2 mb-3">
+                <div className="bg-red-600/20 border border-red-500 rounded-lg p-2 mb-3">
                   <div className="flex items-center gap-2">
                     <div className="text-red-400 text-xs">⚠️</div>
                     <p className="text-red-300 text-xs">{error}</p>
@@ -565,11 +567,11 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                 </div>
               ) : currentSessionItems.length === 0 ? (
                 <div className="text-center py-6">
-                  <div className="bg-blue-800/30 rounded-lg p-4 border border-blue-700/50">
-                    <h3 className="text-sm font-semibold text-blue-200 mb-1">
+                  <div className="bg-[#636363] rounded-lg p-4 border border-gray-600">
+                    <h3 className="text-sm font-semibold text-gray-300 mb-1">
                       No {getContentLabel()} Available
                     </h3>
-                    <p className="text-blue-300 text-xs">
+                    <p className="text-gray-400 text-xs">
                       {getNoContentMessage()}
                     </p>
                   </div>
@@ -591,11 +593,11 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                       return (
                         <div
                           key={itemData._id || index}
-                          className="group bg-blue-800/20 hover:bg-blue-700/30 rounded-lg p-2 transition-all duration-200 border border-blue-700/50 hover:border-blue-500/70 backdrop-blur-sm"
+                          className="group bg-[#636363] hover:bg-[#4A4A4A] rounded-lg p-2 transition-all duration-200 border border-gray-600 hover:border-[#60CC3F]/50"
                         >
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2 flex-1 min-w-0">
-                              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2 py-1 rounded text-xs font-bold min-w-10 text-center flex-shrink-0">
+                              <div className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-2 py-1 rounded text-xs font-bold min-w-10 text-center flex-shrink-0">
                                 {isMovie ? 'MOVIE' : (isManga ? 'CHAPTER' : 'EP')}
                               </div>
                               <div className="flex-1 min-w-0">
@@ -609,7 +611,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                               <DownloadButton
                                 item={item as Episode | Chapter}
                                 itemId={itemData._id}
-                                className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 text-white p-2 rounded-lg shadow-lg hover:shadow-blue-500/20 transition-all duration-200 flex items-center justify-center"
+                                className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white p-2 rounded-lg transition-all duration-200 flex items-center justify-center"
                                 showText={false}
                               />
                               <ReportButton
@@ -632,7 +634,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
 
           {/* PC VIEW */}
           <div className="hidden lg:block">
-            <div className="bg-blue-900/20 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-blue-800/30 shadow-xl">
+            <div className="bg-[#4A4A4A] rounded-2xl p-6 mb-8 border border-gray-600">
               <div className="flex flex-col lg:flex-row gap-8">
                 <div className="flex-shrink-0 mx-auto lg:mx-0">
                   <div className="relative group">
@@ -646,25 +648,25 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                       height="448"
                       sizes="(max-width: 1024px) 80px, 320px"
                       onError={(e) => {
-                        e.currentTarget.src = 'https://via.placeholder.com/320x448/0f172a/475569?text=No+Image';
+                        e.currentTarget.src = 'https://via.placeholder.com/320x448/636363/4A4A4A?text=No+Image';
                       }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-950/50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#4A4A4A]/50 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
                 <div className="flex-1 space-y-6">
                   <div>
-                    {/* ✅ UPDATED TEXT GRADIENT TO BLUE */}
-                    <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent mb-4">
+                    {/* ✅ UPDATED TEXT GRADIENT TO GREEN */}
+                    <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-white to-[#60CC3F] bg-clip-text text-transparent mb-4">
                       {displayAnime?.title}
                     </h1>
-                    <p className="text-blue-200 leading-relaxed text-lg">
+                    <p className="text-gray-300 leading-relaxed text-lg">
                       {displayAnime?.description || 'No description available for this content.'}
                     </p>
                   </div>
                   <div className="space-y-4">
                     <div className="flex flex-wrap items-center gap-4">
-                      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-bold">
+                      <div className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-4 py-2 rounded-lg font-bold">
                         {displayAnime?.releaseYear}
                       </div>
                       <div
@@ -676,7 +678,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                       >
                         {displayAnime?.status}
                       </div>
-                      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-bold">
+                      <div className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-4 py-2 rounded-lg font-bold">
                         {displayAnime?.contentType}
                       </div>
                       {!isManga && displayAnime?.subDubStatus && (
@@ -685,7 +687,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                             .split(',')
                             .map(s => s.trim().toLowerCase())
                             .includes('hindi dub'.toLowerCase()) && (
-                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-bold">
+                            <span className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-4 py-2 rounded-lg font-bold">
                               Hindi Dub
                             </span>
                           )}
@@ -694,7 +696,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                             .split(',')
                             .map(s => s.trim().toLowerCase())
                             .includes('hindi sub'.toLowerCase()) && (
-                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-bold">
+                            <span className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-4 py-2 rounded-lg font-bold">
                               Hindi Sub
                             </span>
                           )}
@@ -702,12 +704,12 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                       )}
                     </div>
                     <div>
-                      <span className="text-blue-300 text-sm font-medium mr-3">Genres</span>
+                      <span className="text-gray-300 text-sm font-medium mr-3">Genres</span>
                       <div className="flex flex-wrap gap-2 mt-3">
                         {displayAnime?.genreList?.map((genre, index) => (
                           <span
                             key={index}
-                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 cursor-pointer"
+                            className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 cursor-pointer"
                           >
                             {genre}
                           </span>
@@ -719,10 +721,10 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
               </div>
             </div>
 
-            <div className="bg-blue-900/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-800/30 shadow-xl">
+            <div className="bg-[#4A4A4A] rounded-2xl p-6 border border-gray-600">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                {/* ✅ UPDATED TEXT GRADIENT TO BLUE */}
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                {/* ✅ UPDATED TEXT GRADIENT TO GREEN */}
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-[#60CC3F] bg-clip-text text-transparent">
                   {getContentLabel()}{' '}
                   {currentSessionItems.length > 0 && `(${currentSessionItems.length})`}
                 </h2>
@@ -734,8 +736,8 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                         onClick={() => setSelectedSession(session)}
                         className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
                           selectedSession === session
-                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25'
-                            : 'bg-blue-800/30 text-blue-200 hover:bg-blue-700/40 border border-blue-700/50'
+                            ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white'
+                            : 'bg-[#636363] text-gray-300 hover:bg-[#4A4A4A] border border-gray-600'
                         }`}
                         aria-label={`Select session ${session}`}
                       >
@@ -752,7 +754,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                   </div>
                 </div>
               ) : error && !(isManga ? chaptersLoading : episodesLoading) ? (
-                <div className="bg-red-600/20 border border-red-500/30 rounded-xl p-4 mb-6 backdrop-blur-sm">
+                <div className="bg-red-600/20 border border-red-500 rounded-xl p-4 mb-6">
                   <div className="flex items-center gap-3">
                     <div className="text-red-400 text-lg">⚠️</div>
                     <p className="text-red-300 text-sm">{error}</p>
@@ -760,11 +762,11 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                 </div>
               ) : currentSessionItems.length === 0 ? (
                 <div className="text-center py-16">
-                  <div className="bg-blue-800/30 rounded-2xl p-12 max-w-md mx-auto border border-blue-700/50">
-                    <h3 className="text-xl font-semibold text-blue-200 mb-3">
+                  <div className="bg-[#636363] rounded-2xl p-12 max-w-md mx-auto border border-gray-600">
+                    <h3 className="text-xl font-semibold text-gray-300 mb-3">
                       No {getContentLabel()} Available
                     </h3>
-                    <p className="text-blue-300">
+                    <p className="text-gray-400">
                       {getNoContentMessage()}
                     </p>
                   </div>
@@ -787,12 +789,12 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                         return (
                           <div
                             key={itemData._id || index}
-                            className="group bg-blue-800/20 hover:bg-blue-700/30 rounded-xl p-4 transition-all duration-300 border border-blue-700/50 hover:border-blue-500/70 hover:shadow-lg hover:shadow-blue-500/10 backdrop-blur-sm"
+                            className="group bg-[#636363] hover:bg-[#4A4A4A] rounded-xl p-4 transition-all duration-300 border border-gray-600 hover:border-[#60CC3F]/50"
                           >
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                               <div className="flex items-start sm:items-center gap-4 flex-1">
                                 <div className="flex items-center gap-3">
-                                  <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold min-w-16 text-center">
+                                  <span className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white px-4 py-2 rounded-lg text-sm font-bold min-w-16 text-center">
                                     {isMovie ? 'MOVIE' : (isManga ? 'CHAPTER' : 'EP')}
                                   </span>
                                 </div>
@@ -802,7 +804,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                                       `${getContentLabelSingular()}`}
                                   </h3>
                                   {itemData.session > 1 && (
-                                    <p className="text-blue-300 text-sm mt-1">Session {itemData.session}</p>
+                                    <p className="text-gray-400 text-sm mt-1">Session {itemData.session}</p>
                                   )}
                                 </div>
                               </div>
@@ -810,7 +812,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                                 <DownloadButton
                                   item={item as Episode | Chapter}
                                   itemId={itemData._id}
-                                  className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium flex items-center gap-2 hover:scale-105 active:scale-95"
+                                  className="bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium flex items-center gap-2 hover:scale-105 active:scale-95"
                                   showText={true}
                                 />
                                 <div className="scale-90">

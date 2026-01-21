@@ -1,4 +1,4 @@
- // src/components/SEO.tsx - UPDATED FOR ANIMESTAR
+ // src/components/SEO.tsx - UPDATED FOR ANIMESTAR (DARK GRAY + GREEN THEME)
 import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {
@@ -21,11 +21,11 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({
   title,
   description,
-  keywords = 'anime, hindi anime, english anime, anime dub, anime sub, watch anime online, anime streaming, anime in hindi, anime in english, download anime, free anime, AnimeStar, animestar.in',
+  keywords = 'anime, hindi anime, english anime, anime dub, anime sub, watch anime online, anime streaming, anime in hindi, anime in english, download anime, free anime, Animestar, animestar.com',
   canonicalUrl,
   ogTitle,
   ogDescription,
-  ogImage = 'https://animestar.in/AnimeStarlogo.jpg',
+  ogImage = 'https://animestar.com/Animestar-logo.jpg',
   ogUrl,
   twitterCard = 'summary_large_image',
   structuredData,
@@ -34,12 +34,12 @@ const SEO: React.FC<SEOProps> = ({
   publishedTime,
   modifiedTime,
 }) => {
-  const siteTitle = 'AnimeStar - Watch Anime in Hindi & English Online Free';
+  const siteTitle = 'Animestar - Watch Anime in Hindi & English Online Free';
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  const siteUrl = 'https://animestar.in';
+  const siteUrl = 'https://animestar.com';
   
   // Default image if not provided
-  const defaultImage = `${siteUrl}/AnimeStarlogo.jpg`;
+  const defaultImage = `${siteUrl}/Animestar-logo.jpg`;
   
   return (
     <Helmet>
@@ -60,7 +60,7 @@ const SEO: React.FC<SEOProps> = ({
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={ogTitle || fullTitle} />
       <meta property="og:url" content={ogUrl || window.location.href} />
-      <meta property="og:site_name" content="AnimeStar" />
+      <meta property="og:site_name" content="Animestar" />
       <meta property="og:locale" content="en_US" />
       
       {/* Article specific OG tags */}
@@ -89,12 +89,12 @@ const SEO: React.FC<SEOProps> = ({
       
       {/* Mobile Specific */}
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-      <meta name="theme-color" content="#3b82f6" />
+      <meta name="theme-color" content="#60CC3F" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       
       {/* RSS Feed */}
-      <link rel="alternate" type="application/rss+xml" title="AnimeStar RSS Feed" href="/rss.xml" />
+      <link rel="alternate" type="application/rss+xml" title="Animestar RSS Feed" href="/rss.xml" />
       
       {/* Favicon */}
       <link rel="icon" href="/favicon.ico" />
@@ -108,17 +108,17 @@ const SEO: React.FC<SEOProps> = ({
       
       {/* App Links */}
       <meta property="al:android:url" content={siteUrl} />
-      <meta property="al:android:app_name" content="AnimeStar" />
+      <meta property="al:android:app_name" content="Animestar" />
       <meta property="al:ios:url" content={siteUrl} />
       <meta property="al:ios:app_store_id" content="123456789" />
-      <meta property="al:ios:app_name" content="AnimeStar" />
+      <meta property="al:ios:app_name" content="Animestar" />
       <meta property="al:web:url" content={siteUrl} />
       <meta property="al:web:should_fallback" content="false" />
       
       {/* Additional Meta Tags */}
       <meta name="language" content="English" />
-      <meta name="author" content="AnimeStar" />
-      <meta name="copyright" content="AnimeStar" />
+      <meta name="author" content="Animestar" />
+      <meta name="copyright" content="Animestar" />
       <meta name="rating" content="General" />
       <meta name="distribution" content="Global" />
       <meta name="revisit-after" content="1 days" />
@@ -130,13 +130,13 @@ export default SEO;
 
 // Enhanced Structured Data Functions
 export const generateAnimeStructuredData = (anime: any) => {
-  const animeUrl = `https://animestar.in/detail/${anime.slug || anime.id}`;
+  const animeUrl = `https://animestar.com/detail/${anime.slug || anime.id}`;
   
   return {
     "@context": "https://schema.org",
     "@type": anime.contentType === 'Movie' ? "Movie" : "TVSeries",
     "name": anime.title,
-    "description": anime.description || `Watch ${anime.title} online in high quality on AnimeStar`,
+    "description": anime.description || `Watch ${anime.title} online in high quality on Animestar`,
     "image": anime.thumbnail || anime.poster,
     "genre": anime.genreList || anime.genres || ["Anime"],
     "dateCreated": anime.releaseYear ? `${anime.releaseYear}` : undefined,
@@ -183,20 +183,20 @@ export const generateWebsiteStructuredData = () => {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "AnimeStar",
-    "url": "https://animestar.in",
-    "description": "Watch anime online in Hindi and English. Download anime episodes for free. High quality streaming on AnimeStar.",
+    "name": "Animestar",
+    "url": "https://animestar.com",
+    "description": "Watch anime online in Hindi and English. Download anime episodes for free. High quality streaming on Animestar.",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://animestar.in/search?q={search_term_string}",
+      "target": "https://animestar.com/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "AnimeStar",
+      "name": "Animestar",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://animestar.in/AnimeStarlogo.jpg"
+        "url": "https://animestar.com/Animestar-logo.jpg"
       }
     }
   };
@@ -210,7 +210,7 @@ export const generateBreadcrumbStructuredData = (breadcrumbs: Array<{name: strin
       "@type": "ListItem",
       "position": index + 1,
       "name": item.name,
-      "item": `https://animestar.in${item.url}`
+      "item": `https://animestar.com${item.url}`
     }))
   };
 };

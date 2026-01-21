@@ -1,4 +1,4 @@
- // src/components/admin/ReportManager.tsx - UPDATED WITH ANIMESTAR BLUE THEME
+ // src/components/admin/ReportsManager.tsx - UPDATED WITH DARK GRAY + GREEN THEME
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from '../Spinner';
@@ -163,29 +163,29 @@ const ReportsManager: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Pending': return 'bg-yellow-600 text-white';
-      case 'In Progress': return 'bg-blue-600 text-white';
-      case 'Fixed': return 'bg-green-600 text-white';
-      case 'Invalid': return 'bg-red-600 text-white';
-      default: return 'bg-blue-600 text-white';
+      case 'In Progress': return 'bg-anime-blue-500 text-white';
+      case 'Fixed': return 'bg-anime-green-500 text-white';
+      case 'Invalid': return 'bg-anime-red-500 text-white';
+      default: return 'bg-anime-blue-500 text-white';
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'episode': return 'bg-blue-500/20 text-blue-400';
-      case 'contact': return 'bg-cyan-500/20 text-cyan-400';
-      default: return 'bg-blue-500/20 text-blue-400';
+      case 'episode': return 'bg-anime-blue-500/20 text-anime-blue-400';
+      case 'contact': return 'bg-anime-green-500/20 text-anime-green-400';
+      default: return 'bg-anime-blue-500/20 text-anime-blue-400';
     }
   };
 
   const getIssueTypeColor = (issueType: string) => {
     switch (issueType) {
-      case 'Link Not Working': return 'bg-red-500/20 text-red-400';
+      case 'Link Not Working': return 'bg-anime-red-500/20 text-anime-red-400';
       case 'Wrong Episode': return 'bg-orange-500/20 text-orange-400';
       case 'Poor Quality': return 'bg-yellow-500/20 text-yellow-400';
-      case 'Audio Issue': return 'bg-blue-500/20 text-blue-400';
-      case 'Subtitle Issue': return 'bg-blue-500/20 text-blue-400';
-      default: return 'bg-blue-500/20 text-blue-400';
+      case 'Audio Issue': return 'bg-anime-blue-500/20 text-anime-blue-400';
+      case 'Subtitle Issue': return 'bg-anime-blue-500/20 text-anime-blue-400';
+      default: return 'bg-anime-blue-500/20 text-anime-blue-400';
     }
   };
 
@@ -195,14 +195,14 @@ const ReportsManager: React.FC = () => {
   );
 
   if (loading) return <div className="flex justify-center py-8"><Spinner size="lg" /></div>;
-  if (error) return <p className="text-red-400 text-center p-4">{error}</p>;
+  if (error) return <p className="text-anime-red-400 text-center p-4">{error}</p>;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h3 className="text-xl font-semibold text-white">
           User Reports ({filteredReports.length})
-          <span className="text-sm text-blue-300 ml-2">
+          <span className="text-sm text-gray-400 ml-2">
             {statusFilter !== 'All' && `- ${statusFilter}`}
             {typeFilter !== 'All' && ` - ${typeFilter}`}
           </span>
@@ -210,15 +210,15 @@ const ReportsManager: React.FC = () => {
 
         <div className="flex items-center gap-4">
           {/* Type Filter */}
-          <div className="flex items-center gap-2 bg-blue-800/50 p-1 rounded-lg">
+          <div className="flex items-center gap-2 bg-dark-gray-600 p-1 rounded-lg border border-gray-600">
             {(['All', 'episode', 'contact'] as const).map(type => (
               <button
                 key={type}
                 onClick={() => setTypeFilter(type)}
                 className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
                   typeFilter === type
-                    ? 'bg-blue-600 text-white'
-                    : 'text-blue-200 hover:bg-blue-700'
+                    ? 'bg-anime-green-500 text-white'
+                    : 'text-gray-300 hover:bg-dark-gray-500'
                 }`}
               >
                 {type === 'episode' ? 'Episode' : type === 'contact' ? 'Contact' : 'All'}
@@ -227,15 +227,15 @@ const ReportsManager: React.FC = () => {
           </div>
 
           {/* Status Filter */}
-          <div className="flex items-center gap-2 bg-blue-800/50 p-1 rounded-lg">
+          <div className="flex items-center gap-2 bg-dark-gray-600 p-1 rounded-lg border border-gray-600">
             {(['All', 'Pending', 'In Progress', 'Fixed', 'Invalid'] as const).map(status => (
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
                 className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
                   statusFilter === status
-                    ? 'bg-blue-600 text-white'
-                    : 'text-blue-200 hover:bg-blue-700'
+                    ? 'bg-anime-green-500 text-white'
+                    : 'text-gray-300 hover:bg-dark-gray-500'
                 }`}
               >
                 {status}
@@ -249,8 +249,8 @@ const ReportsManager: React.FC = () => {
               onClick={() => setBulkDeleteMode(!bulkDeleteMode)}
               className={`px-4 py-2 rounded-lg text-sm transition ${
                 bulkDeleteMode 
-                  ? 'bg-red-600 hover:bg-red-500 text-white' 
-                  : 'bg-blue-600 hover:bg-blue-500 text-white'
+                  ? 'bg-anime-red-500 hover:bg-anime-red-600 text-white' 
+                  : 'bg-anime-green-500 hover:bg-anime-green-600 text-white'
               }`}
             >
               {bulkDeleteMode ? 'Cancel Bulk Delete' : 'Bulk Delete'}
@@ -259,7 +259,7 @@ const ReportsManager: React.FC = () => {
 
           <button
             onClick={fetchReports}
-            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm transition"
+            className="btn-gradient-green px-4 py-2 rounded-lg text-sm transition"
           >
             Refresh
           </button>
@@ -268,12 +268,12 @@ const ReportsManager: React.FC = () => {
 
       {/* Bulk Delete Controls */}
       {bulkDeleteMode && filteredReports.length > 0 && (
-        <div className="bg-red-600/20 border border-red-500/50 rounded-lg p-4">
+        <div className="bg-anime-red-500/20 border border-anime-red-500/50 rounded-lg p-4">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-4">
               <button
                 onClick={toggleSelectAll}
-                className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded text-sm"
+                className="bg-anime-red-500 hover:bg-anime-red-600 text-white px-4 py-2 rounded text-sm"
               >
                 {selectedReports.length === filteredReports.length ? 'Deselect All' : 'Select All'}
               </button>
@@ -284,7 +284,7 @@ const ReportsManager: React.FC = () => {
             {selectedReports.length > 0 && (
               <button
                 onClick={handleBulkDelete}
-                className="bg-red-700 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold transition"
+                className="bg-anime-red-600 hover:bg-anime-red-500 text-white px-6 py-2 rounded-lg font-semibold transition"
               >
                 🗑️ Delete Selected ({selectedReports.length})
               </button>
@@ -296,29 +296,29 @@ const ReportsManager: React.FC = () => {
       {/* Response Modal */}
       {selectedReport && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 animate-fade-in backdrop-blur-sm">
-          <div className="bg-blue-900/90 border border-blue-700 p-6 rounded-lg shadow-2xl max-w-md w-full animate-scale-in">
+          <div className="bg-dark-gray-600 border border-gray-600 p-6 rounded-lg shadow-2xl max-w-md w-full animate-scale-in">
             <h3 className="text-lg font-bold text-white mb-4">
               Respond to {selectedReport.type === 'contact' ? 'Contact' : 'Report'}
             </h3>
             
             {selectedReport.type === 'contact' ? (
               <>
-                <p className="text-blue-200 mb-2">
+                <p className="text-gray-300 mb-2">
                   <strong>From:</strong> {selectedReport.name} ({selectedReport.email})
                 </p>
-                <p className="text-blue-200 mb-2">
+                <p className="text-gray-300 mb-2">
                   <strong>Subject:</strong> {selectedReport.subject}
                 </p>
-                <p className="text-blue-200 mb-4">
+                <p className="text-gray-300 mb-4">
                   <strong>Message:</strong> {selectedReport.message}
                 </p>
               </>
             ) : (
               <>
-                <p className="text-blue-200 mb-2">
+                <p className="text-gray-300 mb-2">
                   <strong>User:</strong> {selectedReport.username} ({selectedReport.email})
                 </p>
-                <p className="text-blue-200 mb-4">
+                <p className="text-gray-300 mb-4">
                   <strong>Issue:</strong> {selectedReport.issueType}
                 </p>
               </>
@@ -326,13 +326,13 @@ const ReportsManager: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-blue-200 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Admin Response (Optional)
                 </label>
                 <textarea
                   value={adminResponse}
                   onChange={(e) => setAdminResponse(e.target.value)}
-                  className="w-full bg-blue-800/70 border border-blue-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 h-24"
+                  className="w-full bg-dark-gray-500 border border-gray-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-anime-green-400 h-24"
                   placeholder="Add response or notes..."
                 />
               </div>
@@ -340,25 +340,25 @@ const ReportsManager: React.FC = () => {
               <div className="flex gap-2 flex-wrap">
                 <button
                   onClick={() => updateReportStatus(selectedReport._id, 'Fixed', adminResponse)}
-                  className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded transition-colors flex-1"
+                  className="bg-anime-green-500 hover:bg-anime-green-600 text-white px-4 py-2 rounded transition-colors flex-1"
                 >
                   Mark Fixed
                 </button>
                 <button
                   onClick={() => updateReportStatus(selectedReport._id, 'In Progress')}
-                  className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded transition-colors"
+                  className="bg-anime-blue-500 hover:bg-anime-blue-600 text-white px-4 py-2 rounded transition-colors"
                 >
                   In Progress
                 </button>
                 <button
                   onClick={() => updateReportStatus(selectedReport._id, 'Invalid')}
-                  className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded transition-colors"
+                  className="bg-anime-red-500 hover:bg-anime-red-600 text-white px-4 py-2 rounded transition-colors"
                 >
                   Mark Invalid
                 </button>
                 <button
                   onClick={() => setSelectedReport(null)}
-                  className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors"
+                  className="bg-dark-gray-500 hover:bg-dark-gray-600 text-white px-4 py-2 rounded transition-colors"
                 >
                   Cancel
                 </button>
@@ -371,50 +371,50 @@ const ReportsManager: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {deleteConfirm.show && deleteConfirm.report && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 animate-fade-in backdrop-blur-sm">
-          <div className="bg-blue-900/90 border border-red-500 p-6 rounded-lg shadow-2xl max-w-md w-full animate-scale-in">
-            <h3 className="text-lg font-bold text-red-400 mb-4">
+          <div className="bg-dark-gray-600 border border-anime-red-500 p-6 rounded-lg shadow-2xl max-w-md w-full animate-scale-in">
+            <h3 className="text-lg font-bold text-anime-red-400 mb-4">
               🗑️ Delete Report
             </h3>
             
             {deleteConfirm.report.type === 'contact' ? (
               <>
-                <p className="text-blue-200 mb-2">
+                <p className="text-gray-300 mb-2">
                   <strong>From:</strong> {deleteConfirm.report.name}
                 </p>
-                <p className="text-blue-200 mb-2">
+                <p className="text-gray-300 mb-2">
                   <strong>Subject:</strong> {deleteConfirm.report.subject}
                 </p>
               </>
             ) : (
               <>
-                <p className="text-blue-200 mb-2">
+                <p className="text-gray-300 mb-2">
                   <strong>Anime:</strong> {deleteConfirm.report.animeId?.title}
                 </p>
                 {deleteConfirm.report.episodeNumber && (
-                  <p className="text-blue-200 mb-2">
+                  <p className="text-gray-300 mb-2">
                     <strong>Episode:</strong> {deleteConfirm.report.episodeNumber}
                   </p>
                 )}
-                <p className="text-blue-200 mb-2">
+                <p className="text-gray-300 mb-2">
                   <strong>Issue:</strong> {deleteConfirm.report.issueType}
                 </p>
               </>
             )}
             
-            <p className="text-red-300 text-sm mb-4">
+            <p className="text-anime-red-300 text-sm mb-4">
               Are you sure you want to delete this report? This action cannot be undone.
             </p>
 
             <div className="flex gap-3">
               <button
                 onClick={() => handleDeleteReport(deleteConfirm.report!._id)}
-                className="bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex-1"
+                className="bg-anime-red-500 hover:bg-anime-red-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex-1"
               >
                 Delete
               </button>
               <button
                 onClick={() => setDeleteConfirm({ show: false, report: null })}
-                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+                className="bg-dark-gray-500 hover:bg-dark-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
               >
                 Cancel
               </button>
@@ -423,12 +423,12 @@ const ReportsManager: React.FC = () => {
         </div>
       )}
 
-      <div className="bg-blue-900/30 rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-dark-gray-600 rounded-lg border border-gray-600 shadow-lg overflow-hidden">
         {filteredReports.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-4xl mb-4">📋</div>
-            <h3 className="text-xl font-semibold text-blue-200 mb-2">No Reports Found</h3>
-            <p className="text-blue-300">
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">No Reports Found</h3>
+            <p className="text-gray-400">
               {statusFilter !== 'All' || typeFilter !== 'All'
                 ? `No ${typeFilter !== 'All' ? typeFilter : ''} ${statusFilter !== 'All' ? statusFilter.toLowerCase() : ''} reports found.`
                 : 'No user reports yet.'
@@ -438,32 +438,32 @@ const ReportsManager: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-blue-700/50">
+              <thead className="bg-dark-gray-700">
                 <tr>
                   {/* Checkbox for Bulk Delete */}
                   {bulkDeleteMode && (
-                    <th className="p-4 text-left text-blue-200 font-medium">
+                    <th className="p-4 text-left text-gray-300 font-medium">
                       <input
                         type="checkbox"
                         checked={selectedReports.length === filteredReports.length}
                         onChange={toggleSelectAll}
-                        className="w-4 h-4 text-blue-600 bg-blue-800 border-blue-600 rounded focus:ring-blue-500"
+                        className="w-4 h-4 text-anime-green-500 bg-dark-gray-500 border-gray-600 rounded focus:ring-anime-green-400"
                       />
                     </th>
                   )}
-                  <th className="p-4 text-left text-blue-200 font-medium">Type</th>
-                  <th className="p-4 text-left text-blue-200 font-medium">Details</th>
-                  <th className="p-4 text-left text-blue-200 font-medium">User Contact</th>
-                  <th className="p-4 text-left text-blue-200 font-medium">Issue/Subject</th>
-                  <th className="p-4 text-left text-blue-200 font-medium">Message</th>
-                  <th className="p-4 text-left text-blue-200 font-medium">Status</th>
-                  <th className="p-4 text-left text-blue-200 font-medium">Date</th>
-                  <th className="p-4 text-left text-blue-200 font-medium">Actions</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">Type</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">Details</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">User Contact</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">Issue/Subject</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">Message</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">Status</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">Date</th>
+                  <th className="p-4 text-left text-gray-300 font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-blue-700">
+              <tbody className="divide-y divide-gray-700">
                 {filteredReports.map(report => (
-                  <tr key={report._id} className="hover:bg-blue-800/30 transition-colors">
+                  <tr key={report._id} className="hover:bg-dark-gray-500/50 transition-colors">
                     {/* Checkbox for each report */}
                     {bulkDeleteMode && (
                       <td className="p-4">
@@ -471,7 +471,7 @@ const ReportsManager: React.FC = () => {
                           type="checkbox"
                           checked={selectedReports.includes(report._id)}
                           onChange={() => toggleReportSelection(report._id)}
-                          className="w-4 h-4 text-blue-600 bg-blue-800 border-blue-600 rounded focus:ring-blue-500"
+                          className="w-4 h-4 text-anime-green-500 bg-dark-gray-500 border-gray-600 rounded focus:ring-anime-green-400"
                         />
                       </td>
                     )}
@@ -499,7 +499,7 @@ const ReportsManager: React.FC = () => {
                               {report.animeId?.title || 'Unknown Anime'}
                             </div>
                             {report.episodeNumber && (
-                              <div className="text-xs text-blue-300">
+                              <div className="text-xs text-gray-400">
                                 Episode {report.episodeNumber}
                               </div>
                             )}
@@ -508,7 +508,7 @@ const ReportsManager: React.FC = () => {
                       ) : (
                         <div className="text-sm">
                           <div className="text-white font-medium">{report.name}</div>
-                          <div className="text-xs text-blue-300">Contact Form</div>
+                          <div className="text-xs text-gray-400">Contact Form</div>
                         </div>
                       )}
                     </td>
@@ -519,9 +519,9 @@ const ReportsManager: React.FC = () => {
                         <div className="text-white font-medium">
                           {report.type === 'contact' ? report.name : report.username}
                         </div>
-                        <div className="text-blue-400 text-xs break-all">{report.email}</div>
+                        <div className="text-anime-green-400 text-xs break-all">{report.email}</div>
                         {report.adminResponse && (
-                          <div className="text-green-400 text-xs mt-1">
+                          <div className="text-anime-green-400 text-xs mt-1">
                             ✅ Replied
                           </div>
                         )}
@@ -542,12 +542,12 @@ const ReportsManager: React.FC = () => {
                     </td>
 
                     {/* Message */}
-                    <td className="p-4 text-blue-200 text-sm max-w-xs">
+                    <td className="p-4 text-gray-300 text-sm max-w-xs">
                       {report.type === 'episode' ? report.description : report.message}
                       {report.adminResponse && (
-                        <div className="mt-2 p-2 bg-green-600/20 rounded border border-green-500/30">
-                          <strong className="text-green-400 text-xs">Admin Response:</strong>
-                          <p className="text-green-300 text-xs mt-1">{report.adminResponse}</p>
+                        <div className="mt-2 p-2 bg-anime-green-500/20 rounded border border-anime-green-500/30">
+                          <strong className="text-anime-green-400 text-xs">Admin Response:</strong>
+                          <p className="text-anime-green-300 text-xs mt-1">{report.adminResponse}</p>
                         </div>
                       )}
                     </td>
@@ -560,7 +560,7 @@ const ReportsManager: React.FC = () => {
                     </td>
 
                     {/* Date */}
-                    <td className="p-4 text-blue-300 text-sm">
+                    <td className="p-4 text-gray-400 text-sm">
                       {new Date(report.createdAt).toLocaleDateString()}
                     </td>
 
@@ -569,20 +569,20 @@ const ReportsManager: React.FC = () => {
                       <div className="flex flex-col gap-2">
                         <button
                           onClick={() => setSelectedReport(report)}
-                          className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-sm transition-colors text-xs"
+                          className="btn-gradient-green px-3 py-1 rounded text-sm transition-colors text-xs"
                         >
                           Respond
                         </button>
                         <button
                           onClick={() => setDeleteConfirm({ show: true, report })}
-                          className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-sm transition-colors text-xs"
+                          className="bg-anime-red-500 hover:bg-anime-red-600 text-white px-3 py-1 rounded text-sm transition-colors text-xs"
                         >
                           Delete
                         </button>
                         {report.status === 'Pending' && (
                           <button
                             onClick={() => updateReportStatus(report._id, 'In Progress')}
-                            className="bg-orange-600 hover:bg-orange-500 text-white px-3 py-1 rounded text-sm transition-colors text-xs"
+                            className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm transition-colors text-xs"
                           >
                             Start Progress
                           </button>
@@ -599,39 +599,39 @@ const ReportsManager: React.FC = () => {
 
       {/* Statistics */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-        <div className="bg-blue-800/50 p-4 rounded-lg border border-blue-700">
+        <div className="bg-dark-gray-600 p-4 rounded-lg border border-gray-600">
           <div className="text-2xl font-bold text-white">{reports.length}</div>
-          <div className="text-blue-300 text-sm">Total Reports</div>
+          <div className="text-gray-400 text-sm">Total Reports</div>
         </div>
-        <div className="bg-blue-600/20 p-4 rounded-lg border border-blue-600/30">
-          <div className="text-2xl font-bold text-blue-400">
+        <div className="bg-dark-gray-600 p-4 rounded-lg border border-anime-blue-500/30">
+          <div className="text-2xl font-bold text-anime-blue-400">
             {reports.filter(r => r.type === 'episode').length}
           </div>
-          <div className="text-blue-300 text-sm">Episode Reports</div>
+          <div className="text-gray-400 text-sm">Episode Reports</div>
         </div>
-        <div className="bg-cyan-600/20 p-4 rounded-lg border border-cyan-600/30">
-          <div className="text-2xl font-bold text-cyan-400">
+        <div className="bg-dark-gray-600 p-4 rounded-lg border border-anime-green-500/30">
+          <div className="text-2xl font-bold text-anime-green-400">
             {reports.filter(r => r.type === 'contact').length}
           </div>
-          <div className="text-cyan-300 text-sm">Contact Forms</div>
+          <div className="text-gray-400 text-sm">Contact Forms</div>
         </div>
-        <div className="bg-yellow-600/20 p-4 rounded-lg border border-yellow-600/30">
+        <div className="bg-dark-gray-600 p-4 rounded-lg border border-yellow-600/30">
           <div className="text-2xl font-bold text-yellow-400">
             {reports.filter(r => r.status === 'Pending').length}
           </div>
-          <div className="text-yellow-300 text-sm">Pending</div>
+          <div className="text-gray-400 text-sm">Pending</div>
         </div>
-        <div className="bg-green-600/20 p-4 rounded-lg border border-green-600/30">
-          <div className="text-2xl font-bold text-green-400">
+        <div className="bg-dark-gray-600 p-4 rounded-lg border border-anime-green-500/30">
+          <div className="text-2xl font-bold text-anime-green-400">
             {reports.filter(r => r.status === 'Fixed').length}
           </div>
-          <div className="text-green-300 text-sm">Fixed</div>
+          <div className="text-gray-400 text-sm">Fixed</div>
         </div>
-        <div className="bg-red-600/20 p-4 rounded-lg border border-red-600/30">
-          <div className="text-2xl font-bold text-red-400">
+        <div className="bg-dark-gray-600 p-4 rounded-lg border border-anime-red-500/30">
+          <div className="text-2xl font-bold text-anime-red-400">
             {reports.filter(r => r.status === 'Invalid').length}
           </div>
-          <div className="text-red-300 text-sm">Invalid</div>
+          <div className="text-gray-400 text-sm">Invalid</div>
         </div>
       </div>
     </div>

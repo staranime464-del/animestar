@@ -1,4 +1,4 @@
-  // routes/adminRoutes.cjs - AD FREE VERSION
+ // routes/adminRoutes.cjs - AD FREE VERSION WITH CLEAN SLUG SUPPORT
 const express = require('express');
 const router = express.Router();
 const Anime = require('../models/Anime.cjs');
@@ -6,6 +6,7 @@ const Episode = require('../models/Episode.cjs');
 const Chapter = require('../models/Chapter.cjs');
 const Report = require('../models/Report.cjs');
 const SocialMedia = require('../models/SocialMedia.cjs');
+const slugify = require('slugify'); // ✅ ADD SLUGIFY FOR CLEAN SLUGS
 
 // ✅ GET filtered anime list with content type
 router.get('/anime-list', async (req, res) => {
@@ -22,49 +23,154 @@ router.get('/anime-list', async (req, res) => {
   }
 });
 
-// ✅ ADD anime/movie
+// ✅ ADD anime/movie WITH CLEAN SLUG GENERATION
 router.post('/add-anime', async (req, res) => {
   try {
     const { title, description, thumbnail, status, subDubStatus, genreList, releaseYear, contentType } = req.body;
     
-    const existing = await Anime.findOne({ title });
-    if (existing) return res.status(400).json({ error: 'Anime/Movie already exists' });
+    // ✅ Input validation
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: 'Title is required' });
+    }
+    
+    const existing = await Anime.findOne({ 
+      title: { $regex: new RegExp(`^${title.trim()}$`, 'i') } 
+    });
+    
+    if (existing) {
+      return res.status(400).json({ 
+        error: 'Anime/Movie already exists',
+        existingAnime: {
+          title: existing.title,
+          slug: existing.slug,
+          url: `/detail/${existing.slug}`
+        }
+      });
+    }
 
+    // ✅ STEP 1: Generate clean base slug from title
+    let baseSlug = slugify(title, {
+      lower: true,
+      strict: true, // Remove special characters
+      trim: true
+    });
+
+    // ✅ STEP 2: Check if slug already exists
+    let slug = baseSlug;
+    let counter = 1;
+
+    while (await Anime.findOne({ slug })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    console.log('🔗 Generated clean slug:', slug);
+
+    // ✅ STEP 3: Create new anime with auto-generated clean slug
     const anime = new Anime({ 
-      title, 
-      description, 
-      thumbnail, 
+      title: title.trim(),
+      description: description || '', 
+      thumbnail: thumbnail || '', 
       status: status || 'Ongoing',
-      subDubStatus, 
-      genreList, 
-      releaseYear,
-      contentType: contentType || 'Anime'
+      subDubStatus: subDubStatus || 'Hindi Sub', 
+      genreList: genreList || [], 
+      releaseYear: releaseYear || new Date().getFullYear(),
+      contentType: contentType || 'Anime',
+      slug: slug, // ✅ CLEAN SLUG ADDED
+      seoTitle: `Watch ${title.trim()} Online in ${subDubStatus || 'Hindi Sub'} | AnimeStar`,
+      seoDescription: `Watch ${title.trim()} online in ${subDubStatus || 'Hindi Sub'}. HD quality streaming and downloads on AnimeStar.`
     });
     
     await anime.save();
-    res.json({ success: true, message: `${contentType || 'Anime'} added!`, anime });
+    
+    res.json({ 
+      success: true, 
+      message: `${contentType || 'Anime'} added successfully with clean SEO-friendly slug!`, 
+      anime,
+      seoUrl: `/detail/${slug}`
+    });
+    
   } catch (err) {
     console.error('Add anime error:', err);
+    
+    // Handle duplicate slug error
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.slug) {
+      return res.status(400).json({
+        success: false,
+        error: 'Generated slug already exists. Please try again with a different title.'
+      });
+    }
+    
     res.status(500).json({ error: err.message });
   }
 });
 
-// ✅ EDIT anime/movie
+// ✅ EDIT anime/movie WITH SLUG UPDATE
 router.put('/edit-anime/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
     
+    // Find existing anime
+    const existingAnime = await Anime.findById(id);
+    if (!existingAnime) {
+      return res.status(404).json({ error: 'Anime/Movie not found' });
+    }
+
+    // ✅ If title is being updated, update slug too
+    if (updateData.title && updateData.title !== existingAnime.title) {
+      // Generate clean base slug from new title
+      let baseSlug = slugify(updateData.title, {
+        lower: true,
+        strict: true,
+        trim: true
+      });
+
+      // Check if new slug already exists for other anime
+      let newSlug = baseSlug;
+      let counter = 1;
+
+      while (await Anime.findOne({ 
+        slug: newSlug,
+        _id: { $ne: id } // Exclude current anime
+      })) {
+        newSlug = `${baseSlug}-${counter}`;
+        counter++;
+      }
+
+      updateData.slug = newSlug;
+      console.log('🔄 Updated slug:', newSlug);
+      
+      // Also update SEO fields if title changed
+      if (!updateData.seoTitle || updateData.seoTitle.trim() === '') {
+        updateData.seoTitle = `Watch ${updateData.title} Online in ${updateData.subDubStatus || existingAnime.subDubStatus} | AnimeStar`;
+      }
+      
+      if (!updateData.seoDescription || updateData.seoDescription.trim() === '') {
+        updateData.seoDescription = `Watch ${updateData.title} online in ${updateData.subDubStatus || existingAnime.subDubStatus}. HD quality streaming and downloads on AnimeStar.`;
+      }
+    }
+    
     const anime = await Anime.findByIdAndUpdate(
       id, 
-      updateData, 
+      { 
+        ...updateData,
+        updatedAt: new Date()
+      }, 
       { new: true, runValidators: true }
     );
     
     if (!anime) return res.status(404).json({ error: 'Anime/Movie not found' });
     
-    res.json({ success: true, message: 'Updated successfully!', anime });
+    res.json({ 
+      success: true, 
+      message: 'Updated successfully with SEO-friendly slug!', 
+      anime,
+      newSlug: anime.slug
+    });
+    
   } catch (err) {
+    console.error('Edit anime error:', err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -80,6 +186,71 @@ router.delete('/delete-anime', async (req, res) => {
     res.json({ success: true, message: 'Deleted successfully!' });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// ✅ BULK UPDATE SLUGS FOR EXISTING ANIME
+router.post('/bulk-update-slugs', async (req, res) => {
+  try {
+    console.log('🔄 Starting bulk slug update for existing anime...');
+    
+    // Get all anime
+    const allAnime = await Anime.find({}).select('title slug _id');
+    
+    let updatedCount = 0;
+    let skippedCount = 0;
+    let errors = [];
+    
+    for (let anime of allAnime) {
+      try {
+        // Generate clean slug from title
+        let baseSlug = slugify(anime.title, {
+          lower: true,
+          strict: true,
+          trim: true
+        });
+        
+        let newSlug = baseSlug;
+        let counter = 1;
+        
+        // Check if slug exists for other anime
+        while (await Anime.findOne({ 
+          slug: newSlug,
+          _id: { $ne: anime._id }
+        })) {
+          newSlug = `${baseSlug}-${counter}`;
+          counter++;
+        }
+        
+        // Only update if slug is different
+        if (newSlug !== anime.slug) {
+          await Anime.findByIdAndUpdate(anime._id, { 
+            slug: newSlug,
+            updatedAt: new Date()
+          });
+          
+          updatedCount++;
+          console.log(`✅ Updated: "${anime.title}" -> "${newSlug}"`);
+        } else {
+          skippedCount++;
+        }
+      } catch (error) {
+        errors.push({ title: anime.title, error: error.message });
+        console.error(`❌ Error updating "${anime.title}":`, error.message);
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: `Updated ${updatedCount} anime slugs, skipped ${skippedCount}`,
+      updated: updatedCount,
+      skipped: skippedCount,
+      errors: errors.length > 0 ? errors : 'No errors'
+    });
+    
+  } catch (err) {
+    console.error('❌ Bulk slug update error:', err);
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 

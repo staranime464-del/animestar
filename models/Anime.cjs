@@ -1,8 +1,14 @@
-// models/Anime.cjs - UPDATED WITH SEO FIELDS
+ // models/Anime.cjs - UPDATED WITH SEO FIELDS + CLEAN SLUGS (NO RANDOM STRINGS)
 const mongoose = require('mongoose');
+const slugify = require('slugify'); // ✅ ADD THIS AT TOP
 
 const animeSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { 
+    type: String, 
+    required: [true, 'Title is required'],
+    trim: true,
+    unique: true 
+  },
   description: String,
   genreList: [String],
   releaseYear: Number,
@@ -75,7 +81,9 @@ const animeSchema = new mongoose.Schema({
   slug: {
     type: String,
     unique: true,
-    sparse: true
+    required: [true, 'Slug is required'],
+    trim: true,
+    lowercase: true
   }
 }, { 
   timestamps: true, // ✅ Yeh automatically createdAt and updatedAt fields add karega
@@ -96,74 +104,105 @@ animeSchema.virtual('chapters', {
   foreignField: 'mangaId'
 });
 
-// ✅ YEH MIDDLEWARE ADD KARO: Jab bhi anime save ho to slug auto-generate ho
-animeSchema.pre('save', function(next) {
-  // Agar slug nahi hai ya title change hua hai to slug generate karo
-  if (!this.slug || this.isModified('title')) {
-    // Slug generate karo title se
-    this.slug = this.title
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '') // Special characters remove karo
-      .replace(/\s+/g, '-')         // Spaces ko dash se replace karo
-      .replace(/-+/g, '-')          // Multiple dashes ko single dash se replace karo
-      .trim();
-    
-    // Slug unique banane ke liye ID add karo agar duplicate ho
-    if (this.slug) {
-      this.slug = `${this.slug}-${Date.now().toString(36)}`;
-    }
-  }
-  
-  // Agar episodes array modify hui hai to lastContentAdded update karo
-  if (this.isModified('episodes') && this.episodes && this.episodes.length > 0) {
-    this.lastContentAdded = new Date();
-  }
-  
-  // Agar SEO fields empty hain to default values set karo
-  if (!this.seoTitle) {
-    this.seoTitle = `Watch ${this.title} Online in ${this.subDubStatus} | AnimeStar`;
-  }
-  
-  if (!this.seoDescription) {
-    this.seoDescription = `Watch ${this.title} online in ${this.subDubStatus}. HD quality streaming and downloads.`;
-  }
-  
-  if (!this.seoKeywords) {
-    // Auto-generate keywords based on title, genre, and subDubStatus
-    const keywords = [];
-    
-    // Title-based keywords
-    keywords.push(`${this.title} anime`, `watch ${this.title} online`, `${this.title} ${this.subDubStatus.toLowerCase()}`);
-    
-    // Genre-based keywords
-    if (this.genreList && this.genreList.length > 0) {
-      this.genreList.forEach(genre => {
-        keywords.push(`${genre.toLowerCase()} anime`, `${this.title} ${genre.toLowerCase()}`);
+// ✅ YEH MIDDLEWARE ADD KARO: Jab bhi anime save ho to CLEAN slug auto-generate ho (NO RANDOM STRINGS)
+animeSchema.pre('save', async function(next) {
+  try {
+    // ✅ ONLY generate slug if it's a new document or title is modified
+    if (this.isNew || this.isModified('title')) {
+      // ✅ If slug is already provided (from admin), use it as is (but clean it)
+      if (this.slug && this.slug.trim() !== '') {
+        // Clean the provided slug
+        this.slug = slugify(this.slug, {
+          lower: true,
+          strict: true, // Remove special characters
+          trim: true
+        });
+      } else {
+        // ✅ Generate clean slug from title (NO RANDOM STRINGS)
+        this.slug = slugify(this.title, {
+          lower: true,
+          strict: true,
+          trim: true
+        });
+      }
+      
+      // ✅ Check if slug already exists (excluding current document)
+      const existingAnime = await this.constructor.findOne({ 
+        slug: this.slug,
+        _id: { $ne: this._id }
       });
+      
+      // ✅ If slug exists for another document, append numbers (1, 2, 3...) NOT random strings
+      if (existingAnime) {
+        let counter = 2;
+        let newSlug = this.slug;
+        
+        // Keep trying until we find a unique slug
+        while (await this.constructor.findOne({ 
+          slug: newSlug,
+          _id: { $ne: this._id }
+        })) {
+          newSlug = `${this.slug}-${counter}`;
+          counter++;
+        }
+        
+        this.slug = newSlug;
+      }
     }
     
-    // Language/Type based keywords
-    if (this.subDubStatus.includes('Hindi Dub')) {
-      keywords.push('hindi dubbed anime', 'anime in hindi', 'hindi dub');
-    }
-    if (this.subDubStatus.includes('Hindi Sub')) {
-      keywords.push('hindi subbed anime', 'anime with hindi subtitles', 'hindi sub');
-    }
-    if (this.subDubStatus.includes('English Sub')) {
-      keywords.push('english subbed anime', 'anime in english', 'english sub');
+    // ✅ Agar episodes array modify hui hai to lastContentAdded update karo
+    if (this.isModified('episodes') && this.episodes && this.episodes.length > 0) {
+      this.lastContentAdded = new Date();
     }
     
-    // Content type keywords
-    if (this.contentType === 'Movie') {
-      keywords.push(`${this.title} movie`, 'anime movies', 'full anime movie');
+    // ✅ Agar SEO fields empty hain to default values set karo
+    if (!this.seoTitle || this.seoTitle.trim() === '') {
+      this.seoTitle = `Watch ${this.title} Online in ${this.subDubStatus} | AnimeStar`;
     }
     
-    // Remove duplicates and join
-    const uniqueKeywords = [...new Set(keywords)];
-    this.seoKeywords = uniqueKeywords.join(', ');
+    if (!this.seoDescription || this.seoDescription.trim() === '') {
+      this.seoDescription = `Watch ${this.title} online in ${this.subDubStatus}. HD quality streaming and downloads.`;
+    }
+    
+    if (!this.seoKeywords || this.seoKeywords.trim() === '') {
+      // Auto-generate keywords based on title, genre, and subDubStatus
+      const keywords = [];
+      
+      // Title-based keywords
+      keywords.push(`${this.title} anime`, `watch ${this.title} online`, `${this.title} ${this.subDubStatus.toLowerCase()}`);
+      
+      // Genre-based keywords
+      if (this.genreList && this.genreList.length > 0) {
+        this.genreList.forEach(genre => {
+          keywords.push(`${genre.toLowerCase()} anime`, `${this.title} ${genre.toLowerCase()}`);
+        });
+      }
+      
+      // Language/Type based keywords
+      if (this.subDubStatus.includes('Hindi Dub')) {
+        keywords.push('hindi dubbed anime', 'anime in hindi', 'hindi dub');
+      }
+      if (this.subDubStatus.includes('Hindi Sub')) {
+        keywords.push('hindi subbed anime', 'anime with hindi subtitles', 'hindi sub');
+      }
+      if (this.subDubStatus.includes('English Sub')) {
+        keywords.push('english subbed anime', 'anime in english', 'english sub');
+      }
+      
+      // Content type keywords
+      if (this.contentType === 'Movie') {
+        keywords.push(`${this.title} movie`, 'anime movies', 'full anime movie');
+      }
+      
+      // Remove duplicates and join
+      const uniqueKeywords = [...new Set(keywords)];
+      this.seoKeywords = uniqueKeywords.join(', ');
+    }
+    
+    next();
+  } catch (error) {
+    next(error);
   }
-  
-  next();
 });
 
 // ✅ YEH STATIC METHOD ADD KARO: Anime update karo jab episode add ho
@@ -174,24 +213,32 @@ animeSchema.statics.updateLastContent = async function(animeId) {
   });
 };
 
-// ✅ YEH STATIC METHOD ADD KARO: Slug generate karo
-animeSchema.statics.generateSlug = async function(title) {
-  let slug = title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
+// ✅ YEH STATIC METHOD ADD KARO: Clean slug generate karo (NO RANDOM STRINGS)
+animeSchema.statics.generateCleanSlug = async function(title, excludeId = null) {
+  // Generate base slug from title
+  let baseSlug = slugify(title, {
+    lower: true,
+    strict: true,
+    trim: true
+  });
   
-  // Check if slug already exists
-  let existing = await this.findOne({ slug });
+  let slug = baseSlug;
   let counter = 1;
-  let originalSlug = slug;
   
+  // Build query to check for existing slugs
+  let query = { slug };
+  if (excludeId) {
+    query._id = { $ne: excludeId };
+  }
+  
+  let existing = await this.findOne(query);
+  
+  // If slug exists, add numbers (1, 2, 3...)
   while (existing) {
-    slug = `${originalSlug}-${counter}`;
-    existing = await this.findOne({ slug });
+    slug = `${baseSlug}-${counter}`;
     counter++;
+    query.slug = slug;
+    existing = await this.findOne(query);
   }
   
   return slug;
@@ -202,7 +249,7 @@ animeSchema.index({ featured: 1, featuredOrder: -1 }); // For featured anime que
 animeSchema.index({ title: 'text' }); // For text search
 animeSchema.index({ lastContentAdded: -1 }); // For recent updates
 animeSchema.index({ createdAt: -1 }); // For new arrivals
-animeSchema.index({ slug: 1 }); // ✅ SEO: For slug-based URL queries
+animeSchema.index({ slug: 1 }, { unique: true }); // ✅ SEO: For slug-based URL queries (UNIQUE)
 animeSchema.index({ seoTitle: 'text', seoDescription: 'text', seoKeywords: 'text' }); // ✅ SEO: For SEO content search
 
 module.exports = mongoose.models.Anime || mongoose.model('Anime', animeSchema);

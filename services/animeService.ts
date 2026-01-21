@@ -1,4 +1,4 @@
-// services/animeService.ts - UPDATED WITH ID + SLUG SUPPORT
+ // services/animeService.ts - UPDATED FOR SLUG-ONLY SUPPORT
 import type { Anime, Episode, Chapter } from '../src/types';
 
 // ✅ FIX: Local development के लिए PORT 5173 है, server PORT 3000 पर है
@@ -11,24 +11,24 @@ const CACHE_DURATION = 2 * 60 * 1000; // 2 minutes
 // ================== CORE FUNCTIONS ==================
 
 /**
- * ✅ NEW: GET ANIME BY ID OR SLUG (MOST IMPORTANT FUNCTION)
- * This is the main function that handles both ID and Slug
+ * ✅ UPDATED: GET ANIME BY SLUG ONLY (SEO-friendly)
+ * This is the main function that handles only slugs
  * Used by AnimeDetailWrapper component
  */
-export const getAnimeByIdOrSlug = async (idOrSlug: string, fields?: string): Promise<Anime | null> => {
-  const cacheKey = `anime-${idOrSlug}-${fields || 'default'}`;
+export const getAnimeBySlug = async (slug: string, fields?: string): Promise<Anime | null> => {
+  const cacheKey = `anime-slug-${slug}-${fields || 'default'}`;
   
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    console.log('🎯 Cache hit for anime by id/slug:', idOrSlug);
+    console.log('🎯 Cache hit for anime by slug:', slug);
     return cached.data;
   }
 
   try {
-    console.log('📡 Fetching anime by id/slug:', idOrSlug);
+    console.log('📡 Fetching anime by slug:', slug);
     
-    // Build URL with optional fields parameter
-    let url = `${API_BASE}/anime/${encodeURIComponent(idOrSlug)}`;
+    // ✅ UPDATED: Use SEO-friendly endpoint
+    let url = `${API_BASE}/anime/slug/${encodeURIComponent(slug)}`;
     if (fields) {
       url += `?fields=${encodeURIComponent(fields)}`;
     }
@@ -37,7 +37,7 @@ export const getAnimeByIdOrSlug = async (idOrSlug: string, fields?: string): Pro
     
     if (!response.ok) {
       if (response.status === 404) {
-        console.log('🔍 Anime not found by id/slug:', idOrSlug);
+        console.log('🔍 Anime not found by slug:', slug);
         return null;
       }
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -49,7 +49,7 @@ export const getAnimeByIdOrSlug = async (idOrSlug: string, fields?: string): Pro
       const animeData = {
         ...result.data,
         id: result.data._id || result.data.id,
-        slug: result.data.slug || idOrSlug // Ensure slug is preserved
+        slug: result.data.slug || slug // Ensure slug is preserved
       };
       
       // Store in cache
@@ -58,31 +58,24 @@ export const getAnimeByIdOrSlug = async (idOrSlug: string, fields?: string): Pro
         timestamp: Date.now()
       });
       
-      console.log('✅ Found anime by id/slug:', animeData.title);
+      console.log('✅ Found anime by slug:', animeData.title);
       return animeData;
     }
     return null;
   } catch (error) {
-    console.error('❌ Error fetching anime by id/slug:', error);
+    console.error('❌ Error fetching anime by slug:', error);
     return null;
   }
 };
 
 /**
- * ✅ ADDED: GET ANIME BY SLUG (SEO-friendly)
- * Uses the same function but for slug-specific calls
+ * ✅ REMOVED: getAnimeById function - No longer needed for public site
+ * ❌ ID access is only for admin, not public
  */
-export const getAnimeBySlug = async (slug: string, fields?: string): Promise<Anime | null> => {
-  return getAnimeByIdOrSlug(slug, fields);
-};
 
 /**
- * ✅ UPDATED: Get anime by ID with fields parameter
- * Now uses the unified function
+ * ✅ REMOVED: getAnimeByIdOrSlug function - Only slug support now
  */
-export const getAnimeById = async (id: string, fields?: string): Promise<Anime | null> => {
-  return getAnimeByIdOrSlug(id, fields);
-};
 
 // ================== FEATURED ANIME ==================
 
@@ -447,7 +440,7 @@ export const clearSlugCache = (slug: string) => {
   const keysToDelete: string[] = [];
   
   cache.forEach((value, key) => {
-    if (key.includes(`anime-${slug}`)) {
+    if (key.includes(`anime-slug-${slug}`)) {
       keysToDelete.push(key);
     }
   });

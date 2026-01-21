@@ -1,21 +1,45 @@
- // src/components/LazyLoader.tsx - UPDATED FOR ANIMESTAR BLUE THEME
+ // src/components/LazyLoader.tsx - UPDATED FOR ANIMESTAR DARK GRAY + GREEN THEME
 import React from 'react';
-import Spinner from './Spinner';
+import Spinner from '../../components/Spinner';
 
 interface LazyLoaderProps {
   height?: string;
   text?: string;
+  showLogo?: boolean;
 }
 
 const LazyLoader: React.FC<LazyLoaderProps> = ({ 
   height = 'h-64', 
-  text = 'Loading...' 
+  text = 'Loading...',
+  showLogo = false
 }) => {
   return (
-    <div className={`flex flex-col items-center justify-center ${height} bg-blue-900/20 rounded-lg border border-blue-700/30`}>
-      <Spinner className="w-8 h-8 mb-2" color="blue" />
-      <p className="text-blue-400/70 text-sm">{text}</p>
-    </div>
+    <>
+      {/* Loading Styles */}
+      <style>{`
+        @keyframes loadingBar {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-loadingBar {
+          animation: loadingBar 1.5s ease-in-out infinite;
+        }
+      `}</style>
+      
+      <div className={`flex flex-col items-center justify-center ${height} bg-[#4A4A4A] rounded-xl border border-gray-600/50 p-8`}>
+        <Spinner 
+          size="lg" 
+          color="green"
+          text={text}
+          showLogo={showLogo}
+        />
+        {showLogo && (
+          <div className="mt-4 w-48 h-1.5 bg-[#4A4A4A] rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-[#60CC3F] via-[#4CAF50] to-[#60CC3F] animate-loadingBar"></div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

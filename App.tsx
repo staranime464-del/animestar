@@ -1,10 +1,10 @@
-  // App.tsx - UPDATED WITH ID + SLUG SUPPORT
-// ✅ ADS REMOVED + FIXED SEARCH RELOAD ISSUE + REMOVED SECRET CODE CONSOLE LOGS + GA4 ANALYTICS FIX
-// ✅ ID + SLUG SUPPORT ADDED
-// ✅ ADMIN DASHBOARD ROUTE ADDED - FIXED DIRECT ACCESS ISSUE
+ // App.tsx - WITH 404 ERROR PAGE
+// ✅ SECRET CODE "anime201" -> ADMIN LOGIN -> ADMIN DASHBOARD
+// ✅ NO URL CHANGE, NO SECRET CODE HINT, DIRECT ACCESS BLOCKED
+// ✅ 404 ERROR PAGE FOR UNDEFINED ROUTES
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, useSearchParams, Navigate } from 'react-router-dom';
 import type { Anime, FilterType, ContentType, ContentTypeFilter } from './src/types';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -19,103 +19,152 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import DMCA from './components/DMCA';
 import TermsAndConditions from './components/TermsAndConditions';
 import Contact from './components/Contact';
-import AnalyticsTracker from './src/components/AnalyticsTracker'; // ✅ GA4 ANALYTICS IMPORT
-
-// ✅ NEW IMPORT: AnimeDetailWrapper
+import AnalyticsTracker from './src/components/AnalyticsTracker';
 import AnimeDetailWrapper from './components/AnimeDetailWrapper';
+
+// ✅ ENUMS FOR VIEW MANAGEMENT
+enum AppView {
+  HOME = 'home',
+  ANIME_LIST = 'list',
+  ANIME_DETAIL = 'detail',
+  PRIVACY = 'privacy',
+  DMCA = 'dmca',
+  TERMS = 'terms',
+  CONTACT = 'contact',
+  DOWNLOAD = 'download',
+  ADMIN_LOGIN = 'admin_login',
+  ADMIN_DASHBOARD = 'admin_dashboard',
+  NOT_FOUND = 'not_found'
+}
+
+// ✅ 404 NOT FOUND COMPONENT
+const NotFoundPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1a2e] to-[#16213e] flex items-center justify-center p-4">
+      <div className="max-w-md w-full text-center">
+        {/* Animated background */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#60CC3F]/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#4CAF50]/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        {/* Error Icon */}
+        <div className="relative mb-8">
+          <div className="relative w-32 h-32 mx-auto mb-6">
+            <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-orange-500 rounded-full opacity-20 blur-2xl"></div>
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="absolute inset-4 bg-gradient-to-br from-red-500 to-orange-500 rounded-full opacity-30"></div>
+              <div className="relative z-10 w-24 h-24 bg-gradient-to-br from-[#636363] to-[#4A4A4A] rounded-full border-4 border-red-500 flex items-center justify-center shadow-2xl">
+                <span className="text-5xl font-bold text-red-500">!</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Floating elements */}
+          <div className="absolute -top-4 -left-4 w-8 h-8 bg-red-500/20 rounded-full animate-bounce"></div>
+          <div className="absolute -top-2 -right-2 w-6 h-6 bg-orange-500/20 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+          <div className="absolute -bottom-4 -right-4 w-10 h-10 bg-red-500/20 rounded-full animate-bounce" style={{animationDelay: '0.4s'}}></div>
+        </div>
+
+        {/* Error Message */}
+        <h1 className="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 mb-4">
+          404
+        </h1>
+        <h2 className="text-2xl font-bold text-white mb-4">
+          Oops! Page Not Found
+        </h2>
+        <p className="text-gray-300 mb-8 text-lg">
+          The page you are looking for does not exist or has been moved.
+        </p>
+
+        {/* Back to Home Button */}
+        <button
+          onClick={() => navigate('/')}
+          className="group relative px-8 py-4 bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white font-bold rounded-xl hover:from-[#4CAF50] hover:to-[#3d8b40] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#60CC3F]/30 active:scale-95 overflow-hidden"
+        >
+          {/* Button background effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+          
+          <span className="relative flex items-center justify-center gap-3">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+            Back to Home
+          </span>
+        </button>
+
+        {/* Additional Help */}
+        <div className="mt-12 p-6 bg-gradient-to-br from-[#636363]/20 to-[#4A4A4A]/20 backdrop-blur-sm rounded-2xl border border-white/10">
+          <h3 className="text-white font-bold mb-3 flex items-center justify-center gap-2">
+            <svg className="w-5 h-5 text-[#60CC3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Quick Links
+          </h3>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <button
+              onClick={() => navigate('/')}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => navigate('/anime')}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+            >
+              Anime List
+            </button>
+            <button
+              onClick={() => navigate('/contact')}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+            >
+              Contact
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const MainApp: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   
+  const [currentView, setCurrentView] = useState<AppView>(AppView.HOME);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<FilterType>('All');
   const [contentType, setContentType] = useState<ContentTypeFilter>('All');
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAppLoading, setIsAppLoading] = useState(true);
-  const [showAdminButton, setShowAdminButton] = useState(false);
   
-  // ✅ SECRET CODE STATES
+  // ✅ SECRET CODE STATES (HIDDEN - NO VISUAL HINT)
   const [typedText, setTypedText] = useState('');
-  const [showCodeHint, setShowCodeHint] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // ✅ SEARCH DEBOUNCE REF
   const searchDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ✅ DUMMY FUNCTIONS FOR HEADER PROPS
-  const dummyFilterFunction = (filter: 'Hindi Dub' | 'Hindi Sub' | 'English Sub') => {
-    // Empty function because Header handles navigation itself
-  };
+  // ✅ DUMMY FUNCTIONS FOR HEADER
+  const dummyFilterFunction = (filter: 'Hindi Dub' | 'Hindi Sub' | 'English Sub') => {};
+  const dummyContentTypeFunction = (contentType: ContentType) => {};
 
-  const dummyContentTypeFunction = (contentType: ContentType) => {
-    // Empty function because Header handles navigation itself
-  };
-
-  useEffect(() => {
-    // Sirf development mode mein logs show karein
-    if (import.meta.env.DEV) {
-      console.log('📍 URL Changed:', location.search);
-      
-      const urlContentType = searchParams.get('contentType') as ContentTypeFilter | null;
-      const urlFilter = searchParams.get('filter') as FilterType | null;
-      const urlSearchQuery = searchParams.get('search') || '';
-
-      console.log('📋 URL Parameters:', {
-        contentType: urlContentType,
-        filter: urlFilter,
-        searchQuery: urlSearchQuery
-      });
-
-      if (urlContentType && urlContentType !== contentType) {
-        console.log('🔄 Updating contentType from URL:', urlContentType);
-        setContentType(urlContentType);
-      }
-
-      if (urlFilter && urlFilter !== filter) {
-        console.log('🔄 Updating filter from URL:', urlFilter);
-        setFilter(urlFilter);
-      }
-
-      if (urlSearchQuery && urlSearchQuery !== searchQuery) {
-        console.log('🔄 Updating searchQuery from URL:', urlSearchQuery);
-        setSearchQuery(urlSearchQuery);
-      }
-    }
-  }, [location.search, searchParams]);
-
-  useEffect(() => {
-    // ✅ URL se state update karein (jab koi URL seedhe open kare)
-    const urlContentType = searchParams.get('contentType') as ContentTypeFilter | null;
-    const urlFilter = searchParams.get('filter') as FilterType | null;
-    const urlSearchQuery = searchParams.get('search') || '';
-
-    if (urlContentType && urlContentType !== contentType) {
-      setContentType(urlContentType);
-    }
-    
-    if (urlFilter && urlFilter !== filter) {
-      setFilter(urlFilter);
-    }
-    
-    if (urlSearchQuery !== searchQuery) {
-      setSearchQuery(urlSearchQuery);
-    }
-  }, [location.search]);
-
+  // ✅ INITIALIZE APP
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 1000));
        
         const token = localStorage.getItem('adminToken');
         const username = localStorage.getItem('adminUsername');
+        
         if (token && username) {
           setIsAdminAuthenticated(true);
         }
       } catch (error) {
-        // Sirf development mein error show karein
         if (import.meta.env.DEV) {
           console.error('App initialization error:', error);
         }
@@ -126,127 +175,57 @@ const MainApp: React.FC = () => {
     initializeApp();
   }, []);
 
-  // ✅ ROUTE CHANGE AUTHENTICATION CHECK - DIRECT /admin/dashboard ACCESS BLOCKED
-  useEffect(() => {
-    const checkAuthOnRouteChange = () => {
-      const token = localStorage.getItem('adminToken');
-      const username = localStorage.getItem('adminUsername');
-      
-      // Agar /admin/dashboard par ja rahe hain aur authenticated nahi hain
-      if (location.pathname === '/admin/dashboard') {
-        if (!token || !username) {
-          console.log('🚫 Unauthorized direct access to /admin/dashboard, redirecting to HOME page');
-          
-          // Clear any existing tokens (security measure)
-          localStorage.removeItem('adminToken');
-          localStorage.removeItem('adminUsername');
-          setIsAdminAuthenticated(false);
-          
-          // Redirect to HOME page, NOT login page
-          navigate('/');
-          
-          // Show notification
-          const notification = document.createElement('div');
-          notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            z-index: 99999;
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
-            animation: fadeInOut 3s ease-in-out;
-            font-size: 16px;
-          `;
-          notification.innerHTML = '🚫 Admin access requires login! Use secret code on homepage.';
-          document.body.appendChild(notification);
-          
-          setTimeout(() => {
-            if (notification.parentNode) {
-              notification.parentNode.removeChild(notification);
-            }
-          }, 3000);
-        } else {
-          setIsAdminAuthenticated(true);
-        }
-      }
-    };
+  // ✅ ADMIN LOGIN HANDLER
+  const handleAdminLogin = (token: string, username: string) => {
+    localStorage.setItem('adminToken', token);
+    localStorage.setItem('adminUsername', username);
+    setIsAdminAuthenticated(true);
     
-    checkAuthOnRouteChange();
-  }, [location.pathname, navigate]);
+    // ✅ Change view to ADMIN_DASHBOARD (without URL change)
+    setCurrentView(AppView.ADMIN_DASHBOARD);
+  };
 
-  // ✅ SECRET CODE KEYBOARD LISTENER - TYPE "2007harsh" FOR DIRECT ADMIN
-  // ✅ CONSOLE LOGS REMOVED - NO TEXT WILL SHOW IN CONSOLE WHEN TYPING
+  // ✅ ADMIN LOGOUT HANDLER
+  const handleAdminLogout = () => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUsername');
+    setIsAdminAuthenticated(false);
+    
+    // ✅ Change view back to HOME (without URL change)
+    setCurrentView(AppView.HOME);
+    navigate('/');
+  };
+
+  // ✅ SECRET CODE KEYBOARD LISTENER (HIDDEN - NO VISUAL HINT)
+  // ✅ CHANGED: "2007harsh" to "anime201"
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Check if typing in input/textarea, then ignore
       const target = e.target as HTMLElement;
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
         return;
       }
 
-      // Secret code typing logic
       if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
         const newTypedText = (typedText + e.key).toLowerCase();
         setTypedText(newTypedText);
-        setShowCodeHint(true);
         
-        // ✅ NO CONSOLE LOG HERE - TYPING WON'T SHOW IN CONSOLE
-        
-        // Check for secret code "2007harsh"
-        if (newTypedText.includes('2007harsh')) {
-          // ✅ NO CONSOLE LOG HERE EITHER
+        // ✅ CHANGED: Check for secret code "anime201" instead of "2007harsh"
+        if (newTypedText.includes('anime201')) {
           e.preventDefault();
           
+          // ✅ Set view to ADMIN_LOGIN (without URL change)
+          setCurrentView(AppView.ADMIN_LOGIN);
           setTypedText('');
-          setShowCodeHint(false);
-          
-          // Show success notification
-          const notification = document.createElement('div');
-          notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            z-index: 99999;
-            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
-            animation: fadeInOut 3s ease-in-out;
-            font-size: 16px;
-          `;
-          notification.innerHTML = '✅ Admin Access Granted! Redirecting to login...';
-          document.body.appendChild(notification);
-          
-          // Redirect to admin login page
-          setTimeout(() => {
-            navigate('/admin/login');
-            if (notification.parentNode) {
-              notification.parentNode.removeChild(notification);
-            }
-          }, 1000);
         }
         
-        // Reset typing after 3 seconds of inactivity
+        // Reset typing after 3 seconds
         if (typingTimeoutRef.current) {
           clearTimeout(typingTimeoutRef.current);
         }
         
         typingTimeoutRef.current = setTimeout(() => {
           setTypedText('');
-          setShowCodeHint(false);
         }, 3000);
-      }
-      
-      // Keep old shortcut as backup (optional)
-      if (e.ctrlKey && e.altKey && e.shiftKey) {
-        e.preventDefault();
-        setShowAdminButton(prev => !prev);
       }
     };
 
@@ -257,59 +236,66 @@ const MainApp: React.FC = () => {
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
       }
-      // Cleanup search debounce
       if (searchDebounceRef.current) {
         clearTimeout(searchDebounceRef.current);
       }
     };
   }, [typedText]);
 
-  const handleAdminLogin = (token: string, username: string) => {
-    console.log('🔑 handleAdminLogin called with:', { token, username });
+  // ✅ SYNC URL WITH CURRENT VIEW ON PAGE LOAD/NAVIGATION
+  useEffect(() => {
+    // Detect current view from URL
+    const path = location.pathname;
     
-    localStorage.setItem('adminToken', token);
-    localStorage.setItem('adminUsername', username);
-    setIsAdminAuthenticated(true);
-    setShowAdminButton(false);
-    
-    console.log('📍 Navigating to /admin/dashboard');
-    
-    // ✅ Directly navigate to dashboard
-    navigate('/admin/dashboard');
-  };
+    if (path === '/') {
+      setCurrentView(AppView.HOME);
+    } else if (path.startsWith('/detail/')) {
+      setCurrentView(AppView.ANIME_DETAIL);
+    } else if (path === '/anime') {
+      setCurrentView(AppView.ANIME_LIST);
+    } else if (path === '/privacy') {
+      setCurrentView(AppView.PRIVACY);
+    } else if (path === '/dmca') {
+      setCurrentView(AppView.DMCA);
+    } else if (path === '/terms') {
+      setCurrentView(AppView.TERMS);
+    } else if (path === '/contact') {
+      setCurrentView(AppView.CONTACT);
+    } else if (path === '/download' || path === '/download-redirect') {
+      setCurrentView(AppView.DOWNLOAD);
+    } else {
+      // ✅ Set NOT_FOUND for undefined routes (including /admin/*)
+      setCurrentView(AppView.NOT_FOUND);
+    }
+    // Admin views are handled separately and don't change URL
+  }, [location.pathname]);
 
-  const handleAdminLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminUsername');
-    setIsAdminAuthenticated(false);
-    // Home page par redirect karein
-    navigate('/');
-    setShowAdminButton(false);
-  };
-
+  // ✅ ANIME SELECT HANDLER - SYNC STATE WITH ROUTER
   const handleAnimeSelect = (anime: Anime) => {
-    // ✅ FIXED: Use anime.slug if available, else use anime.id
-    const identifier = anime.slug || anime.id || anime._id;
-    if (identifier) {
-      navigate(`/detail/${identifier}`);
+    if (anime.slug) {
+      navigate(`/detail/${anime.slug}`);
+      // Don't set currentView here - let useEffect handle it from URL change
       window.scrollTo(0, 0);
     }
   };
 
-  const handleBack = () => {
-    navigate(-1);
+  // ✅ NAVIGATION HANDLER
+  const handleNavigate = (destination: 'home' | 'list') => {
+    if (destination === 'list') {
+      navigate('/anime');
+    } else {
+      navigate('/');
+    }
+    // Don't set currentView here - let useEffect handle it from URL change
   };
 
-  // ✅ FIXED: handleSearchChange WITHOUT PAGE RELOAD
   const handleSearchChange = useCallback((query: string) => {
     setSearchQuery(query);
     
-    // Debounce the search to avoid rapid updates
     if (searchDebounceRef.current) {
       clearTimeout(searchDebounceRef.current);
     }
     
-    // Update URL without reloading page
     searchDebounceRef.current = setTimeout(() => {
       const params = new URLSearchParams(window.location.search);
       
@@ -319,192 +305,129 @@ const MainApp: React.FC = () => {
         params.delete('search');
       }
       
-      // Update URL without reloading page
       const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
       window.history.pushState({}, '', newUrl);
-      
-      // Log in development only
-      if (import.meta.env.DEV) {
-        console.log('🔍 Search updated to:', query);
-      }
-    }, 400); // 400ms debounce
+    }, 400);
   }, []);
-  
-  const handleFilterChange = (newFilter: FilterType) => {
-    setFilter(newFilter);
-  };
 
-  const handleNavigate = (destination: 'home' | 'list') => {
-    if (destination === 'list') {
-      navigate('/anime');
-    } else {
-      navigate('/');
+  // ✅ RENDER CURRENT VIEW
+  const renderCurrentView = () => {
+    // ✅ ADMIN VIEWS DON'T SHOW HEADER/FOOTER
+    if (currentView === AppView.ADMIN_LOGIN) {
+      return <AdminLogin onLogin={handleAdminLogin} />;
     }
-    if (destination === 'home') {
-      setFilter('All');
-      setContentType('All');
-      setSearchQuery('');
+    
+    if (currentView === AppView.ADMIN_DASHBOARD) {
+      if (isAdminAuthenticated) {
+        return <AdminDashboard onLogout={handleAdminLogout} />;
+      } else {
+        navigate('/');
+        return null;
+      }
     }
+    
+    // ✅ NOT FOUND PAGE
+    if (currentView === AppView.NOT_FOUND) {
+      return <NotFoundPage />;
+    }
+    
+    // ✅ ALL OTHER VIEWS SHOW HEADER/FOOTER WITH ROUTES
+    return (
+      <>
+        <Header 
+          onSearchChange={handleSearchChange} 
+          searchQuery={searchQuery}
+          onNavigate={handleNavigate}
+          onFilterAndNavigateHome={dummyFilterFunction}
+          onContentTypeNavigate={dummyContentTypeFunction}
+        />
+        <main className="container mx-auto px-4 py-8">
+          <Routes>
+            <Route path="/" element={
+              <HomePage 
+                onAnimeSelect={handleAnimeSelect} 
+                searchQuery={searchQuery} 
+                filter={filter}
+                contentType={contentType}
+              />
+            } />
+            <Route path="/anime" element={
+              <AnimeListPage onAnimeSelect={handleAnimeSelect} />
+            } />
+            <Route path="/detail/:slug" element={<AnimeDetailWrapper />} />
+            <Route path="/download" element={<DownloadRedirectPage />} />
+            <Route path="/download-redirect" element={<DownloadRedirectPage />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/dmca" element={<DMCA />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
+            <Route path="/contact" element={<Contact />} />
+            {/* ✅ CATCH-ALL ROUTE FOR 404 */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <Footer />
+        <ScrollToTopButton />
+      </>
+    );
   };
 
   if (isAppLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0c1c] flex flex-col items-center justify-center p-4">
-        <div className="text-center">
+      <div className="min-h-screen bg-[#636363] flex flex-col items-center justify-center p-4">
+        <div className="text-center relative">
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#60CC3F]/10 blur-3xl rounded-full"></div>
+          </div>
+          
           <div className="relative mb-8">
-            <div className="text-6xl mb-4 animate-bounce">🎬</div>
-            <h1 className="text-4xl font-bold text-white mb-2">
-              Anim<span className="text-purple-500">abing</span>
-            </h1>
-            <p className="text-slate-400">Your ultimate anime destination</p>
+            <div className="relative flex items-center justify-center mb-6">
+              <div className="absolute -inset-6 bg-[#60CC3F]/20 rounded-full blur-2xl animate-pulse"></div>
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-br from-[#60CC3F] to-[#4CAF50] rounded-full blur-xl"></div>
+                <div className="relative w-20 h-20 flex items-center justify-center bg-gradient-to-br from-[#636363] to-[#4A4A4A] rounded-2xl border-2 border-[#60CC3F] shadow-2xl">
+                  <span className="text-4xl text-[#60CC3F] font-bold">A</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mb-8">
+              <h1 className="text-5xl font-bold text-white tracking-tight mb-3">
+                ANIMESTAR
+              </h1>
+              <div className="flex items-center justify-center gap-2 text-gray-300">
+                <div className="w-2 h-2 bg-[#60CC3F] rounded-full animate-pulse"></div>
+                <p className="text-lg font-light tracking-widest">YOUR ANIME DESTINATION</p>
+                <div className="w-2 h-2 bg-[#60CC3F] rounded-full animate-pulse"></div>
+              </div>
+            </div>
+            
+            <div className="w-64 h-1.5 bg-[#4A4A4A] rounded-full overflow-hidden mx-auto mb-8">
+              <div className="h-full bg-gradient-to-r from-[#60CC3F] via-[#4CAF50] to-[#60CC3F] animate-loadingBar"></div>
+            </div>
           </div>
-          <Spinner size="lg" text="Loading your anime world..." />
-          <div className="mt-8 bg-slate-800/50 rounded-lg p-4 max-w-md mx-auto">
-            <p className="text-slate-400 text-sm">
-              • Fast Downloads<br/>
-              • Hindi Dubbed & Subbed<br/>
-              • English Subbed<br/>
-              • High Quality Content
-            </p>
-          </div>
+          
+          <style>{`
+            @keyframes loadingBar {
+              0% { transform: translateX(-100%); }
+              100% { transform: translateX(100%); }
+            }
+            .animate-loadingBar {
+              animation: loadingBar 1.5s ease-in-out infinite;
+            }
+          `}</style>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#0a0c1c] text-white min-h-screen font-sans">
-      {/* ✅ GA4 ANALYTICS TRACKER - UTM FIX KA MANTRA */}
+    <div className="bg-[#636363] text-white min-h-screen font-sans">
       <AnalyticsTracker />
       
-      {/* ✅ Header ko sabhi 5 props dein */}
-      <Header 
-        onSearchChange={handleSearchChange} 
-        searchQuery={searchQuery}
-        onNavigate={handleNavigate}
-        onFilterAndNavigateHome={dummyFilterFunction}
-        onContentTypeNavigate={dummyContentTypeFunction}
-      />
-      <main className="container mx-auto px-4 py-8">
-        <Routes>
-          <Route path="/" element={
-            <HomePage 
-              onAnimeSelect={handleAnimeSelect} 
-              searchQuery={searchQuery} 
-              filter={filter}
-              contentType={contentType}
-            />
-          } />
-          
-          {/* ✅ Anime List Route */}
-          <Route path="/anime" element={
-            <AnimeListPage 
-              onAnimeSelect={handleAnimeSelect}
-            />
-          } />
-          
-          {/* ✅ FIXED: Anime Detail Route with ID/Slug Support */}
-          <Route path="/detail/:idOrSlug" element={<AnimeDetailWrapper />} />
-          
-          {/* ✅ FIXED: Both Download Routes Added */}
-          <Route path="/download" element={<DownloadRedirectPage />} />
-          <Route path="/download-redirect" element={<DownloadRedirectPage />} />
-          
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/dmca" element={<DMCA />} />
-          <Route path="/terms" element={<TermsAndConditions />} />
-          <Route path="/contact" element={<Contact />} />
-          
-          {/* ✅ ADMIN LOGIN ROUTE - Only accessible via secret code */}
-          <Route path="/admin/login" element={
-            <AdminLogin onLogin={handleAdminLogin} />
-          } />
-          
-          {/* ✅ ADMIN DASHBOARD ROUTE - Only accessible via login */}
-          <Route path="/admin/dashboard" element={
-            isAdminAuthenticated ? (
-              <AdminDashboard onLogout={handleAdminLogout} />
-            ) : (
-              <div className="min-h-screen flex items-center justify-center bg-[#0a0c1c]">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-red-500 mb-4"></div>
-                  <h2 className="text-2xl text-white mb-4">🚫 Access Denied</h2>
-                  <p className="text-slate-400 mb-6">Redirecting to homepage...</p>
-                  <p className="text-slate-500 text-sm">Please login via secret code on homepage</p>
-                </div>
-              </div>
-            )
-          } />
-        </Routes>
-      </main>
+      {/* ✅ NO SECRET CODE HINT - COMPLETELY REMOVED */}
       
-      <Footer />
-      <ScrollToTopButton />
-      
-      {/* Secret Code Typing Hint */}
-      {showCodeHint && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[99999]">
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-cyan-500/50 rounded-xl p-4 shadow-2xl backdrop-blur-sm min-w-[300px]">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="bg-cyan-600/20 p-2 rounded-lg">
-                  <span className="text-cyan-400">🔐</span>
-                </div>
-                <div>
-                  <div className="text-sm text-cyan-300 font-medium">Secret Code Active</div>
-                  <div className="text-xs text-slate-400">Type "2007harsh" for admin access</div>
-                </div>
-              </div>
-              <div className="text-slate-500 text-sm">
-                {typedText.length}/9
-              </div>
-            </div>
-            
-            <div className="mb-3">
-              <div className="text-xs text-slate-400 mb-1">Current typing:</div>
-              <div className="flex items-center gap-1">
-                {Array.from('2007harsh').map((char, index) => (
-                  <div 
-                    key={index}
-                    className={`w-7 h-8 flex items-center justify-center rounded text-sm font-mono font-bold
-                      ${index < typedText.length 
-                        ? typedText[index] === char
-                          ? 'bg-green-600 text-white border border-green-400' 
-                          : 'bg-red-600 text-white border border-red-400'
-                        : 'bg-slate-800 text-slate-500 border border-slate-700'
-                      }`}
-                  >
-                    {char}
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-              <div 
-                className="bg-gradient-to-r from-green-500 via-cyan-500 to-blue-500 h-full transition-all duration-300"
-                style={{ width: `${(typedText.length / 9) * 100}%` }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Old button (optional - keep or remove) */}
-      {showAdminButton && (
-        <div className="fixed bottom-4 left-4 z-50 animate-fade-in">
-          <button
-            onClick={() => navigate('/admin/login')}
-            className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center gap-2"
-          >
-            <span>⚙️</span>
-            Admin Access
-          </button>
-          <p className="text-xs text-slate-400 mt-1 bg-black/50 p-1 rounded">
-            Press Ctrl+Shift+Alt to hide
-          </p>
-        </div>
-      )}
+      {/* ✅ RENDER CURRENT VIEW */}
+      {renderCurrentView()}
     </div>
   );
 };

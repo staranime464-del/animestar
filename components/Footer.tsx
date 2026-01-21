@@ -1,4 +1,4 @@
- // components/Footer.tsx - UPDATED (Manga removed from Quick Links)
+ // components/Footer.tsx - UPDATED WITH DARK GRAY + GREEN BORDER THEME
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -124,11 +124,11 @@ const Footer: React.FC = () => {
   };
 
   const NavigationLoader = () => (
-    <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-[#636363]/95 backdrop-blur-sm z-50 flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
-        <h3 className="text-white text-xl font-semibold mb-2">Loading AnimeStar</h3>
-        <p className="text-slate-400">Preparing your content...</p>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#60CC3F] mx-auto mb-4"></div>
+        <h3 className="text-white text-xl font-semibold mb-2">Loading Animestar</h3>
+        <p className="text-gray-300">Preparing your content...</p>
       </div>
     </div>
   );
@@ -137,27 +137,19 @@ const Footer: React.FC = () => {
     switch (platform) {
       case 'facebook':
         return (
-          <svg className={className} fill="#1877F2" viewBox="0 0 24 24">
+          <svg className={className} fill="currentColor" viewBox="0 0 24 24">
             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
           </svg>
         );
       case 'instagram':
         return (
-          <svg className={className} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#fdf497"/>
-                <stop offset="30%" stopColor="#fd5949"/>
-                <stop offset="60%" stopColor="#d6249f"/>
-                <stop offset="100%" stopColor="#285AEB"/>
-              </linearGradient>
-            </defs>
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="url(#instagram-gradient)"/>
+          <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
           </svg>
         );
       case 'telegram':
         return (
-          <svg className={className} fill="#0088CC" viewBox="0 0 24 24">
+          <svg className={className} fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.139l-1.671 7.894c-.236 1.001-.837 1.248-1.697.775l-4.688-3.454-2.26 2.178c-.249.249-.459.459-.935.459l.336-4.773 8.665-5.515c.387-.247.741-.112.45.141l-7.07 6.389-3.073-.967c-1.071-.336-1.092-1.071.223-1.585l12.18-4.692c.892-.336 1.674.223 1.383 1.383z"/>
           </svg>
         );
@@ -174,146 +166,174 @@ const Footer: React.FC = () => {
     <>
       {isNavigating && <NavigationLoader />}
      
-      {/* ✅ UPDATED BACKGROUND TO BLUE THEME */}
-      <footer className="bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 border-t border-blue-500/20">
-        <div className="container mx-auto py-12 px-4">
-          {/* Main Footer Content - Now 2 columns */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      {/* ✅ DARK GRAY BACKGROUND WITH GREEN TOP BORDER */}
+      <footer className="bg-[#636363] border-t-2 border-[#60CC3F]">
+        <div className="container mx-auto py-10 px-4 lg:px-6">
+          {/* Main Footer Content - Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+            
             {/* Brand Section */}
-            <div className="text-center lg:text-left">
-              {/* ✅ ANIMESTAR LOGO */}
-              <h3 className="text-2xl font-bold text-white flex items-center justify-center lg:justify-start mb-4">
-                <div className="relative mr-3">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-blue-600/30 via-indigo-600/30 to-violet-600/30 rounded-full blur-sm opacity-60"></div>
-                  <div className="relative flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-600/30 to-indigo-600/30 backdrop-blur-sm rounded-lg border border-blue-700/30">
-                    <span className="text-xl bg-gradient-to-r from-blue-300 to-indigo-200 bg-clip-text text-transparent font-bold">
-                      ✦
-                    </span>
+            <div className="text-center md:text-left">
+              <div className="flex flex-col items-center md:items-start">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="relative flex items-center justify-center w-10 h-10 bg-gradient-to-br from-[#60CC3F] to-[#4CAF50] rounded-xl">
+                    <span className="text-white font-bold text-xl">A</span>
                   </div>
+                  <h3 className="text-2xl font-bold">
+                    <span className="text-white">Anime</span>
+                    <span className="text-[#60CC3F]">Star</span>
+                  </h3>
                 </div>
-                <span className="bg-gradient-to-r from-blue-100 via-white to-indigo-100 bg-clip-text text-transparent">
-                  Anime<span className="text-blue-400">Star</span>
-                </span>
-              </h3>
-              
-              <p className="text-slate-400 text-sm mb-4 max-w-md">
-                Your ultimate destination for anime and movies. Watch and enjoy your favorite content in AnimeStar.
-              </p>
-              
-              {/* Social Media Links */}
-              <div className="flex justify-center lg:justify-start space-x-3">
-                {socialLinks.map(link => (
-                  <a
-                    key={link.platform}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    className="group bg-blue-900/30 hover:bg-blue-600 text-blue-300 hover:text-white p-2.5 rounded-xl transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-blue-500/25 backdrop-blur-sm border border-blue-800/30"
-                    title={`Follow us on ${link.displayName}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(link.url, '_blank', 'noopener,noreferrer');
-                    }}
-                  >
-                    <SocialIcon platform={link.platform} className="w-4 h-4" />
-                  </a>
-                ))}
+                
+                <p className="text-gray-300 text-sm mb-4 max-w-md text-center md:text-left">
+                  Your ultimate anime destination. Watch HD quality anime in Hindi & English for free.
+                </p>
+                
+                {/* Social Media Links */}
+                <div className="flex justify-center md:justify-start space-x-3">
+                  {socialLinks.map(link => (
+                    <a
+                      key={link.platform}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      className="group bg-[#4A4A4A] hover:bg-[#60CC3F] text-gray-300 hover:text-white p-2.5 rounded-lg transition-all duration-300 border border-gray-600 hover:border-[#60CC3F]"
+                      title={`Follow us on ${link.displayName}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(link.url, '_blank', 'noopener,noreferrer');
+                      }}
+                    >
+                      <SocialIcon platform={link.platform} className="w-4 h-4" />
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
             
-            {/* Quick Links - Now full width on mobile, right-aligned on desktop */}
-            <div className="text-center lg:text-right">
-              <h4 className="text-white font-semibold mb-4 text-lg">Quick Links</h4>
-              <div className="grid grid-cols-2 gap-2 text-sm">
+            {/* Quick Links */}
+            <div className="text-center md:text-left">
+              <h4 className="text-white font-semibold mb-4 text-lg border-b border-[#60CC3F]/30 pb-2">Quick Links</h4>
+              <div className="space-y-2 text-sm">
                 <button
                   onClick={() => handleQuickLinkClick('home')}
-                  className="text-blue-100 hover:text-blue-300 transition-colors py-1 text-left lg:text-right font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Home
                 </button>
                 <button
                   onClick={() => handleQuickLinkClick('hindi-dub')}
-                  className="text-blue-100 hover:text-blue-300 transition-colors py-1 text-left lg:text-right font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Hindi Dub
                 </button>
                 <button
                   onClick={() => handleQuickLinkClick('hindi-sub')}
-                  className="text-blue-100 hover:text-blue-300 transition-colors py-1 text-left lg:text-right font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Hindi Sub
                 </button>
                 <button
                   onClick={() => handleQuickLinkClick('english-sub')}
-                  className="text-blue-100 hover:text-blue-300 transition-colors py-1 text-left lg:text-right font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   English Sub
                 </button>
+              </div>
+            </div>
+            
+            {/* Content Categories */}
+            <div className="text-center md:text-left">
+              <h4 className="text-white font-semibold mb-4 text-lg border-b border-[#60CC3F]/30 pb-2">Categories</h4>
+              <div className="space-y-2 text-sm">
                 <button
                   onClick={() => handleQuickLinkClick('movies')}
-                  className="text-blue-100 hover:text-blue-300 transition-colors py-1 text-left lg:text-right font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Movies
                 </button>
                 <button
                   onClick={() => handleQuickLinkClick('anime-list')}
-                  className="text-blue-100 hover:text-blue-300 transition-colors py-1 text-left lg:text-right font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Anime List
                 </button>
-                {/* ❌ Manga button has been removed */}
+                <button
+                  onClick={() => handlePageNavigation('/contact')}
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
+                  disabled={isNavigating}
+                >
+                  Contact Us
+                </button>
+                <button
+                  onClick={() => handlePageNavigation('/dmca')}
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
+                  disabled={isNavigating}
+                >
+                  Report Content
+                </button>
               </div>
             </div>
-          </div>
-          
-          {/* Bottom Section */}
-          <div className="border-t border-blue-800/30 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              {/* Legal Links */}
-              <div className="flex flex-wrap justify-center gap-6 text-sm">
+            
+            {/* Legal Links */}
+            <div className="text-center md:text-left">
+              <h4 className="text-white font-semibold mb-4 text-lg border-b border-[#60CC3F]/30 pb-2">Legal</h4>
+              <div className="space-y-2 text-sm">
                 <button
                   onClick={() => handlePageNavigation('/terms')}
-                  className="text-blue-300 hover:text-blue-100 transition-colors font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Terms & Conditions
                 </button>
                 <button
                   onClick={() => handlePageNavigation('/privacy')}
-                  className="text-blue-300 hover:text-blue-100 transition-colors font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Privacy Policy
                 </button>
                 <button
                   onClick={() => handlePageNavigation('/dmca')}
-                  className="text-blue-300 hover:text-blue-100 transition-colors font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   DMCA
                 </button>
                 <button
                   onClick={() => handlePageNavigation('/contact')}
-                  className="text-blue-300 hover:text-blue-100 transition-colors font-medium disabled:opacity-50 hover:underline"
+                  className="block text-gray-300 hover:text-[#60CC3F] transition-colors py-1 text-left font-medium disabled:opacity-50 hover:pl-2 transition-all"
                   disabled={isNavigating}
                 >
                   Contact
                 </button>
               </div>
-              
+            </div>
+          </div>
+          
+          {/* Bottom Section */}
+          <div className="border-t border-gray-600 pt-6">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               {/* Copyright */}
-              <div className="text-center md:text-right">
-                <p className="text-blue-300 text-sm font-medium">
-                  &copy; {new Date().getFullYear()} AnimeStar. All Rights Reserved.
+              <div className="text-center md:text-left">
+                <p className="text-gray-300 text-sm">
+                  &copy; {new Date().getFullYear()} Animestar. All Rights Reserved.
                 </p>
-                <p className="text-blue-400/60 text-xs mt-1">
-                  Download anime anytime, anywhere
+                <p className="text-gray-400 text-xs mt-1">
+                  Watch anime online in HD quality for free
+                </p>
+              </div>
+              
+              {/* Disclaimer */}
+              <div className="text-center md:text-right max-w-md">
+                <p className="text-gray-400 text-xs">
+                  Disclaimer: This site does not host any files. All content is provided by third-party servers.
                 </p>
               </div>
             </div>

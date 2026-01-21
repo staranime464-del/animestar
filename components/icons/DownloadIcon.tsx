@@ -1,13 +1,11 @@
-
-import React from 'react';
-
-export const DownloadIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+ export const DownloadIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
     {...props}
+    className={`text-[#60CC3F] group-hover:text-white group-hover:animate-bounce transition-all duration-300 ${props.className || ''}`}
   >
     <path
       strokeLinecap="round"

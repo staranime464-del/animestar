@@ -1,4 +1,4 @@
-  // components/DownloadRedirectPage.tsx - UPDATED (Mobile layout fix)
+ // components/DownloadRedirectPage.tsx - UPDATED FOR DARK GRAY + GREEN THEME
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -176,7 +176,7 @@ const DownloadRedirectPage: React.FC = () => {
           <h3 className="text-lg md:text-xl font-bold text-white mb-2">
             {links.length === 1 ? 'Download Ready' : `Choose Download Link (${links.length})`}
           </h3>
-          <p className="text-slate-300 text-sm">
+          <p className="text-gray-400 text-sm">
             {links.length === 1 
               ? 'Tap the download button to start' 
               : 'Select one of the download links below'}
@@ -190,8 +190,8 @@ const DownloadRedirectPage: React.FC = () => {
               key={index}
               className={`p-4 rounded-xl border transition-all duration-300 ${
                 selectedLinkIndex === index
-                  ? 'bg-gradient-to-br from-purple-900/40 to-blue-900/40 border-purple-500 shadow-lg'
-                  : 'bg-slate-900/60 border-slate-700 hover:border-purple-500/50 hover:bg-slate-800/60'
+                  ? 'bg-gradient-to-br from-[#4A4A4A] to-[#636363] border-[#60CC3F] shadow-lg'
+                  : 'bg-[#4A4A4A] border-gray-600 hover:border-[#60CC3F]/50 hover:bg-[#4A4A4A]/80'
               }`}
             >
               {/* ✅ UPDATED: Mobile view - Text on first line, button on second line */}
@@ -201,8 +201,8 @@ const DownloadRedirectPage: React.FC = () => {
                   {/* Number badge */}
                   <div className={`flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg ${
                     selectedLinkIndex === index
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-600'
-                      : 'bg-gradient-to-r from-purple-700/50 to-blue-700/50'
+                      ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50]'
+                      : 'bg-gradient-to-r from-[#4A4A4A] to-[#636363] border border-gray-600'
                   }`}>
                     <span className="text-white font-bold text-base">{index + 1}</span>
                   </div>
@@ -214,7 +214,7 @@ const DownloadRedirectPage: React.FC = () => {
                     </h4>
                     <div className="flex flex-wrap gap-1">
                       {link.quality && (
-                        <span className="bg-green-600/20 text-green-400 px-2 py-0.5 rounded text-xs">
+                        <span className="bg-[#60CC3F]/20 text-[#60CC3F] px-2 py-0.5 rounded text-xs">
                           {link.quality}
                         </span>
                       )}
@@ -233,8 +233,8 @@ const DownloadRedirectPage: React.FC = () => {
                   disabled={isDownloading}
                   className={`w-full px-4 py-3 rounded-lg font-medium text-base transition-all ${
                     isDownloading && selectedLinkIndex === index
-                      ? 'bg-gradient-to-r from-purple-700 to-blue-700 cursor-wait'
-                      : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 active:scale-95'
+                      ? 'bg-gradient-to-r from-[#4CAF50] to-[#60CC3F] cursor-wait'
+                      : 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] active:scale-95'
                   }`}
                 >
                   {isDownloading && selectedLinkIndex === index ? (
@@ -259,24 +259,24 @@ const DownloadRedirectPage: React.FC = () => {
         </div>
         
         {/* Tips for mobile */}
-        <div className="mt-6 p-4 bg-blue-900/20 rounded-xl border border-blue-800/30">
-          <h4 className="text-blue-300 font-medium text-sm mb-2 flex items-center gap-2">
+        <div className="mt-6 p-4 bg-[#4A4A4A] rounded-xl border border-gray-600">
+          <h4 className="text-[#60CC3F] font-medium text-sm mb-2 flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Tips for Best Experience:
           </h4>
-          <ul className="text-xs text-blue-200 space-y-1">
+          <ul className="text-xs text-gray-300 space-y-1">
             <li className="flex items-start">
-              <span className="text-blue-400 mr-2 mt-0.5">•</span>
+              <span className="text-[#60CC3F] mr-2 mt-0.5">•</span>
               <span>Tap "Download Now" to start download</span>
             </li>
             <li className="flex items-start">
-              <span className="text-blue-400 mr-2 mt-0.5">•</span>
+              <span className="text-[#60CC3F] mr-2 mt-0.5">•</span>
               <span>If one link doesn't work, try another</span>
             </li>
             <li className="flex items-start">
-              <span className="text-blue-400 mr-2 mt-0.5">•</span>
+              <span className="text-[#60CC3F] mr-2 mt-0.5">•</span>
               <span>Complete the link ad for download</span>
             </li>
           </ul>
@@ -298,34 +298,34 @@ const DownloadRedirectPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0a0c1c] flex flex-col p-4">
+      <div className="min-h-screen bg-[#636363] flex flex-col p-4">
         {/* Mobile Header */}
-        <div className="bg-gradient-to-r from-purple-900 to-blue-900 p-4 rounded-xl mb-6">
+        <div className="bg-gradient-to-r from-[#4A4A4A] to-[#636363] p-4 rounded-xl mb-6 border border-gray-600">
           <div className="container mx-auto">
-            <h1 className="text-xl md:text-2xl font-bold text-white">AnimeBing Download</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-white">AnimeStar Download</h1>
           </div>
         </div>
         
         <main className="flex-grow flex items-center justify-center">
-          <div className="bg-slate-800/90 backdrop-blur-sm rounded-xl shadow-lg p-6 w-full max-w-md border border-slate-700">
+          <div className="bg-[#4A4A4A] rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-600">
             <div className="w-14 h-14 md:w-16 md:h-16 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.282 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
             </div>
             <h1 className="text-lg md:text-xl font-bold text-white mb-3 text-center">Download Error</h1>
-            <p className="text-slate-300 mb-6 text-center text-sm">{error}</p>
+            <p className="text-gray-300 mb-6 text-center text-sm">{error}</p>
             
             <div className="space-y-3">
               <button
                 onClick={() => window.location.reload()}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
+                className="w-full bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white py-3 rounded-lg font-semibold hover:from-[#4CAF50] hover:to-[#60CC3F] transition-all"
               >
                 Try Again
               </button>
               <button
                 onClick={handleBackToAnime}
-                className="w-full bg-slate-700 text-white py-3 rounded-lg font-medium hover:bg-slate-600 transition-all"
+                className="w-full bg-[#636363] text-white py-3 rounded-lg font-medium hover:bg-[#4A4A4A] transition-all border border-gray-600"
               >
                 Back to Anime
               </button>
@@ -333,27 +333,27 @@ const DownloadRedirectPage: React.FC = () => {
           </div>
         </main>
         
-        <footer className="mt-8 bg-slate-900/80 p-4 text-center rounded-xl border border-slate-800">
-          <p className="text-slate-400 text-xs">© {new Date().getFullYear()} AnimeBing</p>
+        <footer className="mt-8 bg-[#4A4A4A] p-4 text-center rounded-xl border border-gray-600">
+          <p className="text-gray-400 text-xs">© {new Date().getFullYear()} AnimeStar</p>
         </footer>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0c1c] flex flex-col p-4">
+    <div className="min-h-screen bg-[#636363] flex flex-col p-4">
       {/* Header - Mobile Optimized */}
-      <div className="bg-gradient-to-r from-purple-900 to-blue-900 p-4 rounded-xl mb-6">
+      <div className="bg-gradient-to-r from-[#4A4A4A] to-[#636363] p-4 rounded-xl mb-6 border border-gray-600">
         <div className="container mx-auto">
-          <h1 className="text-xl md:text-2xl font-bold text-white">AnimeBing Download</h1>
-          <p className="text-slate-300 mt-1 text-sm">
+          <h1 className="text-xl md:text-2xl font-bold text-white">AnimeStar Download</h1>
+          <p className="text-gray-300 mt-1 text-sm">
             {state ? `${state.contentType.charAt(0).toUpperCase() + state.contentType.slice(1)} ${state.contentNumber}` : 'File Download'}
           </p>
           
           {/* ✅ ADDED: Quick Back Button at Top */}
           <button
             onClick={handleBackToAnime}
-            className="mt-3 bg-slate-800/60 hover:bg-slate-700/80 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-1"
+            className="mt-3 bg-[#636363] hover:bg-[#4A4A4A] text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-1 border border-gray-600"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -365,11 +365,11 @@ const DownloadRedirectPage: React.FC = () => {
       
       {/* Main Content */}
       <main className="flex-grow flex items-center justify-center">
-        <div className="bg-slate-800/90 backdrop-blur-sm rounded-xl shadow-lg p-4 md:p-6 w-full max-w-2xl border border-slate-700">
+        <div className="bg-[#4A4A4A] rounded-xl shadow-lg p-4 md:p-6 w-full max-w-2xl border border-gray-600">
           {/* File Info - Mobile Optimized */}
-          <div className="flex items-center mb-4 md:mb-6 p-3 bg-slate-900/50 rounded-lg">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-900/30 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-              <svg className="w-4 h-4 md:w-5 md:h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="flex items-center mb-4 md:mb-6 p-3 bg-[#636363] rounded-lg border border-gray-600">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#60CC3F]/20 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+              <svg className="w-4 h-4 md:w-5 md:h-5 text-[#60CC3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
@@ -378,12 +378,12 @@ const DownloadRedirectPage: React.FC = () => {
                 {getDisplayTitle()}
               </h2>
               {state?.animeTitle && (
-                <p className="text-xs text-slate-400 truncate" title={state.animeTitle}>
+                <p className="text-xs text-gray-400 truncate" title={state.animeTitle}>
                   From: {state.animeTitle}
                 </p>
               )}
               {state?.downloadLinks && (
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-gray-400 mt-1">
                   {state.downloadLinks.length} link{state.downloadLinks.length > 1 ? 's' : ''} available
                 </p>
               )}
@@ -397,31 +397,31 @@ const DownloadRedirectPage: React.FC = () => {
             <>
               {/* Countdown (for single link or old format) */}
               <div className="text-center mb-6 md:mb-8">
-                <p className="text-slate-300 mb-2 text-sm">
+                <p className="text-gray-300 mb-2 text-sm">
                   {state?.downloadLinks?.length === 1 
                     ? 'Download will start in:' 
                     : 'Download will start in:'}
                 </p>
-                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-1">
+                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-transparent bg-clip-text mb-1">
                   {countdown}
                 </div>
-                <p className="text-slate-400 text-xs md:text-sm">seconds</p>
+                <p className="text-gray-400 text-xs md:text-sm">seconds</p>
               </div>
 
               {/* Download Status */}
               <div className="mb-4 md:mb-6">
                 {isDownloading ? (
                   <div className="text-center">
-                    <div className="inline-block w-12 h-12 md:w-14 md:h-14 border-4 border-slate-600 border-t-blue-500 rounded-full animate-spin mb-3"></div>
+                    <div className="inline-block w-12 h-12 md:w-14 md:h-14 border-4 border-gray-600 border-t-[#60CC3F] rounded-full animate-spin mb-3"></div>
                     <p className="text-white font-medium text-sm md:text-base">Download in progress...</p>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       {isMobile ? 'Check downloads folder' : 'Please wait while download starts'}
                     </p>
                   </div>
                 ) : (
                   <div className="text-center">
                     <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-3">
-                      <svg className="w-full h-full text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-full h-full text-[#60CC3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
@@ -435,7 +435,7 @@ const DownloadRedirectPage: React.FC = () => {
                 <button
                   onClick={handleManualDownload}
                   disabled={isDownloading}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg active:scale-95"
+                  className="w-full bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white py-3 rounded-lg font-semibold hover:from-[#4CAF50] hover:to-[#60CC3F] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg active:scale-95"
                 >
                   {isDownloading ? (
                     <span className="flex items-center justify-center">
@@ -450,7 +450,7 @@ const DownloadRedirectPage: React.FC = () => {
                 {/* ✅ CHANGED: "Go Back" to "Back to Anime" */}
                 <button
                   onClick={handleBackToAnime}
-                  className="w-full border-2 border-slate-600 text-white py-3 rounded-lg font-medium hover:bg-slate-800/50 transition-all active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full border-2 border-gray-600 text-white py-3 rounded-lg font-medium hover:bg-[#636363] transition-all active:scale-95 flex items-center justify-center gap-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -460,29 +460,29 @@ const DownloadRedirectPage: React.FC = () => {
               </div>
 
               {/* Tips - Mobile Optimized */}
-              <div className="mt-6 pt-4 border-t border-slate-700">
-                <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center">
-                  <svg className="w-4 h-4 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="mt-6 pt-4 border-t border-gray-600">
+                <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center">
+                  <svg className="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Download Tips
                 </h3>
-                <ul className="text-xs text-slate-400 space-y-1.5">
+                <ul className="text-xs text-gray-400 space-y-1.5">
                   <li className="flex items-start">
-                    <span className="text-blue-400 mr-2 mt-0.5">•</span>
+                    <span className="text-[#60CC3F] mr-2 mt-0.5">•</span>
                     <span>{isMobile ? 'Tap Download Now to start' : 'Allow pop-ups for download'}</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-blue-400 mr-2 mt-0.5">•</span>
+                    <span className="text-[#60CC3F] mr-2 mt-0.5">•</span>
                     <span>Check browser downloads folder</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-blue-400 mr-2 mt-0.5">•</span>
+                    <span className="text-[#60CC3F] mr-2 mt-0.5">•</span>
                     <span>Use stable internet connection</span>
                   </li>
                   {isMobile && (
                     <li className="flex items-start">
-                      <span className="text-blue-400 mr-2 mt-0.5">•</span>
+                      <span className="text-[#60CC3F] mr-2 mt-0.5">•</span>
                       <span>Keep page open until download completes</span>
                     </li>
                   )}
@@ -494,8 +494,8 @@ const DownloadRedirectPage: React.FC = () => {
       </main>
       
       {/* Footer - Mobile Optimized */}
-      <footer className="mt-6 bg-slate-900/80 p-3 text-center rounded-xl border border-slate-800">
-        <p className="text-slate-400 text-xs">© {new Date().getFullYear()} AnimeBing - All rights reserved</p>
+      <footer className="mt-6 bg-[#4A4A4A] p-3 text-center rounded-xl border border-gray-600">
+        <p className="text-gray-400 text-xs">© {new Date().getFullYear()} AnimeStar - All rights reserved</p>
       </footer>
     </div>
   );

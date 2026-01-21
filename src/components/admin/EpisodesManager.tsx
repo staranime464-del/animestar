@@ -1,4 +1,4 @@
- // src/components/admin/EpisodesManager.tsx - UPDATED WITH ANIMESTAR BLUE THEME
+ // src/components/admin/EpisodesManager.tsx - UPDATED WITH DARK GRAY + GREEN THEME
 import React, { useState, useEffect } from 'react';
 import type { Anime, Episode, Chapter } from '../../types';
 import axios from 'axios';
@@ -447,7 +447,7 @@ const EpisodesManager: React.FC = () => {
         <button
           onClick={handleRefresh}
           disabled={animesLoading}
-          className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg text-sm transition flex items-center gap-2"
+          className="px-4 py-2 bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg text-sm transition flex items-center gap-2 border border-[#60CC3F]"
         >
           {animesLoading ? (
             <>
@@ -460,9 +460,9 @@ const EpisodesManager: React.FC = () => {
         </button>
       </div>
 
-      {/* Content Selection */}
-      <div className="bg-blue-900/30 rounded-lg p-6">
-        <label className="block text-sm font-medium text-blue-200 mb-3">
+      {/* Content Selection - UPDATED WITH 3.5cm GAP */}
+      <div className="bg-[#4A4A4A] rounded-xl p-6 border border-gray-600 mb-[3.5cm]">
+        <label className="block text-sm font-medium text-gray-300 mb-3">
           Select {isManga ? 'Manga' : 'Anime/Movie'} *
         </label>
         <SearchableDropdown
@@ -475,11 +475,11 @@ const EpisodesManager: React.FC = () => {
 
       {/* Selected Content Info */}
       {selectedAnime && (
-        <div className="bg-blue-800/20 rounded-lg p-4 border border-blue-600">
+        <div className="bg-[#4A4A4A] rounded-xl p-4 border border-gray-600">
           <h3 className="text-lg font-semibold text-white mb-2">
             Selected: {selectedAnime.title}
           </h3>
-          <div className="flex gap-4 text-sm text-blue-300">
+          <div className="flex gap-4 text-sm text-gray-400">
             <span>Type: {selectedAnime.contentType}</span>
             <span>Status: {selectedAnime.status}</span>
             <span>Total {isManga ? 'Chapters' : 'Episodes'}: {isManga ? chapters.length : episodes.length}</span>
@@ -489,8 +489,8 @@ const EpisodesManager: React.FC = () => {
 
       {/* Session Selector */}
       {selectedAnime && getAvailableSessions().length > 0 && (
-        <div className="bg-blue-800/30 rounded-lg p-4">
-          <label className="block text-sm font-medium text-blue-200 mb-2">
+        <div className="bg-[#4A4A4A] rounded-xl p-4 border border-gray-600">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
             Select Session
           </label>
           <div className="flex flex-wrap gap-2">
@@ -504,8 +504,8 @@ const EpisodesManager: React.FC = () => {
                 }}
                 className={`px-4 py-2 rounded-lg transition-colors ${
                   selectedSession === session
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-blue-700 text-blue-200 hover:bg-blue-600'
+                    ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border border-[#60CC3F]'
+                    : 'bg-[#636363] text-gray-300 hover:bg-[#5a5a5a] border border-gray-600'
                 }`}
               >
                 Session {session}
@@ -518,7 +518,7 @@ const EpisodesManager: React.FC = () => {
                 setNewItem(prev => ({ ...prev, session: newSession, number: 1 }));
                 setEditingItemId(null); // Cancel edit when adding new session
               }}
-              className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg transition-colors"
+              className="px-4 py-2 bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white rounded-lg transition-colors border border-[#60CC3F]"
             >
               + New Session
             </button>
@@ -528,14 +528,14 @@ const EpisodesManager: React.FC = () => {
 
       {/* Add New Item Form */}
       {selectedAnime && (
-        <form onSubmit={handleAddItem} className="bg-blue-900/30 rounded-lg p-6 space-y-4">
+        <form onSubmit={handleAddItem} className="bg-[#4A4A4A] rounded-xl p-6 space-y-4 border border-gray-600">
           <h3 className="text-lg font-semibold text-white">
             Add New {isManga ? 'Chapter' : 'Episode'} {getAvailableSessions().length > 1 && `(Session ${selectedSession})`}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-blue-200 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 {isManga ? 'Chapter' : 'Episode'} Number *
               </label>
               <input
@@ -545,14 +545,14 @@ const EpisodesManager: React.FC = () => {
                   ...newItem,
                   number: Math.max(1, parseInt(e.target.value) || 1)
                 })}
-                className="w-full bg-blue-800/50 border border-blue-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full bg-[#636363] border border-gray-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#60CC3F] focus:border-transparent transition-colors"
                 min="1"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-blue-200 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Session *
               </label>
               <input
@@ -562,7 +562,7 @@ const EpisodesManager: React.FC = () => {
                   ...newItem,
                   session: Math.max(1, parseInt(e.target.value) || 1)
                 })}
-                className="w-full bg-blue-800/50 border border-blue-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full bg-[#636363] border border-gray-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#60CC3F] focus:border-transparent transition-colors"
                 min="1"
                 required
               />
@@ -572,14 +572,14 @@ const EpisodesManager: React.FC = () => {
           {/* DOWNLOAD LINKS SECTION - FOR ADD FORM */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-medium text-blue-200">
+              <label className="block text-sm font-medium text-gray-300">
                 Download Links (Required) *
               </label>
               <button
                 type="button"
                 onClick={handleAddDownloadLink}
                 disabled={newItem.downloadLinks.length >= 5}
-                className="text-xs bg-green-600 hover:bg-green-500 disabled:opacity-50 text-white px-2 py-1 rounded"
+                className="text-xs bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] disabled:opacity-50 text-white px-2 py-1 rounded border border-[#60CC3F]"
               >
                 + Add Link (Max 5)
               </button>
@@ -587,14 +587,14 @@ const EpisodesManager: React.FC = () => {
             
             <div className="space-y-3">
               {newItem.downloadLinks.map((link, index) => (
-                <div key={index} className="bg-blue-800/50 p-3 rounded-lg border border-blue-700">
+                <div key={index} className="bg-[#636363] p-3 rounded-lg border border-gray-600">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-blue-200 font-medium">Download Link {index + 1}</span>
+                    <span className="text-gray-300 font-medium">Download Link {index + 1}</span>
                     {newItem.downloadLinks.length > 1 && (
                       <button
                         type="button"
                         onClick={() => handleRemoveDownloadLink(index)}
-                        className="text-xs bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded"
+                        className="text-xs bg-gradient-to-r from-[#FF6B6B] to-[#FF5252] hover:from-[#FF5252] hover:to-[#FF6B6B] text-white px-2 py-1 rounded border border-[#FF6B6B]"
                       >
                         Remove
                       </button>
@@ -603,47 +603,47 @@ const EpisodesManager: React.FC = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs text-blue-300 mb-1">Link Name *</label>
+                      <label className="block text-xs text-gray-400 mb-1">Link Name *</label>
                       <input
                         type="text"
                         value={link.name}
                         onChange={(e) => handleUpdateDownloadLink(index, 'name', e.target.value)}
-                        className="w-full bg-blue-900/70 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                        className="w-full bg-[#4A4A4A] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                         placeholder="e.g., Download Link 1, Server 1, etc."
                         required
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-xs text-blue-300 mb-1">Quality (Optional)</label>
+                      <label className="block text-xs text-gray-400 mb-1">Quality (Optional)</label>
                       <input
                         type="text"
                         value={link.quality || ''}
                         onChange={(e) => handleUpdateDownloadLink(index, 'quality', e.target.value)}
-                        className="w-full bg-blue-900/70 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                        className="w-full bg-[#4A4A4A] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                         placeholder="e.g., 720p, HD, 1080p"
                       />
                     </div>
                   </div>
                   
                   <div className="mt-3">
-                    <label className="block text-xs text-blue-300 mb-1">Download URL *</label>
+                    <label className="block text-xs text-gray-400 mb-1">Download URL *</label>
                     <input
                       type="url"
                       value={link.url}
                       onChange={(e) => handleUpdateDownloadLink(index, 'url', e.target.value)}
-                      className="w-full bg-blue-900/70 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                      className="w-full bg-[#4A4A4A] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                       placeholder="https://example.com/download/video.mp4"
                       required
                     />
                   </div>
                   
                   <div className="mt-3">
-                    <label className="block text-xs text-blue-300 mb-1">Type (Optional)</label>
+                    <label className="block text-xs text-gray-400 mb-1">Type (Optional)</label>
                     <select
                       value={link.type || 'direct'}
                       onChange={(e) => handleUpdateDownloadLink(index, 'type', e.target.value)}
-                      className="w-full bg-blue-900/70 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                      className="w-full bg-[#4A4A4A] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                     >
                       <option value="direct">Direct Download</option>
                       <option value="server">Server Download</option>
@@ -656,13 +656,13 @@ const EpisodesManager: React.FC = () => {
               ))}
             </div>
             
-            <p className="text-blue-300 text-xs mt-2">
+            <p className="text-gray-400 text-xs mt-2">
               💡 You can add up to 5 download links. At least one link with name and URL is required.
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-blue-200 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               {isManga ? 'Chapter' : 'Episode'} Title
             </label>
             <input
@@ -670,7 +670,7 @@ const EpisodesManager: React.FC = () => {
               value={newItem.title}
               onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
               placeholder={`Optional - defaults to '${isManga ? 'Chapter' : 'Episode'} X'`}
-              className="w-full bg-blue-800/50 border border-blue-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full bg-[#636363] border border-gray-600 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#60CC3F] focus:border-transparent transition-colors"
             />
           </div>
 
@@ -678,7 +678,7 @@ const EpisodesManager: React.FC = () => {
             <button
               type="submit"
               disabled={addingItem || !selectedAnime}
-              className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] disabled:opacity-50 font-semibold text-white rounded-lg transition-colors flex items-center gap-2 border border-[#60CC3F]"
             >
               {addingItem ? (
                 <>
@@ -695,7 +695,7 @@ const EpisodesManager: React.FC = () => {
 
       {/* Items List */}
       {selectedAnime && (
-        <div className="bg-blue-900/30 rounded-lg p-6">
+        <div className="bg-[#4A4A4A] rounded-xl p-6 border border-gray-600">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-white">
               {isManga ? 'Chapters' : 'Episodes'} List {getAvailableSessions().length > 1 && `(Session ${selectedSession})`}
@@ -709,34 +709,34 @@ const EpisodesManager: React.FC = () => {
               <Spinner size="md" text={`Loading ${isManga ? 'chapters' : 'episodes'}...`} />
             </div>
           ) : filteredItems.length === 0 ? (
-            <div className="text-center py-8 text-blue-300">
+            <div className="text-center py-8 text-gray-400">
               No {isManga ? 'chapters' : 'episodes'} added yet for Session {selectedSession}.
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full bg-blue-800/30 rounded-lg overflow-hidden">
-                <thead className="bg-blue-600/50">
+              <table className="w-full bg-[#636363] rounded-lg overflow-hidden">
+                <thead className="bg-[#4A4A4A]">
                   <tr>
-                    <th className="p-3 text-left text-blue-200 font-medium">#</th>
-                    <th className="p-3 text-left text-blue-200 font-medium">Session</th>
-                    <th className="p-3 text-left text-blue-200 font-medium">Title</th>
-                    <th className="p-3 text-left text-blue-200 font-medium">Download Links</th>
-                    <th className="p-3 text-left text-blue-200 font-medium">Actions</th>
+                    <th className="p-3 text-left text-gray-300 font-medium">#</th>
+                    <th className="p-3 text-left text-gray-300 font-medium">Session</th>
+                    <th className="p-3 text-left text-gray-300 font-medium">Title</th>
+                    <th className="p-3 text-left text-gray-300 font-medium">Download Links</th>
+                    <th className="p-3 text-left text-gray-300 font-medium">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-blue-700">
+                <tbody className="divide-y divide-gray-700">
                   {filteredItems.map((item: any) => {
                     const downloadLinks: DownloadLink[] = item.downloadLinks || [];
                     const isEditing = editingItemId === item._id;
                     
                     return (
                       <React.Fragment key={item._id}>
-                        <tr className={`hover:bg-blue-600/30 transition-colors ${isEditing ? 'bg-blue-700/50' : ''}`}>
-                          <td className="p-3 font-mono text-blue-200">
+                        <tr className={`hover:bg-[#5a5a5a] transition-colors ${isEditing ? 'bg-[#636363]' : ''}`}>
+                          <td className="p-3 font-mono text-gray-300">
                             {isManga ? item.chapterNumber : item.episodeNumber}
                           </td>
                           <td className="p-3">
-                            <span className="text-blue-300 bg-blue-600/30 px-2 py-1 rounded text-xs">
+                            <span className="text-[#60CC3F] bg-[#60CC3F]/10 px-2 py-1 rounded text-xs border border-[#60CC3F]/30">
                               S{item.session || 1}
                             </span>
                           </td>
@@ -746,12 +746,12 @@ const EpisodesManager: React.FC = () => {
                               <div className="space-y-1">
                                 {downloadLinks.slice(0, 2).map((link, idx) => (
                                   <div key={idx} className="text-xs">
-                                    <span className="text-blue-400 font-medium">{link.name}:</span>
+                                    <span className="text-[#60CC3F] font-medium">{link.name}:</span>
                                     <a 
                                       href={link.url} 
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="text-blue-400 hover:text-blue-300 ml-1 truncate block max-w-xs"
+                                      className="text-[#60CC3F] hover:text-[#4CAF50] ml-1 truncate block max-w-xs"
                                       title={link.url}
                                     >
                                       {link.url.substring(0, 40)}...
@@ -759,13 +759,13 @@ const EpisodesManager: React.FC = () => {
                                   </div>
                                 ))}
                                 {downloadLinks.length > 2 && (
-                                  <div className="text-green-400 text-xs">
+                                  <div className="text-[#60CC3F] text-xs">
                                     + {downloadLinks.length - 2} more link{downloadLinks.length - 2 > 1 ? 's' : ''}
                                   </div>
                                 )}
                               </div>
                             ) : (
-                              <span className="text-blue-400/70 text-sm">No download links</span>
+                              <span className="text-gray-400 text-sm">No download links</span>
                             )}
                           </td>
                           <td className="p-3">
@@ -774,8 +774,8 @@ const EpisodesManager: React.FC = () => {
                                 onClick={() => handleEditItem(item)}
                                 className={`px-3 py-1 rounded text-sm transition-colors ${
                                   isEditing 
-                                    ? 'bg-yellow-600 hover:bg-yellow-500 text-white' 
-                                    : 'bg-blue-500 hover:bg-blue-400 text-white'
+                                    ? 'bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-500 hover:to-yellow-600 text-white border border-yellow-600' 
+                                    : 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white border border-[#60CC3F]'
                                 }`}
                                 title={isEditing ? "Cancel Edit" : "Edit"}
                               >
@@ -784,7 +784,7 @@ const EpisodesManager: React.FC = () => {
                               {!isEditing && (
                                 <button
                                   onClick={() => handleDeleteItem(item._id, isManga ? item.chapterNumber : item.episodeNumber, item.session || 1)}
-                                  className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-sm transition-colors"
+                                  className="px-3 py-1 bg-gradient-to-r from-[#FF6B6B] to-[#FF5252] hover:from-[#FF5252] hover:to-[#FF6B6B] text-white rounded text-sm transition-colors border border-[#FF6B6B]"
                                   title="Delete"
                                 >
                                   🗑️ Delete
@@ -796,7 +796,7 @@ const EpisodesManager: React.FC = () => {
                         
                         {/* EDIT FORM ROW - Appears below the episode/chapter */}
                         {isEditing && (
-                          <tr className="bg-blue-800/50 border-b border-blue-700">
+                          <tr className="bg-[#636363] border-b border-gray-600">
                             <td colSpan={5} className="p-4">
                               <div className="border-l-4 border-yellow-500 pl-4 py-3">
                                 <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
@@ -809,7 +809,7 @@ const EpisodesManager: React.FC = () => {
                                 <div className="space-y-4">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                      <label className="block text-sm font-medium text-blue-200 mb-1">
+                                      <label className="block text-sm font-medium text-gray-300 mb-1">
                                         {isManga ? 'Chapter' : 'Episode'} Number *
                                       </label>
                                       <input
@@ -819,14 +819,14 @@ const EpisodesManager: React.FC = () => {
                                           ...editForm,
                                           number: Math.max(1, parseInt(e.target.value) || 1)
                                         })}
-                                        className="w-full bg-blue-800/70 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                                        className="w-full bg-[#4A4A4A] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                                         min="1"
                                         required
                                       />
                                     </div>
 
                                     <div>
-                                      <label className="block text-sm font-medium text-blue-200 mb-1">
+                                      <label className="block text-sm font-medium text-gray-300 mb-1">
                                         Session *
                                       </label>
                                       <input
@@ -836,7 +836,7 @@ const EpisodesManager: React.FC = () => {
                                           ...editForm,
                                           session: Math.max(1, parseInt(e.target.value) || 1)
                                         })}
-                                        className="w-full bg-blue-800/70 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                                        className="w-full bg-[#4A4A4A] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                                         min="1"
                                         required
                                       />
@@ -846,14 +846,14 @@ const EpisodesManager: React.FC = () => {
                                   {/* DOWNLOAD LINKS SECTION - FOR EDIT FORM */}
                                   <div>
                                     <div className="flex justify-between items-center mb-2">
-                                      <label className="block text-sm font-medium text-blue-200">
+                                      <label className="block text-sm font-medium text-gray-300">
                                         Download Links (Required) *
                                       </label>
                                       <button
                                         type="button"
                                         onClick={handleEditAddDownloadLink}
                                         disabled={editForm.downloadLinks.length >= 5}
-                                        className="text-xs bg-green-600 hover:bg-green-500 disabled:opacity-50 text-white px-2 py-1 rounded"
+                                        className="text-xs bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] disabled:opacity-50 text-white px-2 py-1 rounded border border-[#60CC3F]"
                                       >
                                         + Add Link (Max 5)
                                       </button>
@@ -861,14 +861,14 @@ const EpisodesManager: React.FC = () => {
                                     
                                     <div className="space-y-3">
                                       {editForm.downloadLinks.map((link, index) => (
-                                        <div key={index} className="bg-blue-900/50 p-3 rounded-lg border border-blue-600">
+                                        <div key={index} className="bg-[#4A4A4A] p-3 rounded-lg border border-gray-600">
                                           <div className="flex justify-between items-center mb-2">
-                                            <span className="text-blue-200 font-medium">Download Link {index + 1}</span>
+                                            <span className="text-gray-300 font-medium">Download Link {index + 1}</span>
                                             {editForm.downloadLinks.length > 1 && (
                                               <button
                                                 type="button"
                                                 onClick={() => handleEditRemoveDownloadLink(index)}
-                                                className="text-xs bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded"
+                                                className="text-xs bg-gradient-to-r from-[#FF6B6B] to-[#FF5252] hover:from-[#FF5252] hover:to-[#FF6B6B] text-white px-2 py-1 rounded border border-[#FF6B6B]"
                                               >
                                                 Remove
                                               </button>
@@ -877,47 +877,47 @@ const EpisodesManager: React.FC = () => {
                                           
                                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <div>
-                                              <label className="block text-xs text-blue-300 mb-1">Link Name *</label>
+                                              <label className="block text-xs text-gray-400 mb-1">Link Name *</label>
                                               <input
                                                 type="text"
                                                 value={link.name}
                                                 onChange={(e) => handleEditUpdateDownloadLink(index, 'name', e.target.value)}
-                                                className="w-full bg-blue-800 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                                                className="w-full bg-[#636363] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                                                 placeholder="e.g., Download Link 1, Server 1, etc."
                                                 required
                                               />
                                             </div>
                                             
                                             <div>
-                                              <label className="block text-xs text-blue-300 mb-1">Quality (Optional)</label>
+                                              <label className="block text-xs text-gray-400 mb-1">Quality (Optional)</label>
                                               <input
                                                 type="text"
                                                 value={link.quality || ''}
                                                 onChange={(e) => handleEditUpdateDownloadLink(index, 'quality', e.target.value)}
-                                                className="w-full bg-blue-800 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                                                className="w-full bg-[#636363] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                                                 placeholder="e.g., 720p, HD, 1080p"
                                               />
                                             </div>
                                           </div>
                                           
                                           <div className="mt-3">
-                                            <label className="block text-xs text-blue-300 mb-1">Download URL *</label>
+                                            <label className="block text-xs text-gray-400 mb-1">Download URL *</label>
                                             <input
                                               type="url"
                                               value={link.url}
                                               onChange={(e) => handleEditUpdateDownloadLink(index, 'url', e.target.value)}
-                                              className="w-full bg-blue-800 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                                              className="w-full bg-[#636363] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                                               placeholder="https://example.com/download/video.mp4"
                                               required
                                             />
                                           </div>
                                           
                                           <div className="mt-3">
-                                            <label className="block text-xs text-blue-300 mb-1">Type (Optional)</label>
+                                            <label className="block text-xs text-gray-400 mb-1">Type (Optional)</label>
                                             <select
                                               value={link.type || 'direct'}
                                               onChange={(e) => handleEditUpdateDownloadLink(index, 'type', e.target.value)}
-                                              className="w-full bg-blue-800 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                                              className="w-full bg-[#636363] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                                             >
                                               <option value="direct">Direct Download</option>
                                               <option value="server">Server Download</option>
@@ -932,7 +932,7 @@ const EpisodesManager: React.FC = () => {
                                   </div>
 
                                   <div>
-                                    <label className="block text-sm font-medium text-blue-200 mb-1">
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">
                                       {isManga ? 'Chapter' : 'Episode'} Title
                                     </label>
                                     <input
@@ -940,7 +940,7 @@ const EpisodesManager: React.FC = () => {
                                       value={editForm.title}
                                       onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
                                       placeholder={`Optional - defaults to '${isManga ? 'Chapter' : 'Episode'} X'`}
-                                      className="w-full bg-blue-800/70 border border-blue-600 text-white rounded-lg px-3 py-2 text-sm"
+                                      className="w-full bg-[#4A4A4A] border border-gray-600 text-white rounded-lg px-3 py-2 text-sm"
                                     />
                                   </div>
 
@@ -948,7 +948,7 @@ const EpisodesManager: React.FC = () => {
                                     <button
                                       type="button"
                                       onClick={handleUpdateItem}
-                                      className="bg-green-600 hover:bg-green-500 text-white font-medium py-2 px-4 rounded text-sm transition-colors flex items-center gap-2"
+                                      className="px-4 py-2 bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] hover:from-[#4CAF50] hover:to-[#60CC3F] text-white font-medium rounded text-sm transition-colors flex items-center gap-2 border border-[#60CC3F]"
                                     >
                                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -958,7 +958,7 @@ const EpisodesManager: React.FC = () => {
                                     <button
                                       type="button"
                                       onClick={handleCancelEdit}
-                                      className="bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded text-sm transition-colors"
+                                      className="px-4 py-2 bg-[#636363] hover:bg-[#5a5a5a] text-white font-medium rounded text-sm transition-colors border border-gray-600"
                                     >
                                       Cancel
                                     </button>
