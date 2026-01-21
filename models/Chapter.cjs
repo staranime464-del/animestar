@@ -47,7 +47,6 @@ const chapterSchema = new mongoose.Schema({
     default: 1,
     min: 1
   },
-  // ✅ Changed from cutyLink to downloadLinks array
   downloadLinks: {
     type: [downloadLinkSchema],
     required: true,

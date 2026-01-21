@@ -1,4 +1,4 @@
- // components/PrivacyPolicy.tsx - FIXED MOBILE VIEW
+ // components/PrivacyPolicy.tsx  
 import React from 'react';
 import { Link } from 'react-router-dom';
 

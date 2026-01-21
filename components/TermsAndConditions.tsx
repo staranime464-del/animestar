@@ -1,4 +1,4 @@
- // components/TermsAndConditions.tsx - UPDATED FOR DARK GRAY + GREEN THEME
+ // components/TermsAndConditions.tsx 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -84,11 +84,11 @@ const TermsAndConditions: React.FC = () => {
                 <p className="text-gray-300 mb-2 text-sm sm:text-base">
                   Users can manage ad preferences here:
                 </p>
-                <a href="https://www.google.com/settings/ads" 
+                <a href="https://www.google,com/settings/ads" 
                    target="_blank" 
                    rel="noopener noreferrer"
                    className="text-[#60CC3F] hover:text-[#4CAF50] transition-colors break-words text-sm sm:text-base">
-                  https://www.google.com/settings/ads
+                  https://www.google,com/settings/ads
                 </a>
               </div>
             </section>

@@ -1,4 +1,4 @@
-// models/Analytics.cjs - COMPREHENSIVE ANALYTICS SYSTEM
+// models/Analytics.cjs  
 const mongoose = require('mongoose');
 
 const analyticsSchema = new mongoose.Schema({
@@ -51,17 +51,17 @@ const analyticsSchema = new mongoose.Schema({
   timestamps: true 
 });
 
-// ✅ Daily summary index for faster queries
+// Daily summary index for faster queries
 analyticsSchema.index({ date: 1 }, { unique: true });
 
-// ✅ Static method to get today's analytics
+// Static method to get today's analytics
 analyticsSchema.statics.getToday = function() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return this.findOne({ date: today });
 };
 
-// ✅ Static method to record a visit
+// Static method to record a visit
 analyticsSchema.statics.recordVisit = async function(req, earnings = 0) {
   try {
     const today = new Date();
@@ -71,7 +71,7 @@ analyticsSchema.statics.recordVisit = async function(req, earnings = 0) {
     const userAgent = req.headers['user-agent'] || '';
     const referrer = req.headers.referer || 'Direct';
     
-    // Simple device detection (in production use proper library)
+    // Simple device detection 
     const isMobile = /Mobile|Android|iPhone/i.test(userAgent);
     const deviceType = isMobile ? 'mobile' : 'desktop';
     
@@ -109,7 +109,7 @@ analyticsSchema.statics.recordVisit = async function(req, earnings = 0) {
     } else {
       analytics.pageViews += 1;
       analytics.earnings += earnings;
-      // ✅ FIX: Better unique visitor tracking
+      // Better unique visitor tracking
       if (!analytics.visitorIPs.includes(ip)) {
         analytics.uniqueVisitors += 1;
         analytics.visitorIPs.push(ip);

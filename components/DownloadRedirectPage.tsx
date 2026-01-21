@@ -1,4 +1,4 @@
- // components/DownloadRedirectPage.tsx - UPDATED FOR DARK GRAY + GREEN THEME
+ // components/DownloadRedirectPage.tsx  
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ interface DownloadLink {
 interface DownloadPageState {
   title: string;
   animeTitle: string;
-  animeId?: string; // ✅ ADDED: For back navigation
+  animeId?: string; //  For back navigation
   contentType: 'episode' | 'chapter';
   contentNumber: number;
   downloadLinks: DownloadLink[];
@@ -29,10 +29,10 @@ const DownloadRedirectPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectedLinkIndex, setSelectedLinkIndex] = useState<number | null>(null);
 
-  // ✅ Get data from location state (passed from AnimeDetailPage)
+  // Get data from location state (passed from AnimeDetailPage)
   const state = location.state as DownloadPageState | null;
 
-  // ✅ Fallback for old single link format (backward compatibility)
+  // Fallback for old single link format (backward compatibility)
   const fileId = new URLSearchParams(location.search).get('id');
   const fileName = new URLSearchParams(location.search).get('fileName') || 'video.mp4';
 
@@ -48,7 +48,7 @@ const DownloadRedirectPage: React.FC = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // ✅ Handle countdown for multiple links (auto-select first link)
+  // Handle countdown for multiple links (auto-select first link)
   useEffect(() => {
     if (state?.downloadLinks && state.downloadLinks.length > 0) {
       const timer = setInterval(() => {
@@ -87,7 +87,7 @@ const DownloadRedirectPage: React.FC = () => {
     }
   }, [state, fileId]);
 
-  // ✅ Old single download function (for backward compatibility)
+  // Old single download function (for backward compatibility)
   const startSingleDownload = () => {
     setIsDownloading(true);
     
@@ -126,7 +126,7 @@ const DownloadRedirectPage: React.FC = () => {
     }
   };
 
-  // ✅ NEW: Handle download click for multiple links
+  // Handle download click for multiple links
   const handleDownloadClick = (link: DownloadLink, index: number) => {
     setIsDownloading(true);
     setSelectedLinkIndex(index);
@@ -140,7 +140,7 @@ const DownloadRedirectPage: React.FC = () => {
     }, 2000);
   };
 
-  // ✅ NEW: Handle going back to anime detail page
+  //  Handle going back to anime detail page
   const handleBackToAnime = () => {
     if (state?.animeId) {
       // Navigate back to anime detail page
@@ -161,7 +161,7 @@ const DownloadRedirectPage: React.FC = () => {
     }
   };
 
-  // ✅ Render download links list - SIMPLIFIED (NO LINK URLS)
+  // Render download links list 
   const renderDownloadLinks = () => {
     if (!state?.downloadLinks || state.downloadLinks.length === 0) {
       return null;
@@ -194,7 +194,7 @@ const DownloadRedirectPage: React.FC = () => {
                   : 'bg-[#4A4A4A] border-gray-600 hover:border-[#60CC3F]/50 hover:bg-[#4A4A4A]/80'
               }`}
             >
-              {/* ✅ UPDATED: Mobile view - Text on first line, button on second line */}
+              {/* Mobile view - Text on first line, button on second line */}
               <div className="flex flex-col">
                 {/* First line: Link Info */}
                 <div className="flex items-start mb-3 gap-3">
@@ -227,7 +227,7 @@ const DownloadRedirectPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* ✅ Second line: Download button - Full width on mobile */}
+                {/* Second line: Download button - Full width on mobile */}
                 <button
                   onClick={() => handleDownloadClick(link, index)}
                   disabled={isDownloading}
@@ -253,7 +253,7 @@ const DownloadRedirectPage: React.FC = () => {
                 </button>
               </div>
               
-              {/* ✅ REMOVED: Link URL section */}
+              {/* Link URL section */}
             </div>
           ))}
         </div>
@@ -285,7 +285,7 @@ const DownloadRedirectPage: React.FC = () => {
     );
   };
 
-  // ✅ Get title for display
+  // Get title for display
   const getDisplayTitle = () => {
     if (state) {
       const shortTitle = state.animeTitle.length > 30 
@@ -350,7 +350,7 @@ const DownloadRedirectPage: React.FC = () => {
             {state ? `${state.contentType.charAt(0).toUpperCase() + state.contentType.slice(1)} ${state.contentNumber}` : 'File Download'}
           </p>
           
-          {/* ✅ ADDED: Quick Back Button at Top */}
+          {/* Quick Back Button at Top */}
           <button
             onClick={handleBackToAnime}
             className="mt-3 bg-[#636363] hover:bg-[#4A4A4A] text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-1 border border-gray-600"
@@ -390,7 +390,7 @@ const DownloadRedirectPage: React.FC = () => {
             </div>
           </div>
 
-          {/* ✅ Show download links list if multiple links */}
+          {/* download links list if multiple links */}
           {state?.downloadLinks && state.downloadLinks.length > 0 ? (
             renderDownloadLinks()
           ) : (
@@ -447,7 +447,7 @@ const DownloadRedirectPage: React.FC = () => {
                   )}
                 </button>
 
-                {/* ✅ CHANGED: "Go Back" to "Back to Anime" */}
+                {/* CHANGED: "Go Back" to "Back to Anime" */}
                 <button
                   onClick={handleBackToAnime}
                   className="w-full border-2 border-gray-600 text-white py-3 rounded-lg font-medium hover:bg-[#636363] transition-all active:scale-95 flex items-center justify-center gap-2"

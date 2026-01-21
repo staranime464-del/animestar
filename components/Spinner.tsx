@@ -1,4 +1,4 @@
- // components/Spinner.tsx - UPDATED FOR ANIMESTAR DARK GRAY + GREEN THEME
+ // components/Spinner.tsx  
 import React from 'react';
 
 interface SpinnerProps {
@@ -96,7 +96,7 @@ const Spinner: React.FC<SpinnerProps> = ({
   );
 };
 
-// Add the animation style if not already present
+// the animation style  
 const SpinnerStyles: React.FC = () => (
   <style>{`
     @keyframes loadingBar {

@@ -1,4 +1,4 @@
- // components/ReportButton.tsx - UPDATED FOR ANIMESTAR DARK GRAY + GREEN THEME
+ // components/ReportButton.tsx  
 import React, { useState } from 'react';
 import axios from 'axios';
 import { createPortal } from "react-dom";
@@ -101,7 +101,7 @@ const ReportButton: React.FC<ReportButtonProps> = ({
         </div>
       </button>
 
-      {/* ENHANCED MODAL WITH DARK GRAY + GREEN THEME */}
+      {/* MODAL WITH DARK GRAY + GREEN THEME */}
       {showModal &&
         createPortal(
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">

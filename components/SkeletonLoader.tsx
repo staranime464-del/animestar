@@ -1,7 +1,7 @@
- // components/SkeletonLoader.tsx - UPDATED FOR ANIMESTAR DARK GRAY + GREEN THEME
+ // components/SkeletonLoader.tsx  
 import React from 'react';
 
-// ✅ Make type prop optional
+// type prop optional
 interface SkeletonLoaderProps {
   type?: 'card' | 'list' | 'text' | 'image';
   count?: number;
@@ -82,7 +82,7 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ type = 'card', c
   }
 };
 
-// ✅ Simple Skeleton without type prop (for HomePage)
+// Skeleton without type prop (for HomePage)
 export const SimpleSkeleton: React.FC = () => (
   <div className="bg-[#4A4A4A] rounded-xl overflow-hidden animate-pulse border border-gray-600/50">
     <div className="aspect-[2/3] bg-gradient-to-br from-gray-600/30 to-gray-700/30"></div>

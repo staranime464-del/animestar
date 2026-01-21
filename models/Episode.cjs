@@ -47,7 +47,6 @@ const episodeSchema = new mongoose.Schema({
     default: 1,
     min: 1
   },
-  // ✅ Changed from cutyLink to downloadLinks array
   downloadLinks: {
     type: [downloadLinkSchema],
     required: true,
@@ -64,7 +63,7 @@ const episodeSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// ✅ BETTER INDEXING
+// INDEXING
 episodeSchema.index({ animeId: 1, episodeNumber: 1, session: 1 }, { unique: true });
 episodeSchema.index({ animeId: 1 }); // Separate index for queries
 

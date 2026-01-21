@@ -1,4 +1,4 @@
- // components/AnimeListPage.tsx - UPDATED WITH # FILTER
+ // components/AnimeListPage.tsx  
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Anime, FilterType } from '../src/types';
 import { getAllAnime } from '../services/animeService';
@@ -37,7 +37,7 @@ const AnimeListPage: React.FC<AnimeListPageProps> = ({ onAnimeSelect }) => {
   const sortedAndFilteredAnime = useMemo(() => {
     let result = allAnime;
     
-    // Apply search filter
+    // search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       result = result.filter(anime => 
@@ -45,16 +45,16 @@ const AnimeListPage: React.FC<AnimeListPageProps> = ({ onAnimeSelect }) => {
       );
     }
     
-    // Apply alphabetical filter
+    // alphabetical filter
     if (selectedLetter !== 'All') {
       if (selectedLetter === '#') {
-        // Show anime that don't start with A-Z
+        // anime that don't start with A-Z
         result = result.filter(anime => {
           const firstChar = anime.title.charAt(0).toUpperCase();
           return !/[A-Z]/.test(firstChar);
         });
       } else {
-        // Show anime starting with the selected letter
+        // anime starting with the selected letter
         result = result.filter(anime => 
           anime.title.charAt(0).toUpperCase() === selectedLetter
         );
@@ -177,7 +177,7 @@ const AnimeListPage: React.FC<AnimeListPageProps> = ({ onAnimeSelect }) => {
 
   return (
     <>
-      {/* ✅ SEO COMPONENT ADDED HERE */}
+      {/* SEO COMPONENT ADDED HERE */}
       <SEO
         title={seoData.title}
         description={seoData.description}
@@ -300,7 +300,7 @@ const AnimeListPage: React.FC<AnimeListPageProps> = ({ onAnimeSelect }) => {
             </div>
           )}
           
-          {/* ✅ SEO Description - Hidden from UI but visible to search engines */}
+          {/* SEO Description - Hidden from UI but visible to search engines */}
           <div className="hidden" itemScope itemType="https://schema.org/ItemList">
             <meta itemProp="name" content={seoData.title} />
             <meta itemProp="description" content={seoData.description} />

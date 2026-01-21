@@ -1,4 +1,4 @@
- // components/HomePage.tsx - UPDATED WITH DARK GRAY + GREEN BORDER THEME
+ // components/HomePage.tsx  
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import type { Anime, FilterType, ContentTypeFilter } from '../src/types';
 import AnimeCard from './AnimeCard';
@@ -73,7 +73,7 @@ const HomePage: React.FC<Props> = ({
       }
     }
     
-    let canonicalUrl = 'https://animestar.com';
+    let canonicalUrl = 'https://animestar.in';
     const params = new URLSearchParams();
     
     if (localFilter !== 'All') params.set('filter', localFilter);
@@ -86,11 +86,11 @@ const HomePage: React.FC<Props> = ({
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Animestar",
-      "url": "https://animestar.com",
+      "url": "https://animestar.in",
       "description": "Watch anime online for free in Hindi and English. HD quality streaming and downloads.",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://animestar.com?search={search_term_string}",
+        "target": "https://animestar.in?search={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     };
@@ -278,7 +278,7 @@ const HomePage: React.FC<Props> = ({
     return (
       <>
         <SEO
-          title="Loading... | Animestar"
+          title="Anime | Animestar"
           description="Watch anime online for free in Hindi and English. HD quality streaming and downloads."
           keywords="anime, watch anime online, hindi anime, english anime"
         />
@@ -298,7 +298,7 @@ const HomePage: React.FC<Props> = ({
     return (
       <>
         <SEO
-          title="Error Loading Anime | Animestar"
+          title="Anime | Animestar"
           description="Watch anime online for free in Hindi and English. HD quality streaming and downloads."
           keywords="anime, watch anime online, hindi anime, english anime"
         />
@@ -337,7 +337,7 @@ const HomePage: React.FC<Props> = ({
       <div className="hidden" itemScope itemType="https://schema.org/WebSite">
         <meta itemProp="name" content="Animestar" />
         <meta itemProp="description" content="Watch anime online for free in Hindi and English. HD quality streaming and downloads." />
-        <meta itemProp="url" content="https://animestar.com" />
+        <meta itemProp="url" content="https://animestar.in" />
       </div>
       
       <div className="min-h-screen bg-[#636363]">

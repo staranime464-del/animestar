@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Updated API BASE URL for Animestar
+  // Animestar
   const API_BASE = 'https://animestar.onrender.com';
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
       case 'movies':
         newUrl = window.location.origin + '/?contentType=Movie';
         break;
-      // ❌ Manga removed from here
+      
       case 'anime-list':
         navigate('/anime');
         setTimeout(() => setIsNavigating(false), 800);
@@ -166,7 +166,7 @@ const Footer: React.FC = () => {
     <>
       {isNavigating && <NavigationLoader />}
      
-      {/* ✅ DARK GRAY BACKGROUND WITH GREEN TOP BORDER */}
+      {/* DARK GRAY BACKGROUND WITH GREEN TOP BORDER */}
       <footer className="bg-[#636363] border-t-2 border-[#60CC3F]">
         <div className="container mx-auto py-10 px-4 lg:px-6">
           {/* Main Footer Content - Grid Layout */}

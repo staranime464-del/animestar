@@ -1,14 +1,14 @@
- // components/AnimeDetailWrapper.tsx - UPDATED FOR DARK GRAY + GREEN THEME
-// ✅ SLUG-ONLY SUPPORT - NO ID FALLBACK
+ // components/AnimeDetailWrapper.tsx - DARK GRAY + GREEN THEME
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AnimeDetailPage from './AnimeDetailPage';
-import { getAnimeBySlug } from '../services/animeService'; // ✅ Updated import
+import { getAnimeBySlug } from '../services/animeService'; // 
 import { AnimeDetailSkeleton } from './SkeletonLoader';
 import type { Anime } from '../src/types';
 
 const AnimeDetailWrapper: React.FC = () => {
-  // ✅ UPDATED: Use 'slug' instead of 'idOrSlug'
+  // Use 'slug' instead of 'idOrSlug'
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [anime, setAnime] = useState<Anime | null>(null);
@@ -17,7 +17,7 @@ const AnimeDetailWrapper: React.FC = () => {
 
   useEffect(() => {
     const fetchAnime = async () => {
-      // ✅ UPDATED: Check for slug instead of idOrSlug
+      // Check for slug instead of idOrSlug
       if (!slug) {
         setError('Invalid anime slug');
         setLoading(false);
@@ -30,7 +30,7 @@ const AnimeDetailWrapper: React.FC = () => {
         
         console.log('🔍 Fetching anime with slug:', slug);
         
-        // ✅ UPDATED: Fetch anime by Slug ONLY
+        // Fetch anime by Slug ONLY
         const animeData = await getAnimeBySlug(slug);
         
         if (!animeData) {
@@ -51,7 +51,7 @@ const AnimeDetailWrapper: React.FC = () => {
     };
 
     fetchAnime();
-  }, [slug]); // ✅ Dependency changed to slug
+  }, [slug]); // Dependency changed to slug
 
   const handleBack = () => {
     navigate(-1);

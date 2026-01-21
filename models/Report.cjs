@@ -1,4 +1,4 @@
-// models/Report.cjs - FINAL VERSION
+// models/Report.cjs  
 const mongoose = require('mongoose');
 
 const reportSchema = new mongoose.Schema({
@@ -29,7 +29,7 @@ const reportSchema = new mongoose.Schema({
   },
   message: {
     type: String,
-    required: false  // ✅ CHANGED TO FALSE
+    required: false   
   },
   
   // Common Fields
@@ -44,7 +44,7 @@ const reportSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: false  // ✅ CHANGED TO FALSE
+    required: false   
   },
   username: {
     type: String,
@@ -76,7 +76,7 @@ const reportSchema = new mongoose.Schema({
   timestamps: true 
 });
 
-// ✅ Auto-fill fields for compatibility
+// Auto-fill fields for compatibility
 reportSchema.pre('save', function(next) {
   // For episode reports: copy description to message
   if (this.type === 'episode' && this.description && !this.message) {

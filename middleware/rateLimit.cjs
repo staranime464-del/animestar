@@ -40,7 +40,7 @@ const adminLimiter = rateLimit({
 // API limiter
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 2000, // ✅ 200 se 2000 karo
+  max: 2000, // 200 se 2000 karo
   message: {
     success: false,
     error: 'Too many API requests, please try again later.'

@@ -1,4 +1,4 @@
-// middleware/adminAuth.cjs - SECURE VERSION
+// middleware/adminAuth.cjs  
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 

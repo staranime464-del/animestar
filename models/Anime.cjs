@@ -1,6 +1,6 @@
- // models/Anime.cjs - UPDATED WITH SEO FIELDS + CLEAN SLUGS (NO RANDOM STRINGS)
+ // models/Anime.cjs  
 const mongoose = require('mongoose');
-const slugify = require('slugify'); // ✅ ADD THIS AT TOP
+const slugify = require('slugify');  
 
 const animeSchema = new mongoose.Schema({
   title: { 
@@ -13,13 +13,13 @@ const animeSchema = new mongoose.Schema({
   genreList: [String],
   releaseYear: Number,
   thumbnail: String,
-  bannerImage: String, // ✅ ADDED: For featured/carousel display
+  bannerImage: String, // featured/carousel display
   contentType: {
     type: String,
     enum: ['Anime', 'Movie', 'Manga'],
     default: 'Anime'
   },
-  // ✅ UPDATED: Added 'English Sub' to enum
+  // 'English Sub' to enum
   subDubStatus: {
     type: String,
     enum: ['Hindi Dub', 'Hindi Sub', 'English Sub', 'Both', 'Subbed', 'Dubbed', 'Sub & Dub', 'Dual Audio'],
@@ -33,13 +33,13 @@ const animeSchema = new mongoose.Schema({
   reportCount: { type: Number, default: 0 },
   lastReported: Date,
   
-  // ✅ YEH NAYA FIELD ADD KARO: Last episode/chapter added timestamp
+  // Last episode/chapter added timestamp
   lastContentAdded: { 
     type: Date, 
     default: Date.now 
   },
 
-  // ✅ CORRECTED: USE 'featured' INSTEAD OF 'isFeatured' FOR CONSISTENCY
+  // 'featured' INSTEAD OF 'isFeatured' FOR CONSISTENCY
   featured: {
     type: Boolean,
     default: false
@@ -49,7 +49,7 @@ const animeSchema = new mongoose.Schema({
     default: 0
   },
   
-  // ✅ ADDITIONAL FIELDS FOR BETTER FUNCTIONALITY
+  // ADDITIONAL FIELDS FOR BETTER FUNCTIONALITY
   rating: {
     type: Number,
     min: 0,
@@ -65,7 +65,7 @@ const animeSchema = new mongoose.Schema({
     default: 0
   },
   
-  // ✅ SEO FIELDS ADDED HERE
+  // SEO FIELDS 
   seoTitle: {
     type: String,
     default: ''
@@ -86,12 +86,12 @@ const animeSchema = new mongoose.Schema({
     lowercase: true
   }
 }, { 
-  timestamps: true, // ✅ Yeh automatically createdAt and updatedAt fields add karega
+  timestamps: true,  
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
 
-// ✅ YEH VIRTUAL FIELDS ADD KARO
+// VIRTUAL FIELDS 
 animeSchema.virtual('episodes', {
   ref: 'Episode',
   localField: '_id',
@@ -104,12 +104,12 @@ animeSchema.virtual('chapters', {
   foreignField: 'mangaId'
 });
 
-// ✅ YEH MIDDLEWARE ADD KARO: Jab bhi anime save ho to CLEAN slug auto-generate ho (NO RANDOM STRINGS)
+// CLEAN slug auto-generate ho 
 animeSchema.pre('save', async function(next) {
   try {
-    // ✅ ONLY generate slug if it's a new document or title is modified
+    // ONLY generate slug if it's a new document or title is modified
     if (this.isNew || this.isModified('title')) {
-      // ✅ If slug is already provided (from admin), use it as is (but clean it)
+      // If slug is already provided (from admin), use it as is  
       if (this.slug && this.slug.trim() !== '') {
         // Clean the provided slug
         this.slug = slugify(this.slug, {
@@ -118,7 +118,7 @@ animeSchema.pre('save', async function(next) {
           trim: true
         });
       } else {
-        // ✅ Generate clean slug from title (NO RANDOM STRINGS)
+        // Generate clean slug from title  
         this.slug = slugify(this.title, {
           lower: true,
           strict: true,
@@ -126,13 +126,13 @@ animeSchema.pre('save', async function(next) {
         });
       }
       
-      // ✅ Check if slug already exists (excluding current document)
+      // Check if slug already exists (excluding current document)
       const existingAnime = await this.constructor.findOne({ 
         slug: this.slug,
         _id: { $ne: this._id }
       });
       
-      // ✅ If slug exists for another document, append numbers (1, 2, 3...) NOT random strings
+      // If slug exists for another document, append numbers (1, 2, 3...) NOT random strings
       if (existingAnime) {
         let counter = 2;
         let newSlug = this.slug;
@@ -150,12 +150,12 @@ animeSchema.pre('save', async function(next) {
       }
     }
     
-    // ✅ Agar episodes array modify hui hai to lastContentAdded update karo
+    // lastContentAdded   
     if (this.isModified('episodes') && this.episodes && this.episodes.length > 0) {
       this.lastContentAdded = new Date();
     }
     
-    // ✅ Agar SEO fields empty hain to default values set karo
+    // empty default values 
     if (!this.seoTitle || this.seoTitle.trim() === '') {
       this.seoTitle = `Watch ${this.title} Online in ${this.subDubStatus} | AnimeStar`;
     }
@@ -205,7 +205,6 @@ animeSchema.pre('save', async function(next) {
   }
 });
 
-// ✅ YEH STATIC METHOD ADD KARO: Anime update karo jab episode add ho
 animeSchema.statics.updateLastContent = async function(animeId) {
   await this.findByIdAndUpdate(animeId, {
     lastContentAdded: new Date(),
@@ -213,7 +212,7 @@ animeSchema.statics.updateLastContent = async function(animeId) {
   });
 };
 
-// ✅ YEH STATIC METHOD ADD KARO: Clean slug generate karo (NO RANDOM STRINGS)
+// Clean slug generate karo  
 animeSchema.statics.generateCleanSlug = async function(title, excludeId = null) {
   // Generate base slug from title
   let baseSlug = slugify(title, {
@@ -244,12 +243,12 @@ animeSchema.statics.generateCleanSlug = async function(title, excludeId = null) 
   return slug;
 };
 
-// ✅ YEH INDEXES ADD KARO FOR FASTER QUERIES
-animeSchema.index({ featured: 1, featuredOrder: -1 }); // For featured anime queries
+// FASTER QUERIES
+animeSchema.index({ featured: 1, featuredOrder: -1 });  
 animeSchema.index({ title: 'text' }); // For text search
 animeSchema.index({ lastContentAdded: -1 }); // For recent updates
 animeSchema.index({ createdAt: -1 }); // For new arrivals
-animeSchema.index({ slug: 1 }, { unique: true }); // ✅ SEO: For slug-based URL queries (UNIQUE)
-animeSchema.index({ seoTitle: 'text', seoDescription: 'text', seoKeywords: 'text' }); // ✅ SEO: For SEO content search
+animeSchema.index({ slug: 1 }, { unique: true }); // For slug-based URL queries (UNIQUE)
+animeSchema.index({ seoTitle: 'text', seoDescription: 'text', seoKeywords: 'text' }); // For SEO content search
 
 module.exports = mongoose.models.Anime || mongoose.model('Anime', animeSchema);

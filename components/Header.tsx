@@ -1,4 +1,4 @@
- // components/Header.tsx - FIXED GLOW ISSUE
+ // components/Header.tsx  
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { FilterType, ContentType } from '../src/types';
 import { SearchIcon } from './icons/SearchIcon';
@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({
     setIsMenuOpen(false);
     setIsMobileSearchOpen(false);
     
-    // ✅ 1.5 seconds ke baad navigation state reset karo
+    // 1.5 seconds ke baad navigation state reset 
     if (navigationTimeoutRef.current) {
       clearTimeout(navigationTimeoutRef.current);
     }
@@ -348,7 +348,7 @@ const Header: React.FC<HeaderProps> = ({
                 
                 <div className="h-6 w-px bg-gray-600"></div>
                 
-                {/* Anime List button - ✅ GLOW ONLY ON CLICK */}
+                {/* Anime List button */}
                 <button 
                   onClick={() => handleNavClick('list')} 
                   className={`px-5 py-2.5 rounded-lg transition-all duration-300 font-semibold text-sm disabled:opacity-50 border ${
@@ -462,7 +462,7 @@ const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
-        {/* Mobile Menu - FIXED TRANSPARENCY ISSUE */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-[#1e1e1e] shadow-2xl shadow-black/50 animate-fadeIn border-t-2 border-[#60CC3F] mt-0">
             <div className="container mx-auto px-4 py-6">

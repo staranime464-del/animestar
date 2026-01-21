@@ -1,4 +1,4 @@
- // components/AnimeCard.tsx – UPDATED (ALL BADGES GREEN THEME + SLUG NAVIGATION)
+ // components/AnimeCard.tsx 
 import React from 'react';
 import type { Anime } from '../src/types';
 import { PlayIcon } from './icons/PlayIcon';
@@ -97,7 +97,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({
     }
   };
 
-  // ✅ UPDATED: Handle click to ensure slug navigation
+  // Handle click to ensure slug navigation
   const handleCardClick = () => {
     // Check if anime has slug
     if (!anime.slug) {

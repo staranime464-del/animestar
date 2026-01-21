@@ -1,10 +1,10 @@
- // components/Contact.tsx - UPDATED FOR ANIMESTAR DARK GRAY + GREEN THEME
+ // components/Contact.tsx  
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from './Spinner';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://animestar.onrender.com/api';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({

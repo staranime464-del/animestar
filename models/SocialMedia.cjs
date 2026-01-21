@@ -1,10 +1,10 @@
-  // models/SocialMedia.cjs - ONLY FACEBOOK, INSTAGRAM, TELEGRAM
+  // models/SocialMedia.cjs  
 const mongoose = require('mongoose');
 
 const socialMediaSchema = new mongoose.Schema({
   platform: {
     type: String,
-    enum: ['facebook', 'instagram', 'telegram'], // ✅ Only these 3 platforms
+    enum: ['facebook', 'instagram', 'telegram'], 
     required: true,
     unique: true,
     lowercase: true
@@ -35,7 +35,6 @@ const socialMediaSchema = new mongoose.Schema({
   timestamps: true 
 });
 
-// ✅ Add pre-save middleware to set displayName if not provided
 socialMediaSchema.pre('save', function(next) {
   if (!this.displayName) {
     this.displayName = this.platform.charAt(0).toUpperCase() + this.platform.slice(1);
@@ -43,7 +42,7 @@ socialMediaSchema.pre('save', function(next) {
   next();
 });
 
-// ✅ Static method to initialize ONLY 3 default links
+// Static method to initialize ONLY 3 default links
 socialMediaSchema.statics.initDefaultLinks = async function() {
   const defaultLinks = [
     { 
@@ -67,7 +66,7 @@ socialMediaSchema.statics.initDefaultLinks = async function() {
       icon: 'telegram',
       displayName: 'Telegram'
     }
-    // ❌ Twitter and YouTube removed as requested
+    // Twitter and YouTube 
   ];
 
   try {
@@ -86,7 +85,7 @@ socialMediaSchema.statics.initDefaultLinks = async function() {
 
 const SocialMedia = mongoose.model('SocialMedia', socialMediaSchema);
 
-// ✅ Initialize when model is loaded (only once)
+// Initialize when model is loaded (only once)
 let initialized = false;
 if (!initialized) {
   SocialMedia.initDefaultLinks();

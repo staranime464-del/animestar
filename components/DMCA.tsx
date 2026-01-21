@@ -1,4 +1,4 @@
- // components/DMCA.tsx - UPDATED FOR DARK GRAY + GREEN THEME
+ // components/DMCA.tsx  
 import React from 'react';
 import { Link } from 'react-router-dom';
 

@@ -1,4 +1,4 @@
- // components/AnimeDetailPage.tsx - UPDATED FOR DARK GRAY + GREEN THEME + SLUG-ONLY FIX
+ // components/AnimeDetailPage.tsx  
 import React, { useState, useEffect } from 'react';
 import type { Anime, Episode, Chapter } from '../src/types';
 import { DownloadIcon } from './icons/DownloadIcon';
@@ -178,7 +178,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
 
       setAnimeLoading(true);
       try {
-        // ✅ UPDATED: Use anime.slug only (not id)
+        //  Use anime.slug only (not id)
         const animeSlug = anime.slug;
         
         if (!animeSlug) {
@@ -188,7 +188,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
         }
 
         const fields = 'title,thumbnail,releaseYear,status,contentType,subDubStatus,description,genreList,seoTitle,seoDescription,seoKeywords,slug';
-        // ✅ UPDATED: Call getAnimeBySlug instead of getAnimeByIdOrSlug
+        // Call getAnimeBySlug instead of getAnimeByIdOrSlug
         const fullAnimeData = await getAnimeBySlug(animeSlug, fields);
         
         if (fullAnimeData) {
@@ -241,7 +241,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
     }
     
     // ✅ UPDATED DOMAIN TO ANIMESTAR
-    const canonicalUrl = `https://animestar.com/detail/${canonicalSlug}`;
+    const canonicalUrl = `https://animestar.in/detail/${canonicalSlug}`;
     
     const structuredData = generateAnimeStructuredData(displayAnime);
     
@@ -409,10 +409,10 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
         ogUrl={seoData.ogUrl}
       />
       
-      {/* ✅ UPDATED BACKGROUND TO DARK GRAY THEME */}
+      {/* BACKGROUND TO DARK GRAY THEME */}
       <div className="min-h-screen bg-[#636363]">
         <div className="container mx-auto px-3 py-4">
-          {/* Back Button - UPDATED DARK GRAY + GREEN THEME */}
+          {/* Back Button - DARK GRAY + GREEN THEME */}
           <button
             onClick={onBack}
             className="group bg-[#4A4A4A] hover:bg-[#636363] text-white px-4 py-2 rounded-lg mb-4 flex items-center gap-2 transition-all duration-300 font-medium border border-gray-600 hover:border-[#60CC3F]/50 text-sm"
@@ -424,7 +424,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
 
           {/* MOBILE VIEW */}
           <div className="lg:hidden">
-            {/* Mobile Anime Card - UPDATED DARK GRAY + GREEN THEME */}
+            {/* Mobile Anime Card - DARK GRAY + GREEN THEME */}
             <div className="bg-[#4A4A4A] rounded-xl p-4 border border-gray-600 mb-0">
               <div className="flex flex-col">
                 <div className="flex gap-3 mb-3">
@@ -656,7 +656,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
                 </div>
                 <div className="flex-1 space-y-6">
                   <div>
-                    {/* ✅ UPDATED TEXT GRADIENT TO GREEN */}
+                    {/* TEXT GRADIENT TO GREEN */}
                     <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-white to-[#60CC3F] bg-clip-text text-transparent mb-4">
                       {displayAnime?.title}
                     </h1>
@@ -723,7 +723,7 @@ const AnimeDetailPage: React.FC<Props> = ({ anime, onBack, isLoading = false }) 
 
             <div className="bg-[#4A4A4A] rounded-2xl p-6 border border-gray-600">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                {/* ✅ UPDATED TEXT GRADIENT TO GREEN */}
+                {/* TEXT GRADIENT TO GREEN */}
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-[#60CC3F] bg-clip-text text-transparent">
                   {getContentLabel()}{' '}
                   {currentSessionItems.length > 0 && `(${currentSessionItems.length})`}
