@@ -1,6 +1,6 @@
  // components/Header.tsx  
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import type { FilterType, ContentType } from '../src/types';
+import type { FilterType, ContentType, ContentTypeFilter } from '../src/types';
 import { SearchIcon } from './icons/SearchIcon';
 import { MenuIcon } from './icons/MenuIcon';
 import { CloseIcon } from './icons/CloseIcon';
@@ -11,6 +11,8 @@ interface HeaderProps {
   onNavigate: (destination: 'home' | 'list') => void;
   onFilterAndNavigateHome: (filter: 'Hindi Dub' | 'Hindi Sub' | 'English Sub') => void;
   onContentTypeNavigate: (contentType: ContentType) => void;
+  currentFilter: FilterType;
+  currentContentType: ContentTypeFilter;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
@@ -18,7 +20,9 @@ const Header: React.FC<HeaderProps> = ({
   searchQuery, 
   onNavigate, 
   onFilterAndNavigateHome, 
-  onContentTypeNavigate 
+  onContentTypeNavigate,
+  currentFilter,
+  currentContentType
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -125,7 +129,8 @@ const Header: React.FC<HeaderProps> = ({
     setIsNavigating(true);
     setClickedButton(filter);
     
-    window.location.href = `${window.location.origin}/?filter=${encodeURIComponent(filter)}`;
+    // App.tsx function ko call karo
+    onFilterAndNavigateHome(filter);
     setIsMenuOpen(false);
     
     if (navigationTimeoutRef.current) {
@@ -144,7 +149,8 @@ const Header: React.FC<HeaderProps> = ({
     setIsNavigating(true);
     setClickedButton(contentType);
     
-    window.location.href = `${window.location.origin}/?contentType=${encodeURIComponent(contentType)}`;
+    // App.tsx function ko call karo
+    onContentTypeNavigate(contentType);
     setIsMenuOpen(false);
     
     if (navigationTimeoutRef.current) {
@@ -169,6 +175,16 @@ const Header: React.FC<HeaderProps> = ({
         }
       }, 100);
     }
+  };
+
+  // Check if filter is active
+  const isFilterActive = (filter: string) => {
+    return currentFilter === filter;
+  };
+
+  // Check if contentType is active
+  const isContentTypeActive = (type: string) => {
+    return currentContentType === type;
   };
 
   const NavigationLoader = () => (
@@ -298,37 +314,37 @@ const Header: React.FC<HeaderProps> = ({
                 <button 
                   onClick={() => handleFilterClick('Hindi Dub')} 
                   className={`px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm disabled:opacity-50 border whitespace-nowrap ${
-                    clickedButton === 'Hindi Dub'
+                    clickedButton === 'Hindi Dub' || isFilterActive('Hindi Dub')
                       ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                       : 'text-gray-300 hover:text-white hover:bg-[#60CC3F]/20 border-transparent hover:border-[#60CC3F]/30'
                   }`}
                   disabled={isNavigating}
                 >
-                  Hindi Dub
+                  Hindi Dub {isFilterActive('Hindi Dub') && '✓'}
                 </button>
                 
                 <button 
                   onClick={() => handleFilterClick('Hindi Sub')} 
                   className={`px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm disabled:opacity-50 border whitespace-nowrap ${
-                    clickedButton === 'Hindi Sub'
+                    clickedButton === 'Hindi Sub' || isFilterActive('Hindi Sub')
                       ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                       : 'text-gray-300 hover:text-white hover:bg-[#60CC3F]/20 border-transparent hover:border-[#60CC3F]/30'
                   }`}
                   disabled={isNavigating}
                 >
-                  Hindi Sub
+                  Hindi Sub {isFilterActive('Hindi Sub') && '✓'}
                 </button>
                 
                 <button 
                   onClick={() => handleFilterClick('English Sub')} 
                   className={`px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm disabled:opacity-50 border whitespace-nowrap ${
-                    clickedButton === 'English Sub'
+                    clickedButton === 'English Sub' || isFilterActive('English Sub')
                       ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                       : 'text-gray-300 hover:text-white hover:bg-[#60CC3F]/20 border-transparent hover:border-[#60CC3F]/30'
                   }`}
                   disabled={isNavigating}
                 >
-                  English Sub
+                  English Sub {isFilterActive('English Sub') && '✓'}
                 </button>
                 
                 <div className="h-6 w-px bg-gray-600"></div>
@@ -337,13 +353,13 @@ const Header: React.FC<HeaderProps> = ({
                 <button 
                   onClick={() => handleContentTypeClick('Movie')} 
                   className={`px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm disabled:opacity-50 border whitespace-nowrap ${
-                    clickedButton === 'Movie'
+                    clickedButton === 'Movie' || isContentTypeActive('Movie')
                       ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                       : 'text-gray-300 hover:text-white hover:bg-[#60CC3F]/20 border-transparent hover:border-[#60CC3F]/30'
                   }`}
                   disabled={isNavigating}
                 >
-                  Movies
+                  Movies {isContentTypeActive('Movie') && '✓'}
                 </button>
                 
                 <div className="h-6 w-px bg-gray-600"></div>
@@ -503,39 +519,39 @@ const Header: React.FC<HeaderProps> = ({
                     <button 
                       onClick={() => handleFilterClick('Hindi Dub')} 
                       className={`w-full px-4 py-3 rounded-xl transition-all duration-300 font-medium disabled:opacity-50 border flex items-center justify-between ${
-                        clickedButton === 'Hindi Dub'
+                        clickedButton === 'Hindi Dub' || isFilterActive('Hindi Dub')
                           ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                           : 'bg-[#2a2a2a] text-gray-300 hover:bg-[#3a3a3a] hover:text-white border-gray-700 hover:border-[#60CC3F]/30'
                       }`}
                       disabled={isNavigating}
                     >
-                      <span>Hindi Dub</span>
+                      <span>Hindi Dub {isFilterActive('Hindi Dub') && '✓'}</span>
                       <span className="text-[#60CC3F]">→</span>
                     </button>
                     
                     <button 
                       onClick={() => handleFilterClick('Hindi Sub')} 
                       className={`w-full px-4 py-3 rounded-xl transition-all duration-300 font-medium disabled:opacity-50 border flex items-center justify-between ${
-                        clickedButton === 'Hindi Sub'
+                        clickedButton === 'Hindi Sub' || isFilterActive('Hindi Sub')
                           ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                           : 'bg-[#2a2a2a] text-gray-300 hover:bg-[#3a3a3a] hover:text-white border-gray-700 hover:border-[#60CC3F]/30'
                       }`}
                       disabled={isNavigating}
                     >
-                      <span>Hindi Sub</span>
+                      <span>Hindi Sub {isFilterActive('Hindi Sub') && '✓'}</span>
                       <span className="text-[#60CC3F]">→</span>
                     </button>
                     
                     <button 
                       onClick={() => handleFilterClick('English Sub')} 
                       className={`w-full px-4 py-3 rounded-xl transition-all duration-300 font-medium disabled:opacity-50 border flex items-center justify-between ${
-                        clickedButton === 'English Sub'
+                        clickedButton === 'English Sub' || isFilterActive('English Sub')
                           ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                           : 'bg-[#2a2a2a] text-gray-300 hover:bg-[#3a3a3a] hover:text-white border-gray-700 hover:border-[#60CC3F]/30'
                       }`}
                       disabled={isNavigating}
                     >
-                      <span>English Sub</span>
+                      <span>English Sub {isFilterActive('English Sub') && '✓'}</span>
                       <span className="text-[#60CC3F]">→</span>
                     </button>
                   </div>
@@ -547,13 +563,13 @@ const Header: React.FC<HeaderProps> = ({
                     <button 
                       onClick={() => handleContentTypeClick('Movie')} 
                       className={`w-full px-4 py-3 rounded-xl transition-all duration-300 font-medium disabled:opacity-50 border flex items-center justify-between ${
-                        clickedButton === 'Movie'
+                        clickedButton === 'Movie' || isContentTypeActive('Movie')
                           ? 'bg-gradient-to-r from-[#60CC3F] to-[#4CAF50] text-white border-[#60CC3F] animate-pulse-glow'
                           : 'bg-[#2a2a2a] text-gray-300 hover:bg-[#3a3a3a] hover:text-white border-gray-700 hover:border-[#60CC3F]/30'
                       }`}
                       disabled={isNavigating}
                     >
-                      <span>Movies</span>
+                      <span>Movies {isContentTypeActive('Movie') && '✓'}</span>
                       <span className="text-[#60CC3F]">→</span>
                     </button>
                   </div>

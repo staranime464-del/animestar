@@ -143,11 +143,38 @@ const MainApp: React.FC = () => {
   // SEARCH DEBOUNCE REF
   const searchDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  // DUMMY FUNCTIONS FOR HEADER
-  const dummyFilterFunction = (filter: 'Hindi Dub' | 'Hindi Sub' | 'English Sub') => {};
-  const dummyContentTypeFunction = (contentType: ContentType) => {};
+  // REAL FILTER FUNCTIONS - UPDATED
+  const handleFilterAndNavigateHome = useCallback((newFilter: 'Hindi Dub' | 'Hindi Sub' | 'English Sub') => {
+    setFilter(newFilter);
+    // Navigate to home with filter params
+    const params = new URLSearchParams();
+    params.set('filter', newFilter);
+    if (contentType !== 'All') {
+      params.set('type', contentType);
+    }
+    if (searchQuery.trim()) {
+      params.set('search', searchQuery.trim());
+    }
+    navigate(`/?${params.toString()}`);
+    window.scrollTo(0, 0);
+  }, [contentType, searchQuery, navigate]);
 
-  // INITIALIZE APP
+  const handleContentTypeNavigate = useCallback((newContentType: ContentType) => {
+    setContentType(newContentType);
+    // Navigate to home with contentType params
+    const params = new URLSearchParams();
+    if (filter !== 'All') {
+      params.set('filter', filter);
+    }
+    params.set('type', newContentType);
+    if (searchQuery.trim()) {
+      params.set('search', searchQuery.trim());
+    }
+    navigate(`/?${params.toString()}`);
+    window.scrollTo(0, 0);
+  }, [filter, searchQuery, navigate]);
+
+  // INITIALIZE APP AND SYNC URL PARAMS
   useEffect(() => {
     const initializeApp = async () => {
       try {
@@ -158,6 +185,22 @@ const MainApp: React.FC = () => {
         
         if (token && username) {
           setIsAdminAuthenticated(true);
+        }
+
+        // Sync filter and contentType from URL params on initial load
+        const params = new URLSearchParams(window.location.search);
+        const filterParam = params.get('filter') as FilterType | null;
+        const typeParam = params.get('type') as ContentTypeFilter | null;
+        const searchParam = params.get('search');
+
+        if (filterParam) {
+          setFilter(filterParam);
+        }
+        if (typeParam) {
+          setContentType(typeParam);
+        }
+        if (searchParam) {
+          setSearchQuery(searchParam);
         }
       } catch (error) {
         if (import.meta.env.DEV) {
@@ -238,12 +281,35 @@ const MainApp: React.FC = () => {
   }, [typedText]);
 
   // SYNC URL WITH CURRENT VIEW ON PAGE LOAD/NAVIGATION
+  // AND SYNC FILTER/CONTENT TYPE FROM URL
   useEffect(() => {
     // Detect current view from URL
     const path = location.pathname;
+    const params = new URLSearchParams(location.search);
     
     if (path === '/') {
       setCurrentView(AppView.HOME);
+      
+      // Sync filter and contentType from URL params
+      const filterParam = params.get('filter') as FilterType | null;
+      const typeParam = params.get('type') as ContentTypeFilter | null;
+      const searchParam = params.get('search');
+
+      if (filterParam) {
+        setFilter(filterParam);
+      } else {
+        setFilter('All');
+      }
+
+      if (typeParam) {
+        setContentType(typeParam);
+      } else {
+        setContentType('All');
+      }
+
+      if (searchParam) {
+        setSearchQuery(searchParam);
+      }
     } else if (path.startsWith('/detail/')) {
       setCurrentView(AppView.ANIME_DETAIL);
     } else if (path === '/anime') {
@@ -262,7 +328,7 @@ const MainApp: React.FC = () => {
       // Set NOT_FOUND for undefined routes  
       setCurrentView(AppView.NOT_FOUND);
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
   // ANIME SELECT HANDLER  
   const handleAnimeSelect = (anime: Anime) => {
@@ -277,6 +343,10 @@ const MainApp: React.FC = () => {
     if (destination === 'list') {
       navigate('/anime');
     } else {
+      // Reset filters when navigating to home
+      setFilter('All');
+      setContentType('All');
+      setSearchQuery('');
       navigate('/');
     }
   };
@@ -291,6 +361,14 @@ const MainApp: React.FC = () => {
     searchDebounceRef.current = setTimeout(() => {
       const params = new URLSearchParams(window.location.search);
       
+      // Preserve current filter and contentType
+      if (filter !== 'All') {
+        params.set('filter', filter);
+      }
+      if (contentType !== 'All') {
+        params.set('type', contentType);
+      }
+      
       if (query.trim()) {
         params.set('search', query.trim());
       } else {
@@ -300,7 +378,7 @@ const MainApp: React.FC = () => {
       const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
       window.history.pushState({}, '', newUrl);
     }, 400);
-  }, []);
+  }, [filter, contentType]);
 
   // RENDER CURRENT VIEW
   const renderCurrentView = () => {
@@ -330,8 +408,10 @@ const MainApp: React.FC = () => {
           onSearchChange={handleSearchChange} 
           searchQuery={searchQuery}
           onNavigate={handleNavigate}
-          onFilterAndNavigateHome={dummyFilterFunction}
-          onContentTypeNavigate={dummyContentTypeFunction}
+          onFilterAndNavigateHome={handleFilterAndNavigateHome}
+          onContentTypeNavigate={handleContentTypeNavigate}
+          currentFilter={filter}
+          currentContentType={contentType}
         />
         <main className="container mx-auto px-4 py-8">
           <Routes>
